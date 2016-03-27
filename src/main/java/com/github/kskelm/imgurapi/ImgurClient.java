@@ -32,8 +32,8 @@ import retrofit.Response;
  */
 public class ImgurClient {
 
-	public static final String IMGUR_BASE_URL = "https://api.imgur.com/";
-	public static final String LOG_NAME = "ImgurApi";
+	public static final String PROPERTY_CLIENT_ID     = "imgurclient.clientid";
+	public static final String PROPERTY_CLIENT_SECRET = "imgurclient.clientsecret";
 	
 	public ImgurClient( String clientId, String clientSecret ) {
 		this.clientId = clientId;
@@ -95,7 +95,7 @@ public class ImgurClient {
 	    
 		GsonConverterFactory gcf = GsonConverterFactory.create( gson );
 		Retrofit retrofit = new Retrofit.Builder()
-				.baseUrl( IMGUR_BASE_URL )
+				.baseUrl( apiEndpoint )
 				.addConverterFactory( gcf )
 				.client(client)
 				.build();
@@ -210,6 +210,14 @@ public class ImgurClient {
 		}
 	} // DateAdapter
 
+	/**
+	 * Used only for mocking during tests
+	 * @param url - new endpoint
+	 */
+	public static void setEndpoint( String url ) {
+		ImgurClient.apiEndpoint = url;
+	} // setEndpoint
+	
 	private RetrofittedImgur api = null;
 	private String clientId = null;
 	private String clientSecret = null;
@@ -221,4 +229,9 @@ public class ImgurClient {
 	private ImageService   iSvc = null;
 	private GalleryService gSvc = null;
 
+	public static final String DEFAULT_IMGUR_BASE_URL = "https://api.imgur.com/";
+	public static final String LOG_NAME = "ImgurApi";
+	
+
+	private static String apiEndpoint = DEFAULT_IMGUR_BASE_URL;
 } // class ImgurClient

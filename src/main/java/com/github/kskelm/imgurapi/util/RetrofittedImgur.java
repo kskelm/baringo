@@ -23,7 +23,11 @@ import retrofit.http.Query;
  */
 public interface RetrofittedImgur {
 
-
+	// apparently Retrofit 2 doesn't want to support multiple
+	// interfaces in the same API.  It's onerous and a pain to
+	// create multiple clients for the same API, so we're just
+	// going to jam them all in here.
+	
 	// ============================================================
 	// ACCOUNT CALLS
 	// ============================================================
@@ -31,7 +35,11 @@ public interface RetrofittedImgur {
 	@GET("/3/account/{username}")
 	Call<ImgurResponseWrapper<Account>> getAccount(
 			@Path("username") String userName );
-	
+
+	@GET("/3/account/{username}/verifyemail")
+	Call<ImgurResponseWrapper<Object>> getAccountVerified(
+			@Path("username") String userName );
+
 	@GET("/3/account/{username}/settings")
 	Call<ImgurResponseWrapper<AccountSettings>> getAccountSettings(
 			@Path("username") String userName );

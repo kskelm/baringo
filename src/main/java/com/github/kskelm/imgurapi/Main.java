@@ -24,14 +24,14 @@ public class Main {
 		}
 		
 		System.out.println( svc.getQuota() );
-		
+
 		try {
-			Account acct = svc.accountService().getAccount( "baphometgoat" );
+			Account acct = svc.accountService().getAccount( "kskelmapitest" );
 			System.out.println( acct );
 		} catch (ImgurApiException e) {
 			e.printStackTrace();
 		}
-		
+/*		
 		List<GalleryItem> items;
 		try {
 			items = svc.galleryService().getGallery(
@@ -50,7 +50,7 @@ public class Main {
 		} catch (ImgurApiException e) {
 			e.printStackTrace();
 		}
-		
+*/		
 	}
 
 }

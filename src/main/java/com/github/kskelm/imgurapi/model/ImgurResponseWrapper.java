@@ -84,4 +84,4 @@ public class ImgurResponseWrapper<T> {
 				success, status, data );
 	} // toString
 
-} // class BlockedUser
+} // class ImgurResponseWrapper

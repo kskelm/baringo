@@ -1,5 +1,5 @@
 /**
- * imgur account 
+ * Imgur API 3 Account POJO
  */
 package com.github.kskelm.imgurapi.model;
 
@@ -59,6 +59,7 @@ public class Account {
 	}
 
 	private int id;
+	@SerializedName("url")
 	private String userName;
 	private String bio;
 	private double reputation;
