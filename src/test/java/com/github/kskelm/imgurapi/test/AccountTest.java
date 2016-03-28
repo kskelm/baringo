@@ -84,42 +84,66 @@ public class AccountTest extends TestCase {
 	// TODO: test case
 	@Test
 	public void testListAlbums() throws ImgurApiException {
-		System.err.println("TODO: testGetAlbums" );
+		// TODO: test this on a different account than the test
+				// account first to make sure it's not specifically
+				// for the authenticated user instead of just any user
+				// (then simplify the call if necessary)
+		System.err.println("TODO: testListAlbums" );
 	}
 	// TODO: test case
 	@Test
 	public void testListAlbumIds() throws ImgurApiException {
-		System.err.println("TODO: testGetAlbumIds" );
+		// TODO: test this on a different account than the test
+		// account first to make sure it's not specifically
+		// for the authenticated user instead of just any user
+		// (then simplify the call if necessary)
+		System.err.println("TODO: testListAlbumIds" );
 	}
 	// TODO: test case
 	@Test
 	public void testGetAlbumCount() throws ImgurApiException {
+		// TODO: test this on a different account than the test
+				// account first to make sure it's not specifically
+				// for the authenticated user instead of just any user
+				// (then simplify the call if necessary)
 		System.err.println("TODO: testGetAlbumCount" );
 	}
 	// TODO: test case
 	@Test
 	public void testListComments() throws ImgurApiException {
-		System.err.println("TODO: testGetComments" );
+		// TODO: test this on a different account than the test
+				// account first to make sure it's not specifically
+				// for the authenticated user instead of just any user
+				// (then simplify the call if necessary)
+		System.err.println("TODO: testListComments" );
 	}
 	// TODO: test case
 	@Test
 	public void testListCommentIds() throws ImgurApiException {
-		System.err.println("TODO: testGetCommentIds" );
+		// TODO: test this on a different account than the test
+				// account first to make sure it's not specifically
+				// for the authenticated user instead of just any user
+				// (then simplify the call if necessary)
+		System.err.println("TODO: testListCommentIds" );
 	}
 	// TODO: test case
 	@Test
 	public void testGetCommentCount() throws ImgurApiException {
+		// TODO: test this on a different account than the test
+				// account first to make sure it's not specifically
+				// for the authenticated user instead of just any user
+				// (then simplify the call if necessary)
 		System.err.println("TODO: testGetCommentCount" );
 	}
 	// TODO: test case
 	@Test
 	public void testListImages() throws ImgurApiException {
-		System.err.println("TODO: testGetImages" );
+		System.err.println("TODO: testListImages" );
 	}
 	// TODO: test case
 	@Test
 	public void testListImageIds() throws ImgurApiException {
-		System.err.println("TODO: testGetImageIds" );
+		System.err.println("TODO: testListImageIds" );
 	}
 	// TODO: test case
 	@Test
@@ -129,6 +153,10 @@ public class AccountTest extends TestCase {
 // TODO: test case
 	@Test
 	public void testListReplies() throws ImgurApiException {
-		System.err.println("TODO: testGetReplies");
+		// TODO: test this on a different account than the test
+				// account first to make sure it's not specifically
+				// for the authenticated user instead of just any user
+				// (then simplify the call if necessary)
+		System.err.println("TODO: testListReplies");
 	}
 }

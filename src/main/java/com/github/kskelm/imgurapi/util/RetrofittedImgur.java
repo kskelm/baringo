@@ -73,72 +73,70 @@ public interface RetrofittedImgur {
 			@Body ChangedAccountSettings settings );
 
 	@GET("/3/account/{username}/gallery_profile")
-	Call<ImgurResponseWrapper<GalleryProfile>> getGalleryProfile(
+	Call<ImgurResponseWrapper<GalleryProfile>> getAccountGalleryProfile(
 			@Path("username") String userName );
 	
-	// TODO PICK UP HERE -- MAY REQUIRE REMOVING USERNAME FROM SIGNATURE
 	@GET("/3/account/{username}/verifyemail")
-	Call<ImgurResponseWrapper<Object>> isVerified(
+	Call<ImgurResponseWrapper<Object>> isAccountVerified(
 			@Path("username") String userName );
-	// TODO PICK UP HERE -- MAY REQUIRE REMOVING USERNAME FROM SIGNATURE
+	// TODO: MAY REQUIRE REMOVING USERNAME FROM SIGNATURE
 	@POST("/3/account/{username}/verifyemail")
-	Call<ImgurResponseWrapper<Object>> sendVerificationEmail(
+	Call<ImgurResponseWrapper<Object>> sendAccountVerificationEmail(
 			@Path("username") String userName );
 
-	// TODO PICK UP HERE
 	@GET("/3/account/{username}/album/{page}")
-	Call<ImgurResponseWrapper<List<Album>>> listAlbums(
+	Call<ImgurResponseWrapper<List<Album>>> listAccountAlbums(
 			@Path("username") String userName,
 			@Path("page") int page );
-	// TODO PICK UP HERE
+
 	@GET("/3/account/{username}/album/{page}")
-	Call<ImgurResponseWrapper<List<Object>>> listAlbumIds(
+	Call<ImgurResponseWrapper<List<Integer>>> listAccountAlbumIds(
 			@Path("username") String userName,
 			@Path("page") int page );
-	// TODO PICK UP HERE
+
 	@GET("/3/account/{username}/album/count")
-	Call<ImgurResponseWrapper<Object>> getAlbumCount(
+	Call<ImgurResponseWrapper<Integer>> getAlbumCount(
 			@Path("username") String userName );
 
-	// TODO PICK UP HERE
+
 	@GET("/3/account/{username}/comments/{sort}/{page}")
-	Call<ImgurResponseWrapper<List<Comment>>> listComments(
+	Call<ImgurResponseWrapper<List<Comment>>> listAccountComments(
 			@Path("username") String userName,
 			@Path("sort") Comment.Sort sort,
 			@Path("page") int page
 			);
-	// TODO PICK UP HERE
+
 	@GET("/3/account/{username}/comments/ids/{page}")
-	Call<ImgurResponseWrapper<List<Object>>> listCommentIds(
+	Call<ImgurResponseWrapper<List<Integer>>> listAccountCommentIds(
 			@Path("username") String userName,
 			@Path("page") int page
 			);
-	// TODO PICK UP HERE
+
 	@GET("/3/account/{username}/comments/count")
-	Call<ImgurResponseWrapper<Object>> getCommentCount(
+	Call<ImgurResponseWrapper<Integer>> getAccountCommentCount(
 			@Path("username") String userName);
 
-	// TODO PICK UP HERE
 	@GET("/3/account/{username}/images/{page}")
-	Call<ImgurResponseWrapper<List<Image>>> listImages(
+	Call<ImgurResponseWrapper<List<Image>>> listAccountImages(
 			@Path("username") String userName,
 			@Path("page") int page
 			);
 	// TODO PICK UP HERE
 	@GET("/3/account/{username}/images/ids/{page}")
-	Call<ImgurResponseWrapper<List<Object>>> listImageIds(
+	Call<ImgurResponseWrapper<List<String>>> listAccountImageIds(
 			@Path("username") String userName,
 			@Path("page") int page
 			);
 	// TODO PICK UP HERE
 	@GET("/3/account/{username}/images/count")
-	Call<ImgurResponseWrapper<Object>> getImageCount(
+	Call<ImgurResponseWrapper<Integer>> getAccountImageCount(
 			@Path("username") String userName);
 
 	// TODO PICK UP HERE
-	@GET("/3/account/{username}/notifications/replies")
-	Call<ImgurResponseWrapper<List<Notification>>> getReplyNotifications(
-			@Path("username") String userName);
+	@GET("/3/account/{username}/notifications/replies?new={onlyNew}")
+	Call<ImgurResponseWrapper<List<Notification>>> listAccountReplyNotifications(
+			@Path("username") String userName,
+			@Query("onlyNew") boolean onlyNew );
 
 	
 	
