@@ -125,6 +125,10 @@ public class ImgurClient {
 		}
 	}
 
+	public Account getAuthenticatedAccount() {
+		return authenticatedAccount;
+	} // getAuthenticatedAccount
+
 	/**
 	 * These define the headers that return relevant quota information
 	 */

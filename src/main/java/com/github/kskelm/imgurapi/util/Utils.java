@@ -37,7 +37,7 @@ public class Utils {
 	public static String toString( HashMap<String,Object> fields, String clsName ) {
 		StringBuffer buf = new StringBuffer();
 
-		buf.append( clsName ).append( " { ");
+		buf.append( clsName ).append( " [ ");
 		int num = 0;
 		for( String key : fields.keySet() ) {
 			if( num++ > 0 ) {
@@ -48,7 +48,7 @@ public class Utils {
 			.append( fields.get( key ) );
 
 		} // for
-		buf.append( " }\n");
+		buf.append( " ]\n");
 
 		return buf.toString();
 	} // toString

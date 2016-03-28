@@ -80,10 +80,10 @@ public class GalleryItem {
 	}
 
 	/**
-	 * @return the insertedDate
+	 * @return the uploadDate
 	 */
-	public Date getInsertedDate() {
-		return insertedDate;
+	public Date getUploadDate() {
+		return uploadDate;
 	}
 
 	/**
@@ -205,7 +205,7 @@ public class GalleryItem {
 	protected String title;
 	protected String description;
 	@SerializedName("datetime")
-	protected Date insertedDate;
+	protected Date uploadDate;
 	protected int views;
 	protected String link;
 	protected String vote;

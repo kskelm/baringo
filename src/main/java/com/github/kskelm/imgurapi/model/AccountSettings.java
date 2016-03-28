@@ -1,10 +1,12 @@
 /**
- * imgur account 
+ * imgur account settings
  */
 package com.github.kskelm.imgurapi.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import com.github.kskelm.imgurapi.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -14,67 +16,136 @@ import com.google.gson.annotations.SerializedName;
 
 public class AccountSettings {
 
+	/**
+	 * Get the username of the account
+	 * @return the accountUrl
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
 
 	/**
-	 * The account username
+	 * Get the email address of the account
+	 * @return the email
 	 */
-	private String accountUrl;
+	public String getEmail() {
+		return email;
+	}
+
+
 	/**
-	 * The user's email address
+	 * Returns whether or not the user is able to upload higher quality images with less compression
+	 * @return the highQuality
 	 */
+	public boolean isHighQuality() {
+		return highQuality;
+	}
+
+
+	/**
+	 * Returns whether or not the user's new images are automatically publicly accessible
+	 * @return the publicImages
+	 */
+	public boolean isPublicImages() {
+		return publicImages;
+	}
+
+// TODO: fix me
+//	/**
+//	 * Gets the default privacy value for new albums for this user
+//	 * @return the albumPrivacy
+//	 */
+//	public AlbumPrivacy getAlbumPrivacy() {
+//		return albumPrivacy;
+//	}
+
+
+	/**
+	 * The date on which this accounts professional status expires, or null if not pro
+	 * @return the proExpiration
+	 */
+	public Date getProExpiration() {
+		return proExpiration;
+	}
+
+
+	/**
+	 * Get whether or not this user has accepted the gallery terms
+	 * @return the acceptedGalleryTerms
+	 */
+	public boolean isAcceptedGalleryTerms() {
+		return acceptedGalleryTerms;
+	}
+
+
+	/**
+	 * Get an list of the email addresses that have been activated to allow uploading
+	 * @return the activeEmails
+	 */
+	public ArrayList<String> getActiveEmails() {
+		return activeEmails;
+	}
+
+
+	/**
+	 * Get whether the user is accepting incoming messages or not
+	 * @return the messagingEnabled
+	 */
+	public boolean isMessagingEnabled() {
+		return messagingEnabled;
+	}
+
+
+	/**
+	 * Get a list of users this account has blocked
+	 * @return the blockedUsers
+	 */
+	public ArrayList<BlockedUser> getBlockedUsers() {
+		return blockedUsers;
+	}
+
+
+	/**
+	 * Get whether or not this account has opted to see mature content in the gallery lists.
+	 * @return the showMature
+	 */
+	public boolean isShowMature() {
+		return showMature;
+	}
+
+
+	// ============================================================
+	@SerializedName("account_url")
+	private String userName;
 	private String email;
-	/**
-	 * True if the user us abke to upload higher quality images with less compression
-	 */
 	@SerializedName("high_quality")
 	private boolean highQuality;
-	/**
-	 * True if user is automatically allowing all images to be publically accessible
-	 */
 	@SerializedName("public_images")
 	private boolean publicImages;
-	/**
-	 * Set the album privacy to this privacy setting on creation
-	 */
-	@SerializedName("album_privacy")
-	private String albumPrivacy;
-	/**
-	 * Expiration date if pro, null if not
-	 */
+// TODO: reference Album object
+//	@SerializedName("album_privacy")
+//	private AlbumPrivacy albumPrivacy;
 	@SerializedName("pro_expiration")
-	private Integer proExpiration;
-	/**
-	 * True if the user has accepted the terms of uploading to the Imgur gallery
-	 */
+	private Date proExpiration;
 	@SerializedName("accepted_gallery_terms")
 	private boolean acceptedGalleryTerms;
-	/**
-	 * The email addresses that have been activated to allow uploading
-	 */
 	@SerializedName("active_emails")
 	private ArrayList<String> activeEmails;
-	/**
-	 * True if the user is accepting incoming messages
-	 */
 	@SerializedName("messaging_enabled")
 	private boolean messagingEnabled;
-	/**
-	 * Array of users that have been blocked from messaging this user
-	 */
 	@SerializedName("blocked_users")
 	private ArrayList<BlockedUser> blockedUsers;
-	/**
-	 * True if the user has opted to have mature images displayed in gallery lists
-	 */
 	@SerializedName("show_mature")
 	private boolean showMature;
 
+	public AccountSettings() {
+		System.err.println("TODO: Add Album.Privacy as albumPrivacy ");
+	}
 
 	@Override
 	public String toString() {
-		return String.format(
-				"AccountSettings[accountUrl=%s, email=%s, highQuality=%b, publicImages=%b, albumPrivacy=%s, proExpiration=%d, acceptedGalleryTerms=%b, activeEmails=%s, messagingEnabled=%b, blockedUsers=%s, showMature=%b]",
-				accountUrl, email, highQuality, publicImages, albumPrivacy, proExpiration, acceptedGalleryTerms, activeEmails, messagingEnabled, blockedUsers, showMature);
+		return Utils.toString( this );
 	}
 
 } // class AccountSettings
