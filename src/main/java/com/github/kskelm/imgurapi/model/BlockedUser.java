@@ -3,6 +3,8 @@
  */
 package com.github.kskelm.imgurapi.model;
 
+import com.github.kskelm.imgurapi.util.Utils;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * @author kskelm
@@ -11,20 +13,37 @@ package com.github.kskelm.imgurapi.model;
 
 public class BlockedUser {
 
+	
 	/**
-	 * Blocked account ID
+	 * The numeric id of the blocked account
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * The name of the blocked account
+	 * @return the username
+	 */
+	public String getUserName() {
+		return userName;
+	}
+
+	// ===========================================================
+	/**
+	 * 
 	 */
 	private int id;
 	/**
-	 * Blocked account username,
+	 * 
 	 */
-	private String url;
+	@SerializedName("url")
+	private String userName;
 
 	@Override
 	public String toString() {
-		return String.format(
-				"BlockedUser[id=%d, url=%s]",
-				id, url );
+		return Utils.toString( this );
 	} // toString
 
 } // class BlockedUser

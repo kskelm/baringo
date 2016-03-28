@@ -6,6 +6,7 @@
  * number of characteristics.  Check the class
  * type of an instance and cast it to get the
  * appropriate version.
+ * NOTE: Counter values tend to lag behind realtime.
  */
 package com.github.kskelm.imgurapi.model;
 
@@ -23,8 +24,17 @@ public class GalleryItem {
 	 * 
 	 */
 	public enum Section {
+		/**
+		 * Used for returning galleries marked as hot, meaning they're trending.  This is the default in searches.
+		 */
 		@SerializedName("hot") Hot,  // default
+		/**
+		 * Used for returning galleries that are top rated
+		 */
 		@SerializedName("top") Top,
+		/**
+		 * Used for returning galleries associated with a specific user
+		 */
 		@SerializedName("user") User;
 
 	}
@@ -33,9 +43,21 @@ public class GalleryItem {
 	 * When requesting a gallery, this is the sort to use
 	 */
 	public enum Sort {
+		/**
+		 * Viral means lots of people are visiting this gallery
+		 */
 		@SerializedName("viral") Viral,  // default
+		/**
+		 * Top means lots of people like this gallery
+		 */
 		@SerializedName("top") Top,
+		/**
+		 * Time means galleries associated with current events
+		 */
 		@SerializedName("time") Time,
+		/**
+		 * Within the user section, galleries that are gaining popularity
+		 */
 		@SerializedName("rising") Rising;  // valid only with user section
 	}
 	
@@ -45,9 +67,21 @@ public class GalleryItem {
 	 * The default is Day.
 	 */
 	public enum Window {
+		/**
+		 * Return items in the last day. Default
+		 */
 		@SerializedName("day") Day,  // default
+		/**
+		 * Return items in the last week
+		 */
 		@SerializedName("week") Week,
+		/**
+		 * Return items in the last month
+		 */
 		@SerializedName("month") Month,
+		/**
+		 * Return items in the last year
+		 */
 		@SerializedName("year") Year;
 		
 		@Override public String toString() {
@@ -58,6 +92,7 @@ public class GalleryItem {
 // TODO: COMMENT METHODS
 	
 	/**
+	 * Returns the ID of the item
 	 * @return the id
 	 */
 	public String getId() {
@@ -65,6 +100,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns the title of the item
 	 * @return the title
 	 */
 	public String getTitle() {
@@ -72,6 +108,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns the description of the item
 	 * @return the description
 	 */
 	public String getDescription() {
@@ -79,6 +116,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns the date/time on which the item was uploaded
 	 * @return the uploadDate
 	 */
 	public Date getUploadDate() {
@@ -86,6 +124,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns the number of times the item has been viewed.
 	 * @return the views
 	 */
 	public int getViews() {
@@ -93,6 +132,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns a link to directly view the item
 	 * @return the link
 	 */
 	public String getLink() {
@@ -100,6 +140,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * If the account currently has a client logged in and the user has voted on this item, this will be the vote value.
 	 * @return the vote
 	 */
 	public String getVote() {
@@ -107,6 +148,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns the number of upvotes this item has gotten
 	 * @return the ups
 	 */
 	public int getUps() {
@@ -114,6 +156,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns the number of downvotes this item has gotten
 	 * @return the downs
 	 */
 	public int getDowns() {
@@ -121,6 +164,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * upvotes minus downvotes because math
 	 * @return the points
 	 */
 	public int getPoints() {
@@ -128,6 +172,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Popularity score
 	 * @return the score
 	 */
 	public int getScore() {
@@ -135,6 +180,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns true if the account currently has a client logged in and the user favorited this item.
 	 * @return the favorite
 	 */
 	public boolean isFavorite() {
@@ -142,6 +188,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns whether this item has been marked as Not Safe For Work
 	 * @return the nsfw
 	 */
 	public boolean isNsfw() {
@@ -149,6 +196,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns the total number of comments on the item
 	 * @return the commentCount
 	 */
 	public int getCommentCount() {
@@ -156,6 +204,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns a preview of the first 10 comments on the item.  Not all fields are filled in.
 	 * @return the commentPreview
 	 */
 	public List<Comment> getCommentPreview() {
@@ -163,6 +212,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns the topic of the item
 	 * @return the topic
 	 */
 	public String getTopic() {
@@ -170,6 +220,7 @@ public class GalleryItem {
 	}
 
 	/**
+	 * Returns the ID of the topic of the item
 	 * @return the topicId
 	 */
 	public int getTopicId() {
@@ -177,13 +228,15 @@ public class GalleryItem {
 	}
 
 	/**
-	 * @return the accountName
+	 * Returns the userName of the user that uploaded the item
+	 * @return the userName
 	 */
-	public String getAccountName() {
-		return accountName;
+	public String getUserName() {
+		return userName;
 	}
 
 	/**
+	 * Returns the account id of the user that uploaded the item
 	 * @return the accountId
 	 */
 	public int getAccountId() {
@@ -222,7 +275,7 @@ public class GalleryItem {
 	@SerializedName("topic_id")
 	protected int topicId;
 	@SerializedName("account_url")
-	protected String accountName;
+	protected String userName;
 	@SerializedName("account_id")
 	protected int accountId;
 	
@@ -230,12 +283,13 @@ public class GalleryItem {
 		return Utils.toString( this );
 	} // toString
 
-	/**
-	 * (INTERNAL) Shallow copy the fields from one object to another, given
-	 * named fields in a specific level of the inheritance.
-	 * This makes me sad.
-	 * @param from - destination object
-	 */
+//	/**
+//	 * (INTERNAL) Shallow copy the fields from one object to another, given
+//	 * named fields in a specific level of the inheritance.
+//	 * This makes me sad.
+//	 * @param from - destination object
+//	 * @param cls - the class to enumerate fields on
+//	 */
 	public void copyFrom( GalleryItemProxy from, @SuppressWarnings("rawtypes") Class cls ) {
 		for( Field toField : cls.getDeclaredFields() ) {
 			try {

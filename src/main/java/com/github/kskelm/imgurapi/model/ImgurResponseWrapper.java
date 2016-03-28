@@ -8,7 +8,7 @@ package com.github.kskelm.imgurapi.model;
  * @author kskelm
  * 
  * This class isn't meant to be seen by human eyes.
- * It just exists to represent the status wrapper that
+ * It just exists internally to represent the status wrapper that
  * comes back in all Imgur API 3 responses.
  *
  */

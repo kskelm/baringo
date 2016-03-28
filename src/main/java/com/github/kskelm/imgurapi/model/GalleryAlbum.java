@@ -18,21 +18,42 @@ import com.google.gson.annotations.SerializedName;
 public class GalleryAlbum extends GalleryItem {
 
 	/**
-	 * A GalleryAlbum has a privacy level. {@link https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-}
+	 * A GalleryAlbum has a privacy level. See @see <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
 	 */
 	public enum Privacy {
+		/**
+		 * An album will be visible to public
+		 */
 		@SerializedName("public") Public,
+		/**
+		 * An album will be visible to public, but it won't show up in galleries
+		 */
 		@SerializedName("hidden") Hidden,
+		/**
+		 * An album will be invisible to everyone but its owner
+		 */
 		@SerializedName("secret") Secret
 	}
 
 	/**
-	 * A GalleryAlbum has a layout. {@link https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-}
+	 * A GalleryAlbum has a layout. @see <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
 	 */
 	public enum Layout {
+		/**
+		 * An album will be rendered in blog format
+		 */
 		@SerializedName("blog") Blog,
+		/**
+		 * An album will be rendered as a grid of images
+		 */
 		@SerializedName("grid") Grid,
+		/**
+		 * An album will be rendered with images side-by-side
+		 */
 		@SerializedName("horizontal") Horizontal,
+		/**
+		 * An album will be rendered vertically
+		 */
 		@SerializedName("vertical") Vertical
 	}
 	

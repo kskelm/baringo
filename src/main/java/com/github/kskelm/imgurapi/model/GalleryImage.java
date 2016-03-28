@@ -21,9 +21,8 @@ import com.google.gson.annotations.SerializedName;
 public class GalleryImage extends GalleryItem {
 
 	
-	// TODO: COMMENT METHODS
-	
 	/**
+	 * Return the mimeType of the image
 	 * @return the mimeType
 	 */
 	public String getMimeType() {
@@ -31,6 +30,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * Returns true if the image is animated
 	 * @return the animated
 	 */
 	public boolean isAnimated() {
@@ -38,6 +38,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * Returns the width of the image in pixels
 	 * @return the width
 	 */
 	public int getWidth() {
@@ -45,6 +46,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * Returns the height of the image in pixels
 	 * @return the height
 	 */
 	public int getHeight() {
@@ -52,6 +54,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * Returns the size of the image in bytes
 	 * @return the size
 	 */
 	public int getSize() {
@@ -59,6 +62,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * Returns the total number of bytes of Internet bandwidth this image has wasted
 	 * @return the bandwidth
 	 */
 	public long getBandwidth() {
@@ -66,6 +70,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * If the client is currently logged into a user and that user owns this image, this is the hash that can be used to delete the image, else null.
 	 * @return the deleteHash
 	 */
 	public String getDeleteHash() {
@@ -73,6 +78,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * If the image is animated, this is a link to a gifv formatted version
 	 * @return the gifvLink
 	 */
 	public String getGifvLink() {
@@ -80,6 +86,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * If the image is animated, this is a link to an mp4 formatted version
 	 * @return the mp4Link
 	 */
 	public String getMp4Link() {
@@ -87,6 +94,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * If the image is animated, this is a link to a webm formatted version
 	 * @return the webmLink
 	 */
 	public String getWebmLink() {
@@ -94,6 +102,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * Returns true if the image is animated and it loops continuously
 	 * @return the looping
 	 */
 	public boolean isLooping() {
@@ -101,6 +110,7 @@ public class GalleryImage extends GalleryItem {
 	}
 
 	/**
+	 * If the backend has classified this image into a section like cat, wtf, etc, that value is here.
 	 * @return the section
 	 */
 	public GalleryItem.Section getSection() {

@@ -19,7 +19,13 @@ public class Account {
 	 * When returning gallery items, sort by this
 	 */
 	public enum GallerySort {
+		/**
+		 * Order results newest first (this is the default)
+		 */
 		newest,  // default
+		/**
+		 * Order results oldest first
+		 */
 		oldest
 	}
 
@@ -31,27 +37,32 @@ public class Account {
 	}
 
 	/**
-	 * @return Account username, will be the same as requested in the URL
+	 * Returns the userName associated with this account
+	 * @return Account userName
 	 */
 	public String getUserName() {
 		return userName;
 	}
 
 	/**
-	 * @return Basic description the user has filled out
+	 * Returns the basic description the user filled out to appear in their gallery page.
+	 * This is set via setAccountSettings()
+	 * @return description
 	 */
 	public String getBio() {
 		return bio;
 	}
 
 	/**
-	 * @return The reputation for the account, in its numerical format
+	 * Returns The reputation for the account, in its numerical format
+	 * @return reputation
 	 */
 	public double getReputation() {
 		return reputation;
 	}
 
 	/**
+	 * Returns the date/time the account was created.
 	 * @return Date of account creation.
 	 */
 	public Date getCreated() {
@@ -67,5 +78,8 @@ public class Account {
 	private Date created;
 	@SerializedName("pro_expiration")
 	private Date proExpiration;
-	
+
+	public String toString() {
+		return Utils.toString( this );
+	} // toString
 } // class Account

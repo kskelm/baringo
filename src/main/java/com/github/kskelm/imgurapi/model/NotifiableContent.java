@@ -10,6 +10,8 @@ package com.github.kskelm.imgurapi.model;
 
 public abstract class NotifiableContent {
 
+	int foo; // cause warning icon
+// TODO: WAT
 	
 //
 //	/**

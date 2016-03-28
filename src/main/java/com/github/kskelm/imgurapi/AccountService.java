@@ -1,6 +1,6 @@
 /**
  * Imgur Account API services
- * See {@link http://api.imgur.com/endpoints/account} for API details
+ * See <a href="http://api.imgur.com/endpoints/account">Imgur Accounts</a> for API details
  */
 package com.github.kskelm.imgurapi;
 
@@ -27,6 +27,7 @@ import retrofit.Response;
 /**
  * @author kskelm
  *
+ * This class is not meant to be seen by human eyes.
  */
 public class AccountService {
 
@@ -62,10 +63,10 @@ public class AccountService {
 	 * GallerAlbum, so cast the results as appropriate for access
 	 * to more specific fields.  Defaults to sorting by newest.
 	 * ACCESS: ANONYMOUS
-	 * @param userName
-	 * @param page
+	 * @param userName - the userName to return gallery items for
+	 * @param page - page number of results to return, starting at 0
 	 * @return a list of gallery items
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something went wrong
 	 */
 	public List<GalleryItem> listGalleryFavorites( String userName,
 			int page ) throws ImgurApiException {
@@ -84,7 +85,7 @@ public class AccountService {
 	 * @param sort - the sort direction for results
 	 * @param page - the page number to return starting at 0
 	 * @return a list of gallery items
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something went wrong
 	 */
 	public List<GalleryItem> listGalleryFavorites( String userName,
 			int page,
@@ -113,7 +114,7 @@ public class AccountService {
 	 * to more specific fields.
 	 * ACCESS: AUTHENTICATED USER
 	 * @return a list of gallery items
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public List<GalleryItem> listFavorites() throws ImgurApiException {
 		Account acct = client.getAuthenticatedAccount();
@@ -146,7 +147,7 @@ public class AccountService {
 	 * @param userName - name of the user to get favorites for
 	 * @param page - the page number to return starting at 0
 	 * @return a list of gallery items
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public List<GalleryItem> listSubmissions( String userName,
 			int page ) throws ImgurApiException {
@@ -169,7 +170,7 @@ public class AccountService {
 	 * Return the settings on the currently authenticated account.
 	 * ACCESS: AUTHENTICATED USER
 	 * @return The account's settings
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public AccountSettings getAccountSettings() throws ImgurApiException {
 		Account acct = client.getAuthenticatedAccount() ;
@@ -196,7 +197,7 @@ public class AccountService {
 	 * Saves the settings on the currently authenticated account.
 	 * ACCESS: AUTHENTICATED USER
 	 * @param settings - the settings to save
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public void setAccountSettings( ChangedAccountSettings settings ) throws ImgurApiException {
 		Account acct = client.getAuthenticatedAccount() ;
@@ -222,7 +223,7 @@ public class AccountService {
 	 * Return the gallery profile for the currently authenticated account.
 	 * ACCESS: AUTHENTICATED USER
 	 * @return The account's GalleryProfile
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public GalleryProfile getGalleryProfile() throws ImgurApiException {
 		Account acct = client.getAuthenticatedAccount() ;
@@ -250,7 +251,7 @@ public class AccountService {
 	 * email address has been verified.
 	 * ACCESS: AUTHENTICATED USER
 	 * @return The account's GalleryProfile
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public boolean isVerified() throws ImgurApiException {
 		Account acct = client.getAuthenticatedAccount() ;
@@ -277,7 +278,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	/**
 	 * Initiates re-sending of the verification email.
 	 * ACCESS: AUTHENTICATED USER
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public void sendVerificationEmail() throws ImgurApiException {
 		Account acct = client.getAuthenticatedAccount() ;
@@ -306,7 +307,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * @param userName - the name of the user to fetch albums for
 	 * @param page - the page number, starting at 0
 	 * @return A list of Album objects
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public List<Album> listAlbums(
 			String userName,
@@ -333,7 +334,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * @param userName - the name of the user to fetch album ids for
 	 * @param page - The page number to fetch, starting at 0
 	 * @return A list of album IDs (integers)
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public List<Integer> listAlbumIds(
 			String userName,
@@ -356,7 +357,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * owns.
 	 * @param userName - The name of the user to fetch an album count for
 	 * @return Integer - the number of albums the user owns
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public int getAlbumCount(
 				String userName ) throws ImgurApiException {
@@ -382,9 +383,10 @@ System.err.println("TODO: RETURN CORRECT AccountService.getAlbumCount DATA HERE!
 	 * userName, paged 50 at a time.
 	 * ACCESS: ANONYMOUS
 	 * @param userName - the name of the user to fetch comments for
+	 * @param sort - a sort direction
 	 * @param page - the page number, starting at 0
 	 * @return A list of Comment objects
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public List<Comment> listComments(
 			String userName,
@@ -412,7 +414,7 @@ System.err.println("TODO: RETURN CORRECT AccountService.getAlbumCount DATA HERE!
 	 * @param userName - the name of the user to fetch comment ids for
 	 * @param page - The page number to fetch, starting at 0
 	 * @return A list of comment IDs (integers)
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public List<Integer> listCommentIds(
 			String userName,
@@ -435,7 +437,7 @@ System.err.println("TODO: RETURN CORRECT AccountService.getAlbumCount DATA HERE!
 	 * owns.
 	 * @param userName - The name of the user to fetch a comment count for
 	 * @return int - the number of comments the user owns
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public int getCommentCount(
 				String userName ) throws ImgurApiException {
@@ -462,7 +464,7 @@ System.err.println("TODO: RETURN CORRECT AccountService.getCommentCount DATA HER
 	 * @param userName - the name of the user to fetch images for
 	 * @param page - the page number, starting at 0
 	 * @return A list of Image objects
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public List<Image> listImages(
 			String userName,
@@ -489,7 +491,7 @@ System.err.println("TODO: RETURN CORRECT AccountService.getCommentCount DATA HER
 	 * @param userName - the name of the user to fetch image ids for
 	 * @param page - The page number to fetch, starting at 0
 	 * @return A list of Image IDs (strings)
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public List<String> listImageIds(
 			String userName,
@@ -512,7 +514,7 @@ System.err.println("TODO: RETURN CORRECT AccountService.getCommentCount DATA HER
 	 * owns.
 	 * @param userName - The name of the user to fetch a image count for
 	 * @return int - the number of images the user owns
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public int getImageCount(
 				String userName ) throws ImgurApiException {
@@ -539,7 +541,7 @@ System.err.println("TODO: RETURN CORRECT AccountService.getImageCount DATA HERE!
 	 * @param userName - the name of the user to fetch images for
 	 * @param onlyNew - true if the request is for only the unviewed notifications
 	 * @return A list of Notification objects
-	 * @throws ImgurApiException
+	 * @throws ImgurApiException - something failed
 	 */
 	public List<Notification> listNotifications(
 			String userName,

@@ -27,6 +27,8 @@ import retrofit.http.Query;
 
 /**
  * @author kskelm
+ * 
+ * This class is not meant to be seen by human eyes.
  *
  */
 public interface RetrofittedImgur {
