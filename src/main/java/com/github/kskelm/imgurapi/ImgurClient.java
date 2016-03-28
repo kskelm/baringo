@@ -90,9 +90,10 @@ public class ImgurClient {
 		this.aSvc = new AccountService( this, gsonBuilder );
 		this.iSvc = new ImageService( this, gsonBuilder );
 		this.gSvc = new GalleryService( this, gsonBuilder );
-		
+		// build the gson object
 	    final Gson gson = gsonBuilder.create();
 	    
+	    // start up the API client
 		GsonConverterFactory gcf = GsonConverterFactory.create( gson );
 		Retrofit retrofit = new Retrofit.Builder()
 				.baseUrl( apiEndpoint )

@@ -27,31 +27,31 @@ public class AccountTest extends TestCase {
 	}
 
 	@Test
-	public void testGetGalleryFavorites() throws ImgurApiException {
+	public void testListGalleryFavorites() throws ImgurApiException {
 		Setup setup = new Setup();
 		List<GalleryItem> items = setup.getClient().accountService()
-				.getGalleryFavorites(
+				.listGalleryFavorites(
 						Setup.TEST_USER_NAME, 0, Account.GallerySort.newest );
 
 		assertEquals( "Found 2 gallery favorites", items.size(), 2 );
 	}
 	// TODO: test case
 	@Test
-	public void testGetFavorites() throws ImgurApiException {
+	public void testListFavorites() throws ImgurApiException {
 		System.err.println("TODO: test getFavorites" );
 		//		Setup setup = new Setup();
 		//		List<GalleryItem> items = setup.getClient().accountService()
-		//				.getFavorites();
+		//				.listFavorites();
 		//		
 		//		assertEquals( "Found 2 favorites", items.size(), 2 );
 	}
 	// TODO: test case
 	@Test
-	public void testGetSubmissions() throws ImgurApiException {
+	public void testListSubmissions() throws ImgurApiException {
 		System.err.println("TODO: test getSubmissions" );
 		//		Setup setup = new Setup();
 		//		List<GalleryItem> items = setup.getClient().accountService()
-		//				.getSubmissions( Setup.TEST_USER_NAME, 0 );
+		//				.listSubmissions( Setup.TEST_USER_NAME, 0 );
 		//		
 		//		assertEquals( "Found 2 submissions", items.size(), 2 );
 	}
@@ -79,16 +79,16 @@ public class AccountTest extends TestCase {
 	// TODO: test case
 	@Test
 	public void testSendVerificationEmail() throws ImgurApiException {
-		System.err.println(" TODO: testSendVerificationEmail" );
+		System.err.println("TODO: testSendVerificationEmail" );
 	}
 	// TODO: test case
 	@Test
-	public void testGetAlbums() throws ImgurApiException {
-		System.err.println(" TODO: testGetAlbums" );
+	public void testListAlbums() throws ImgurApiException {
+		System.err.println("TODO: testGetAlbums" );
 	}
 	// TODO: test case
 	@Test
-	public void testGetAlbumIds() throws ImgurApiException {
+	public void testListAlbumIds() throws ImgurApiException {
 		System.err.println("TODO: testGetAlbumIds" );
 	}
 	// TODO: test case
@@ -98,12 +98,12 @@ public class AccountTest extends TestCase {
 	}
 	// TODO: test case
 	@Test
-	public void testGetComments() throws ImgurApiException {
+	public void testListComments() throws ImgurApiException {
 		System.err.println("TODO: testGetComments" );
 	}
 	// TODO: test case
 	@Test
-	public void testGetCommentIds() throws ImgurApiException {
+	public void testListCommentIds() throws ImgurApiException {
 		System.err.println("TODO: testGetCommentIds" );
 	}
 	// TODO: test case
@@ -113,12 +113,12 @@ public class AccountTest extends TestCase {
 	}
 	// TODO: test case
 	@Test
-	public void testGetImages() throws ImgurApiException {
+	public void testListImages() throws ImgurApiException {
 		System.err.println("TODO: testGetImages" );
 	}
 	// TODO: test case
 	@Test
-	public void testGetImageIds() throws ImgurApiException {
+	public void testListImageIds() throws ImgurApiException {
 		System.err.println("TODO: testGetImageIds" );
 	}
 	// TODO: test case
@@ -128,7 +128,7 @@ public class AccountTest extends TestCase {
 	}
 // TODO: test case
 	@Test
-	public void testGetReplies() throws ImgurApiException {
+	public void testListReplies() throws ImgurApiException {
 		System.err.println("TODO: testGetReplies");
 	}
 }

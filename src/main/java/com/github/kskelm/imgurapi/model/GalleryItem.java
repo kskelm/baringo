@@ -37,7 +37,6 @@ public class GalleryItem {
 		@SerializedName("top") Top,
 		@SerializedName("time") Time,
 		@SerializedName("rising") Rising;  // valid only with user section
-
 	}
 	
 	/**

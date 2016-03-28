@@ -37,16 +37,16 @@ public class GalleryAlbum extends GalleryItem {
 	}
 	
 	
-	
-	// TODO: COMMENT METHODS
 	/**
+	 * The image ID of the cover image for this album
 	 * @return the cover
 	 */
-	public String getCover() {
-		return cover;
+	public String getCoverId() {
+		return coverId;
 	}
 
 	/**
+	 * The width in pixels of the cover image
 	 * @return the coverWidth
 	 */
 	public int getCoverWidth() {
@@ -54,6 +54,7 @@ public class GalleryAlbum extends GalleryItem {
 	}
 
 	/**
+	 * The height in pixels of the cover image
 	 * @return the coverHeight
 	 */
 	public int getCoverHeight() {
@@ -61,6 +62,9 @@ public class GalleryAlbum extends GalleryItem {
 	}
 
 	/**
+	 * The privacy level of the album.  If an authenticated account
+	 * is logged into the client, the public view cannot be accessed.
+	 * Log out to see it.
 	 * @return the privacy
 	 */
 	public Privacy getPrivacy() {
@@ -68,6 +72,7 @@ public class GalleryAlbum extends GalleryItem {
 	}
 
 	/**
+	 * The view layout of the album
 	 * @return the layout
 	 */
 	public Layout getLayout() {
@@ -75,6 +80,7 @@ public class GalleryAlbum extends GalleryItem {
 	}
 	
 	/**
+	 * The total number of images in the album
 	 * @return the imageCount
 	 */
 	public int getImageCount() {
@@ -111,7 +117,7 @@ public class GalleryAlbum extends GalleryItem {
 		copyFrom( p, GalleryAlbum.class );
 	} // lame copy constructor
 	
-	protected String cover;
+	protected String coverId;
 	protected int coverWidth;
 	protected int coverHeight;
 	protected Privacy privacy;

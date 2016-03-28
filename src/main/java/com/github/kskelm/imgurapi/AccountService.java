@@ -64,7 +64,7 @@ public class AccountService {
 		} // if
 		
 		Call<ImgurResponseWrapper<Object>> call =
-				client.getApi().getAccountVerified( acct.getUserName() );
+				client.getApi().isVerified( acct.getUserName() );
 
 		try {
 			Response<ImgurResponseWrapper<Object>> res = call.execute();
@@ -89,11 +89,11 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 	 * @return a list of gallery items
 	 * @throws ImgurApiException
 	 */
-	public List<GalleryItem> getGalleryFavorites( String userName,
+	public List<GalleryItem> listGalleryFavorites( String userName,
 			int page ) throws ImgurApiException {
 
-		return getGalleryFavorites( userName, page, Account.GallerySort.newest);
-	} // getGalleryFavorites
+		return listGalleryFavorites( userName, page, Account.GallerySort.newest);
+	} // listFavorites
 	
 	/**
 	 * Given an account name, a sort, and a page number (starting at 0),
@@ -108,12 +108,12 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 	 * @return a list of gallery items
 	 * @throws ImgurApiException
 	 */
-	public List<GalleryItem> getGalleryFavorites( String userName,
+	public List<GalleryItem> listGalleryFavorites( String userName,
 			int page,
 			Account.GallerySort sort
 			 ) throws ImgurApiException {
 		Call<ImgurResponseWrapper<List<GalleryItem>>> call =
-				client.getApi().getAccountGalleryFavorites( userName, page, sort );
+				client.getApi().listAccountGalleryFavorites( userName, page, sort );
 
 		try {
 			Response<ImgurResponseWrapper<List<GalleryItem>>> res = call.execute();
@@ -125,7 +125,7 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
 		} 
-	} // getGalleryFavorites
+	} // listFavorites
 	
 	
 	/**
@@ -137,14 +137,14 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 	 * @return a list of gallery items
 	 * @throws ImgurApiException
 	 */
-	public List<GalleryItem> getFavorites() throws ImgurApiException {
+	public List<GalleryItem> listFavorites() throws ImgurApiException {
 		Account acct = client.getAuthenticatedAccount() ;
 		if( acct == null ) {
 			throw new ImgurApiException( "No user logged in", 401 );
 		} // if
 		
 		Call<ImgurResponseWrapper<List<GalleryItem>>> call =
-				client.getApi().getAccountFavorites( acct.getUserName() );
+				client.getApi().listAccountFavorites( acct.getUserName() );
 
 		try {
 			Response<ImgurResponseWrapper<List<GalleryItem>>> res = call.execute();
@@ -156,7 +156,7 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
 		} 
-	} // getFavorites
+	} // listFavorites
 	
 	/**
 	 * Given an account name, a sort, and a page number (starting at 0),
@@ -170,10 +170,10 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 	 * @return a list of gallery items
 	 * @throws ImgurApiException
 	 */
-	public List<GalleryItem> getSubmissions( String userName,
+	public List<GalleryItem> listSubmissions( String userName,
 			int page ) throws ImgurApiException {
 		Call<ImgurResponseWrapper<List<GalleryItem>>> call =
-				client.getApi().getAccountSubmissions( userName, page );
+				client.getApi().listAccountSubmissions( userName, page );
 
 		try {
 			Response<ImgurResponseWrapper<List<GalleryItem>>> res = call.execute();
@@ -185,7 +185,7 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
 		} 
-	} // getSubmissions
+	} // listSubmissions
 
 	/**
 	 * Return the settings on the currently authenticated account.
@@ -266,6 +266,7 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 		} 
 	} // getGalleryProfile
 
+private int foo;
 	// TODO: verify user's email
 	// TODO: send verification email
 	// TODO: get albums for this account
