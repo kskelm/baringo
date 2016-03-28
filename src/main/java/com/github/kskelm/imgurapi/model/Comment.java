@@ -4,326 +4,182 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.kskelm.imgurapi.util.Utils;
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Comment {
 
-	@SerializedName("id")
-	@Expose
-	private int id;
-	@SerializedName("image_id")
-	@Expose
-	private String imageId;
-	@SerializedName("comment")
-	@Expose
-	private String comment;
-	@SerializedName("author")
-	@Expose
-	private String author;
-	@SerializedName("author_id")
-	@Expose
-	private int authorId;
-	@SerializedName("on_album")
-	@Expose
-	private boolean onAlbum;
-	@SerializedName("album_cover")
-	@Expose
-	private String albumCover;
-	@SerializedName("ups")
-	@Expose
-	private int ups;
-	@SerializedName("downs")
-	@Expose
-	private int downs;
-	@SerializedName("points")
-	@Expose
-	private int points;
-	@SerializedName("datetime")
-	@Expose
-	private int datetime;
-	@SerializedName("parent_id")
-	@Expose
-	private int parentId;
-	@SerializedName("deleted")
-	@Expose
-	private boolean deleted;
-	@SerializedName("vote")
-	@Expose
-	private Object vote;
-	@SerializedName("children")
-	@Expose
-	private List<Comment> children = new ArrayList<Comment>();
+	
+	/**
+	 * When requesting a list of comments this is the order
+	 */
+	public enum Sort {
+		@SerializedName("newest") Newest,  // default
+		@SerializedName("oldest") Oldest,
+		@SerializedName("best") Best,
+		@SerializedName("worst") Worst;
+	}
 
 	/**
-	 *
-	 * @return
-	 * The id
+	 * The ID of the comment
+	 * @return the id
 	 */
 	public int getId() {
 		return id;
 	}
 
-	/**
-	 *
-	 * @param id
-	 * The id
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The imageId
+	 * The ID of the image the comment is for
+	 * @return the imageId
 	 */
 	public String getImageId() {
 		return imageId;
 	}
 
-	/**
-	 *
-	 * @param imageId
-	 * The image_id
-	 */
-	public void setImageId(String imageId) {
-		this.imageId = imageId;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The comment
+	 * The comment itself
+	 * @return the comment
 	 */
 	public String getComment() {
 		return comment;
 	}
 
-	/**
-	 *
-	 * @param comment
-	 * The comment
-	 */
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The author
+	 * The userName of the author
+	 * @return the author
 	 */
 	public String getAuthor() {
 		return author;
 	}
 
-	/**
-	 *
-	 * @param author
-	 * The author
-	 */
-	public void setAuthor(String author) {
-		this.author = author;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The authorId
+	 * The account ID of the author
+	 * @return the authorId
 	 */
 	public int getAuthorId() {
 		return authorId;
 	}
 
-	/**
-	 *
-	 * @param authorId
-	 * The author_id
-	 */
-	public void setAuthorId(int authorId) {
-		this.authorId = authorId;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The onAlbum
+	 * True if the comment was made on an album
+	 * @return the onAlbum
 	 */
 	public boolean isOnAlbum() {
 		return onAlbum;
 	}
 
-	/**
-	 *
-	 * @param onAlbum
-	 * The on_album
-	 */
-	public void setOnAlbum(boolean onAlbum) {
-		this.onAlbum = onAlbum;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The albumCover
+	 * The ID of the album cover image to display with this comment, if any
+	 * @return the albumCover
 	 */
 	public String getAlbumCover() {
 		return albumCover;
 	}
 
-	/**
-	 *
-	 * @param albumCover
-	 * The album_cover
-	 */
-	public void setAlbumCover(String albumCover) {
-		this.albumCover = albumCover;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The ups
+	 * Number of upvotes for the comment
+	 * @return the ups
 	 */
 	public int getUps() {
 		return ups;
 	}
 
-	/**
-	 *
-	 * @param ups
-	 * The ups
-	 */
-	public void setUps(int ups) {
-		this.ups = ups;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The downs
+	 * Number of downvotes for the comment
+	 * @return the downs
 	 */
 	public int getDowns() {
 		return downs;
 	}
 
-	/**
-	 *
-	 * @param downs
-	 * The downs
-	 */
-	public void setDowns(int downs) {
-		this.downs = downs;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The points
+	 * Number of upvotes - downvotes (math is hard)
+	 * @return the points
 	 */
 	public int getPoints() {
 		return points;
 	}
 
-	/**
-	 *
-	 * @param points
-	 * The points
-	 */
-	public void setPoints(int points) {
-		this.points = points;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The datetime
+	 * Date/time the comment was created
+	 * @return the createdAt
 	 */
-	public int getDatetime() {
-		return datetime;
+	public int getCreatedAt() {
+		return createdAt;
 	}
 
-	/**
-	 *
-	 * @param datetime
-	 * The datetime
-	 */
-	public void setDatetime(int datetime) {
-		this.datetime = datetime;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The parentId
+	 * If this is a reply, the comment ID it is replying to
+	 * @return the parentId
 	 */
 	public int getParentId() {
 		return parentId;
 	}
 
-	/**
-	 *
-	 * @param parentId
-	 * The parent_id
-	 */
-	public void setParentId(int parentId) {
-		this.parentId = parentId;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The deleted
+	 * True if this comment has been deleted
+	 * @return the deleted
 	 */
 	public boolean isDeleted() {
 		return deleted;
 	}
 
-	/**
-	 *
-	 * @param deleted
-	 * The deleted
-	 */
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The vote
+	 * The current authenticated user's vote on this comment.
+	 * Null if not currently signed in or if the user hasn't offered
+	 * an opinion yet.
+	 * @return the vote
 	 */
-	public Object getVote() {
+	public String getVote() {
 		return vote;
 	}
 
-	/**
-	 *
-	 * @param vote
-	 * The vote
-	 */
-	public void setVote(Object vote) {
-		this.vote = vote;
-	}
 
 	/**
-	 *
-	 * @return
-	 * The children
+	 * Get all of the replies for this comment.  If none, this
+	 * will be an empty list rather than a null.
+	 * @return the children
 	 */
 	public List<Comment> getChildren() {
 		return children;
 	}
 
-	/**
-	 *
-	 * @param children
-	 * The children
-	 */
-	public void setChildren(List<Comment> children) {
-		this.children = children;
-	}
+
+	// ================================================
+	private int id;
+	@SerializedName("image_id")
+	private String imageId;
+	private String comment;
+	private String author;
+	@SerializedName("author_id")
+	private int authorId;
+	@SerializedName("on_album")
+	private boolean onAlbum;
+	@SerializedName("album_cover")
+	private String albumCover;
+	private int ups;
+	private int downs;
+	private int points;
+	@SerializedName("datetime")
+	private int createdAt;
+	@SerializedName("parent_id")
+	private int parentId;
+	private boolean deleted;
+	private String vote;
+	private List<Comment> children = new ArrayList<>();
+
 
 	public String toString() {
 		return Utils.toString( this );

@@ -1,10 +1,6 @@
 package com.github.kskelm.imgurapi;
 
-import java.util.List;
-
 import com.github.kskelm.imgurapi.model.Account;
-import com.github.kskelm.imgurapi.model.GalleryImage;
-import com.github.kskelm.imgurapi.model.GalleryItem;
 import com.github.kskelm.imgurapi.model.Image;
 import com.github.kskelm.imgurapi.util.ImgurApiException;
 

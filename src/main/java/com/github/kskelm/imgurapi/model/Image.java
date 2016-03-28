@@ -230,10 +230,6 @@ public class Image {
 		return vote;
 	}
 
-	public String toString() {
-		return Utils.toString( this );
-	} // toString
-	
 	// =====================================================
 	
 	private String id;
@@ -270,4 +266,10 @@ public class Image {
 		suffixes.put( ThumbnailType.Large, "l" );
 		suffixes.put( ThumbnailType.Huge, "h" );
 	}
+	
+
+	public String toString() {
+		return Utils.toString( this );
+	} // toString
+	
 }

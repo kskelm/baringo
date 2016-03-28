@@ -3,7 +3,6 @@
  */
 package com.github.kskelm.imgurapi.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import com.github.kskelm.imgurapi.util.Utils;
