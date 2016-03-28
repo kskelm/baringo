@@ -35,24 +35,49 @@ public class ImgurClient {
 	public static final String PROPERTY_CLIENT_ID     = "imgurclient.clientid";
 	public static final String PROPERTY_CLIENT_SECRET = "imgurclient.clientsecret";
 	
+	/**
+	 * Construct a client.  This is necessary before using
+	 * any of the API calls.  It is advised to store clientId
+	 * and clientSecret somewhere other than in your code.
+	 * Note that logging in a user is a separate step that comes
+	 * later.
+	 * @param clientId - the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.
+	 * @param clientSecret- the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.  THIS IS A SECRET- DO NOT SHARE IT. STORE THIS IN A SECURE PLACE.
+	 */
 	public ImgurClient( String clientId, String clientSecret ) {
 		this.clientId = clientId;
 		this.clientSecret = clientSecret;
 		this.api = create();
 	} // constructor
 
+	/**
+	 * Returns the AccountService object used to execute account-related operations
+	 * @return the account service
+	 */
 	public AccountService accountService() {
 		return aSvc;
 	} // accountService
 	
+	/**
+	 * Returns the ImageService object used to execute image-related operations
+	 * @return the image service
+	 */
 	public ImageService imageService() {
 		return iSvc;
 	} // imageService
 	
+	/**
+	 * Returns the GalleryService object used to execute gallery-related operations
+	 * @return the gallery service
+	 */
 	public GalleryService galleryService() {
 		return gSvc;
 	} // galleryService
 	
+	/**
+	 * Returns an object that describes the remaining quotas left over for this client
+	 * @return quota information
+	 */
 	public Quota getQuota() {
 		return quota;
 	} // getQuota

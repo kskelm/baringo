@@ -1,4 +1,6 @@
-// INTERNAL ONLY
+/**
+ * INTERNAL ONLY - don't use this for anything
+ */
 package com.github.kskelm.imgurapi.model;
 
 import java.lang.reflect.Field;

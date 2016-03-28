@@ -135,7 +135,7 @@ public class Image {
 	}
 
 	/**
-	 * Bandwidth consumed by the image in bytes
+	 * Total internet bandwidth wasted by the image in bytes
 	 * @return the bandwidth
 	 */
 	public long getBandwidth() {

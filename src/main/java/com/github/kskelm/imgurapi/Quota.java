@@ -50,7 +50,7 @@ public class Quota {
 	/**
 	 * Across all usage of this registered client, the number of post credits
 	 * allocated to this client per hour.  Pro clients get more.
-	 * This value is set only after a POST call is returned.
+	 * This value is set only after a POST call is returned
 	 * @return the postCreditsAllocated
 	 */
 	public int getPostCreditsAllocated() {

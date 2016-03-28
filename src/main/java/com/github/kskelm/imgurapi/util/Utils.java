@@ -58,6 +58,7 @@ public class Utils {
 	 * given class level. Shallow.
 	 * @param obj -- object to fetch fields from
 	 * @param cls -- class level to fetch for
+	 * @return A map of fields and their values
 	 */
 	@SuppressWarnings("rawtypes")
 	public static HashMap<String,Object>toHashMap( Object obj, Class cls ) {

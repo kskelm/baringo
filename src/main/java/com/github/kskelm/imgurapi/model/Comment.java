@@ -13,9 +13,21 @@ public class Comment {
 	 * When requesting a list of comments this is the order
 	 */
 	public enum Sort {
+		/**
+		 * Sort comments with the newest ones first. Default
+		 */
 		@SerializedName("newest") Newest,  // default
+		/**
+		 * Sort comments with the oldest first
+		 */
 		@SerializedName("oldest") Oldest,
+		/**
+		 * Sort comments with the top-rated ones first
+		 */
 		@SerializedName("best") Best,
+		/**
+		 * Sort comments with the worst-rated ones first (why?)
+		 */
 		@SerializedName("worst") Worst;
 	}
 
