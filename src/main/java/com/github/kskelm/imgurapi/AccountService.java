@@ -9,10 +9,14 @@ import java.util.List;
 
 import com.github.kskelm.imgurapi.model.Account;
 import com.github.kskelm.imgurapi.model.AccountSettings;
+import com.github.kskelm.imgurapi.model.Album;
 import com.github.kskelm.imgurapi.model.ChangedAccountSettings;
+import com.github.kskelm.imgurapi.model.Comment;
 import com.github.kskelm.imgurapi.model.GalleryItem;
 import com.github.kskelm.imgurapi.model.GalleryProfile;
+import com.github.kskelm.imgurapi.model.Image;
 import com.github.kskelm.imgurapi.model.ImgurResponseWrapper;
+import com.github.kskelm.imgurapi.model.Notification;
 import com.github.kskelm.imgurapi.util.ImgurApiException;
 import com.google.gson.GsonBuilder;
 
@@ -50,32 +54,6 @@ public class AccountService {
 		} 
 	} // getAccount
 
-	/**
-	 * Return whether or not the currently authenticated account's
-	 * email address has been verified
-	 * ACCESS: AUTHENTICATED USER
-	 * @return boolean - whether or not this account is verified
-	 * @throws ImgurApiException
-	 */
-	public boolean isVerified() throws ImgurApiException {
-		Account acct = client.getAuthenticatedAccount() ;
-		if( acct == null ) {
-			throw new ImgurApiException( "No user logged in", 401 );
-		} // if
-		
-		Call<ImgurResponseWrapper<Object>> call =
-				client.getApi().isVerified( acct.getUserName() );
-
-		try {
-			Response<ImgurResponseWrapper<Object>> res = call.execute();
-			ImgurResponseWrapper<Object> out = res.body();
-			client.throwOnWrapperError( res );
-System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
-			return out.isSuccess();
-		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
-		} 
-	} // isVerified
 
 	/**
 	 * Given an account name and a page number (starting at 0),
@@ -94,7 +72,7 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 
 		return listGalleryFavorites( userName, page, Account.GallerySort.newest);
 	} // listFavorites
-	
+
 	/**
 	 * Given an account name, a sort, and a page number (starting at 0),
 	 * return a list of GalleryItems that user has favorited in the gallery.
@@ -111,7 +89,7 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 	public List<GalleryItem> listGalleryFavorites( String userName,
 			int page,
 			Account.GallerySort sort
-			 ) throws ImgurApiException {
+			) throws ImgurApiException {
 		Call<ImgurResponseWrapper<List<GalleryItem>>> call =
 				client.getApi().listAccountGalleryFavorites( userName, page, sort );
 
@@ -126,8 +104,8 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 			throw new ImgurApiException( e.getMessage() );
 		} 
 	} // listFavorites
-	
-	
+
+
 	/**
 	 * Return a list of GalleryItems this user has favorited.
 	 * GalleryItem is the superclass for GalleryImage and
@@ -138,11 +116,11 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 	 * @throws ImgurApiException
 	 */
 	public List<GalleryItem> listFavorites() throws ImgurApiException {
-		Account acct = client.getAuthenticatedAccount() ;
+		Account acct = client.getAuthenticatedAccount();
 		if( acct == null ) {
 			throw new ImgurApiException( "No user logged in", 401 );
 		} // if
-		
+
 		Call<ImgurResponseWrapper<List<GalleryItem>>> call =
 				client.getApi().listAccountFavorites( acct.getUserName() );
 
@@ -157,7 +135,7 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 			throw new ImgurApiException( e.getMessage() );
 		} 
 	} // listFavorites
-	
+
 	/**
 	 * Given an account name, a sort, and a page number (starting at 0),
 	 * return a list of GalleryItems that user has submitted in the gallery.
@@ -198,7 +176,7 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 		if( acct == null ) {
 			throw new ImgurApiException( "No user logged in", 401 );
 		} // if
-		
+
 		Call<ImgurResponseWrapper<AccountSettings>> call =
 				client.getApi().getAccountSettings( acct.getUserName() );
 
@@ -225,12 +203,13 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 		if( acct == null ) {
 			throw new ImgurApiException( "No user logged in", 401 );
 		} // if
-		
+
 		Call<ImgurResponseWrapper<Object>> call =
 				client.getApi().setAccountSettings( acct.getUserName(), settings );
 
 		try {
 			Response<ImgurResponseWrapper<Object>> res = call.execute();
+// TODO: remove me?
 //			ImgurResponseWrapper<Object> out = res.body();
 
 			client.throwOnWrapperError( res );
@@ -250,9 +229,9 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 		if( acct == null ) {
 			throw new ImgurApiException( "No user logged in", 401 );
 		} // if
-		
+
 		Call<ImgurResponseWrapper<GalleryProfile>> call =
-				client.getApi().getGalleryProfile( acct.getUserName() );
+				client.getApi().getAccountGalleryProfile( acct.getUserName() );
 
 		try {
 			Response<ImgurResponseWrapper<GalleryProfile>> res = call.execute();
@@ -266,27 +245,325 @@ System.err.println( "TODO: not sure we want isSuccess here, maybe payload");
 		} 
 	} // getGalleryProfile
 
-private int foo;
-	// TODO: verify user's email
-	// TODO: send verification email
-	// TODO: get albums for this account
-	// TODO: get information about an album id (xref to AlbumService)
-	// TODO: get array of the user's album id's
-	// TODO: return the total number of albums associated with the account
-	// TODO: delete an album by id (xref to AlbumService)
-	// TODO: return comments the user has created
-	// TODO: return information about a specific comment (xref to CommentService)
-	// TODO: return an array of all comment id's
-	// TODO: return a count of all the comments on the account
-	// TODO: delete a comment (xref to CommentService)
-	// TODO: return all images associated with the account
-	// TODO: return information about a specific image (xref to ImageService)
-	// TODO: return array of image id's for the account
-	// TODO: return number of images for the account
-	// TODO: delete an image (xref to ImageService)
-	// TODO: return all reply notifications for the user (xref to ConversationService?)
+	/**
+	 * Returns whether or not the currently-authenticated account's
+	 * email address has been verified.
+	 * ACCESS: AUTHENTICATED USER
+	 * @return The account's GalleryProfile
+	 * @throws ImgurApiException
+	 */
+	public boolean isVerified() throws ImgurApiException {
+		Account acct = client.getAuthenticatedAccount() ;
+		if( acct == null ) {
+			throw new ImgurApiException( "No user logged in", 401 );
+		} // if
+
+		Call<ImgurResponseWrapper<Object>> call =
+				client.getApi().isAccountVerified( acct.getUserName() );
+
+		try {
+			Response<ImgurResponseWrapper<Object>> res = call.execute();
+			ImgurResponseWrapper<Object> out = res.body();
+
+			client.throwOnWrapperError( res );
+// TODO: address me!
+System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS SHOULD BE");
+			return out.equals( true );
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // isVerified
+
+	/**
+	 * Initiates re-sending of the verification email.
+	 * ACCESS: AUTHENTICATED USER
+	 * @throws ImgurApiException
+	 */
+	public void sendVerificationEmail() throws ImgurApiException {
+		Account acct = client.getAuthenticatedAccount() ;
+		if( acct == null ) {
+			throw new ImgurApiException( "No user logged in", 401 );
+		} // if
+
+		Call<ImgurResponseWrapper<Object>> call =
+				client.getApi().sendAccountVerificationEmail( acct.getUserName() );
+
+		try {
+			Response<ImgurResponseWrapper<Object>> res = call.execute();
+// TODO: address me!
+//			ImgurResponseWrapper<Object> out = res.body();
+			res.body();
+			client.throwOnWrapperError( res );
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // sendVerificationEmail
+
+	/**
+	 * Returns a paged list of albums associated with the given
+	 * userName, paged 50 at a time.
+	 * ACCESS: ANONYMOUS
+	 * @param userName - the name of the user to fetch albums for
+	 * @param page - the page number, starting at 0
+	 * @return A list of Album objects
+	 * @throws ImgurApiException
+	 */
+	public List<Album> listAlbums(
+			String userName,
+			int page ) throws ImgurApiException {
+
+		Call<ImgurResponseWrapper<List<Album>>> call =
+				client.getApi().listAccountAlbums( userName, page );
+
+		try {
+			Response<ImgurResponseWrapper<List<Album>>> res = call.execute();
+			ImgurResponseWrapper<List<Album>> out = res.body();
+			client.throwOnWrapperError( res );
+			return out.getData();
+			
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // listAlbums
+
+	/**
+	 * Returns a list of album IDs associated with the given
+	 * userName, paged 50 at a time
+	 * ACCESS: ANONYMOUS
+	 * @param userName - the name of the user to fetch album ids for
+	 * @param page - The page number to fetch, starting at 0
+	 * @return A list of album IDs (integers)
+	 * @throws ImgurApiException
+	 */
+	public List<Integer> listAlbumIds(
+			String userName,
+			int page ) throws ImgurApiException {
+
+		Call<ImgurResponseWrapper<List<Integer>>> call =
+				client.getApi().listAccountAlbumIds( userName, page );
+		try {
+			Response<ImgurResponseWrapper<List<Integer>>> res = call.execute();
+			ImgurResponseWrapper<List<Integer>> out = res.body();
+			client.throwOnWrapperError( res );
+			return out.getData();
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // listAlbumIds
+
+	/**
+	 * Returns the total number of Albums the given user
+	 * owns.
+	 * @param userName - The name of the user to fetch an album count for
+	 * @return Integer - the number of albums the user owns
+	 * @throws ImgurApiException
+	 */
+	public int getAlbumCount(
+				String userName ) throws ImgurApiException {
+// TODO: FIX <Object>?
+		Call<ImgurResponseWrapper<Object>> call =
+				client.getApi().isAccountVerified( userName );
+
+		try {
+			Response<ImgurResponseWrapper<Object>> res = call.execute();
+			ImgurResponseWrapper<Object> out = res.body();
+
+			client.throwOnWrapperError( res );
+// TODO: address me!
+System.err.println("TODO: RETURN CORRECT AccountService.getAlbumCount DATA HERE!");
+			return (Integer)out.getData();
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // getAlbumCount
+
+	/**
+	 * Returns a paged list of comments associated with the given
+	 * userName, paged 50 at a time.
+	 * ACCESS: ANONYMOUS
+	 * @param userName - the name of the user to fetch comments for
+	 * @param page - the page number, starting at 0
+	 * @return A list of Comment objects
+	 * @throws ImgurApiException
+	 */
+	public List<Comment> listComments(
+			String userName,
+			Comment.Sort sort,
+			int page ) throws ImgurApiException {
+
+		Call<ImgurResponseWrapper<List<Comment>>> call =
+				client.getApi().listAccountComments( userName, sort, page );
+
+		try {
+			Response<ImgurResponseWrapper<List<Comment>>> res = call.execute();
+			ImgurResponseWrapper<List<Comment>> out = res.body();
+			client.throwOnWrapperError( res );
+			return out.getData();
+			
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // listComments
 	
+	/**
+	 * Returns a list of comment IDs associated with the given
+	 * userName, paged 50 at a time
+	 * ACCESS: ANONYMOUS
+	 * @param userName - the name of the user to fetch comment ids for
+	 * @param page - The page number to fetch, starting at 0
+	 * @return A list of comment IDs (integers)
+	 * @throws ImgurApiException
+	 */
+	public List<Integer> listCommentIds(
+			String userName,
+			int page ) throws ImgurApiException {
+
+		Call<ImgurResponseWrapper<List<Integer>>> call =
+				client.getApi().listAccountCommentIds( userName, page );
+		try {
+			Response<ImgurResponseWrapper<List<Integer>>> res = call.execute();
+			ImgurResponseWrapper<List<Integer>> out = res.body();
+			client.throwOnWrapperError( res );
+			return out.getData();
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // listCommentIds
+
+	/**
+	 * Returns the total number of Comments the given user
+	 * owns.
+	 * @param userName - The name of the user to fetch a comment count for
+	 * @return int - the number of comments the user owns
+	 * @throws ImgurApiException
+	 */
+	public int getCommentCount(
+				String userName ) throws ImgurApiException {
+		Call<ImgurResponseWrapper<Integer>> call =
+				client.getApi().getAccountImageCount( userName );
+
+		try {
+			Response<ImgurResponseWrapper<Integer>> res = call.execute();
+			ImgurResponseWrapper<Integer> out = res.body();
+
+			client.throwOnWrapperError( res );
+// TODO: address me!
+System.err.println("TODO: RETURN CORRECT AccountService.getCommentCount DATA HERE!");
+			return (Integer)out.getData();
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // getCommentCount
 	
+	/**
+	 * Returns a paged list of images associated with the given
+	 * userName, paged 50 at a time.
+	 * ACCESS: ANONYMOUS
+	 * @param userName - the name of the user to fetch images for
+	 * @param page - the page number, starting at 0
+	 * @return A list of Image objects
+	 * @throws ImgurApiException
+	 */
+	public List<Image> listImages(
+			String userName,
+			int page ) throws ImgurApiException {
+
+		Call<ImgurResponseWrapper<List<Image>>> call =
+				client.getApi().listAccountImages( userName, page );
+
+		try {
+			Response<ImgurResponseWrapper<List<Image>>> res = call.execute();
+			ImgurResponseWrapper<List<Image>> out = res.body();
+			client.throwOnWrapperError( res );
+			return out.getData();
+			
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // listImages
+	
+	/**
+	 * Returns a list of image IDs associated with the given
+	 * userName, paged 50 at a time
+	 * ACCESS: ANONYMOUS
+	 * @param userName - the name of the user to fetch image ids for
+	 * @param page - The page number to fetch, starting at 0
+	 * @return A list of Image IDs (strings)
+	 * @throws ImgurApiException
+	 */
+	public List<String> listImageIds(
+			String userName,
+			int page ) throws ImgurApiException {
+
+		Call<ImgurResponseWrapper<List<String>>> call =
+				client.getApi().listAccountImageIds( userName, page );
+		try {
+			Response<ImgurResponseWrapper<List<String>>> res = call.execute();
+			ImgurResponseWrapper<List<String>> out = res.body();
+			client.throwOnWrapperError( res );
+			return out.getData();
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // listImageIds
+	
+	/**
+	 * Returns the total number of Images the given user
+	 * owns.
+	 * @param userName - The name of the user to fetch a image count for
+	 * @return int - the number of images the user owns
+	 * @throws ImgurApiException
+	 */
+	public int getImageCount(
+				String userName ) throws ImgurApiException {
+		Call<ImgurResponseWrapper<Integer>> call =
+				client.getApi().getAccountImageCount( userName );
+
+		try {
+			Response<ImgurResponseWrapper<Integer>> res = call.execute();
+			ImgurResponseWrapper<Integer> out = res.body();
+
+			client.throwOnWrapperError( res );
+// TODO: address me!
+int foo; // to trigger a warning on the icon to remind me to come back for this
+System.err.println("TODO: RETURN CORRECT AccountService.getImageCount DATA HERE!");
+			return (Integer)out.getData();
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // getImageCount
+	
+	/**
+	 * Returns a list of notifications to the given account
+	 * ACCESS: AUTHENTICATED USER
+	 * @param userName - the name of the user to fetch images for
+	 * @param onlyNew - true if the request is for only the unviewed notifications
+	 * @return A list of Notification objects
+	 * @throws ImgurApiException
+	 */
+	public List<Notification> listNotifications(
+			String userName,
+			boolean onlyNew ) throws ImgurApiException {
+
+		Account acct = client.getAuthenticatedAccount();
+		if( acct == null ) {
+			throw new ImgurApiException( "No user logged in", 401 );
+		} // if
+
+		Call<ImgurResponseWrapper<List<Notification>>> call =
+				client.getApi().listAccountReplyNotifications( userName, onlyNew );
+
+		try {
+			Response<ImgurResponseWrapper<List<Notification>>> res = call.execute();
+			ImgurResponseWrapper<List<Notification>> out = res.body();
+			client.throwOnWrapperError( res );
+			return out.getData();
+			
+		} catch (IOException e) {
+			throw new ImgurApiException( e.getMessage() );
+		} 
+	} // listNotifications
+
 	// ================================================
 
 	public AccountService(ImgurClient imgurClient, GsonBuilder gsonBuilder) {

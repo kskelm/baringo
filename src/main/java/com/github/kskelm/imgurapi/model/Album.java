@@ -31,9 +31,6 @@ public class Album {
 	}
 
 	
-	
-	// =========================================================
-
 	/**
 	 * The id for the album
 	 * @return the id
@@ -200,6 +197,8 @@ public class Album {
 		return images;
 	}
 
+
+	// =========================================================
 
 	// INTERNAL ONLY
 	public Album() { }

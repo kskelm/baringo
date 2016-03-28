@@ -63,7 +63,7 @@ public class ImgurClient {
 	protected RetrofittedImgur getApi() {
 		return api;
 	} // getApi
-	
+
 	protected <T> void throwOnWrapperError( Response<ImgurResponseWrapper<T>> resp ) throws ImgurApiException {
 		if( resp.code() != 200 ) {
 			throw new ImgurApiException( resp.raw().request().urlString()

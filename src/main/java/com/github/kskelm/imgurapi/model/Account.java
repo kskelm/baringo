@@ -67,9 +67,5 @@ public class Account {
 	private Date created;
 	@SerializedName("pro_expiration")
 	private Date proExpiration;
-
-	public String toString() {
-		return Utils.toString( this );
-	} // toString
 	
 } // class Account
