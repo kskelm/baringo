@@ -63,22 +63,31 @@ public class GalleryService {
 			// to represent both album and image objects, given
 			// how Gson and Retrofit work.
 			// This is so filthy that I need a shower.
-			ArrayList<GalleryItem> out = new ArrayList<GalleryItem>();
-			for( GalleryItemProxy proxy : list.getData() ) {
-				if( proxy.is_album ) {
-					GalleryAlbum album = new GalleryAlbum( proxy );
-					out.add( album );
-				} else {
-					GalleryImage image = new GalleryImage( proxy );
-					out.add( image );
-				} // if-else
-			} // for
-			return out;
+			return convertToItems( list.getData() );
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
 		} 
+
 	} // getGallery
 
+	// this approach feels filthy. Convert lame proxy objects to
+	// type-safe GalleryItem derivatives.  
+	protected List<GalleryItem> convertToItems( List<GalleryItemProxy> list ) {
+		ArrayList<GalleryItem> items = new ArrayList<>();
+		
+		for( GalleryItemProxy proxy : list ) {
+			GalleryItem item = null;
+			if( proxy.isAlbum() ) {
+				item = new GalleryAlbum( proxy );
+			} else {
+				item = new GalleryImage( proxy );
+			} // if-else
+			if( item != null ) {
+				items.add( item );
+			} // if
+		} // for
+		return items;
+	} // convertToItems
 	
 	// ================================================
 	

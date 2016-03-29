@@ -17,7 +17,7 @@ import java.util.List;
 import com.github.kskelm.imgurapi.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
-public class GalleryItem {
+public abstract class GalleryItem {
 
 	/**
 	 * When requesting a gallery, this is the section
@@ -243,6 +243,16 @@ public class GalleryItem {
 		return accountId;
 	}
 
+	/**
+	 * Returns whether or not this item is an album.  If true, it
+	 * can be cast to GalleryAlbum.  If false, it can be cast to
+	 * GalleryImage.
+	 * @return the album
+	 */
+	public boolean isAlbum() {
+		return album;
+	}
+
 	
 	
 	// =========================================================
@@ -278,6 +288,8 @@ public class GalleryItem {
 	protected String userName;
 	@SerializedName("account_id")
 	protected int accountId;
+	@SerializedName("is_album")
+	protected boolean album;
 	
 	public String toString() {
 		return Utils.toString( this );

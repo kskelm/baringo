@@ -5,6 +5,7 @@
 package com.github.kskelm.imgurapi;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.kskelm.imgurapi.model.Account;
@@ -12,7 +13,10 @@ import com.github.kskelm.imgurapi.model.AccountSettings;
 import com.github.kskelm.imgurapi.model.Album;
 import com.github.kskelm.imgurapi.model.ChangedAccountSettings;
 import com.github.kskelm.imgurapi.model.Comment;
+import com.github.kskelm.imgurapi.model.GalleryAlbum;
+import com.github.kskelm.imgurapi.model.GalleryImage;
 import com.github.kskelm.imgurapi.model.GalleryItem;
+import com.github.kskelm.imgurapi.model.GalleryItemProxy;
 import com.github.kskelm.imgurapi.model.GalleryProfile;
 import com.github.kskelm.imgurapi.model.Image;
 import com.github.kskelm.imgurapi.model.ImgurResponseWrapper;
@@ -91,16 +95,16 @@ public class AccountService {
 			int page,
 			Account.GallerySort sort
 			) throws ImgurApiException {
-		Call<ImgurResponseWrapper<List<GalleryItem>>> call =
+		Call<ImgurResponseWrapper<List<GalleryItemProxy>>> call =
 				client.getApi().listAccountGalleryFavorites( userName, page, sort );
 
 		try {
-			Response<ImgurResponseWrapper<List<GalleryItem>>> res = call.execute();
-			ImgurResponseWrapper<List<GalleryItem>> out = res.body();
+			Response<ImgurResponseWrapper<List<GalleryItemProxy>>> res = call.execute();
+			ImgurResponseWrapper<List<GalleryItemProxy>> out = res.body();
 
 			client.throwOnWrapperError( res );
 
-			return out.getData();
+			return client.galleryService().convertToItems( out.getData() );
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
 		} 
@@ -122,16 +126,16 @@ public class AccountService {
 			throw new ImgurApiException( "No user logged in", 401 );
 		} // if
 
-		Call<ImgurResponseWrapper<List<GalleryItem>>> call =
+		Call<ImgurResponseWrapper<List<GalleryItemProxy>>> call =
 				client.getApi().listAccountFavorites( acct.getUserName() );
 
 		try {
-			Response<ImgurResponseWrapper<List<GalleryItem>>> res = call.execute();
-			ImgurResponseWrapper<List<GalleryItem>> out = res.body();
+			Response<ImgurResponseWrapper<List<GalleryItemProxy>>> res = call.execute();
+			ImgurResponseWrapper<List<GalleryItemProxy>> out = res.body();
 
 			client.throwOnWrapperError( res );
 
-			return out.getData();
+			return client.galleryService().convertToItems( out.getData() );
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
 		} 
@@ -151,16 +155,16 @@ public class AccountService {
 	 */
 	public List<GalleryItem> listSubmissions( String userName,
 			int page ) throws ImgurApiException {
-		Call<ImgurResponseWrapper<List<GalleryItem>>> call =
+		Call<ImgurResponseWrapper<List<GalleryItemProxy>>> call =
 				client.getApi().listAccountSubmissions( userName, page );
 
 		try {
-			Response<ImgurResponseWrapper<List<GalleryItem>>> res = call.execute();
-			ImgurResponseWrapper<List<GalleryItem>> out = res.body();
+			Response<ImgurResponseWrapper<List<GalleryItemProxy>>> res = call.execute();
+			ImgurResponseWrapper<List<GalleryItemProxy>> out = res.body();
 
 			client.throwOnWrapperError( res );
 
-			return out.getData();
+			return client.galleryService().convertToItems( out.getData() );
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
 		} 
@@ -220,19 +224,15 @@ public class AccountService {
 	} // setAccountSettings
 
 	/**
-	 * Return the gallery profile for the currently authenticated account.
-	 * ACCESS: AUTHENTICATED USER
+	 * Return the gallery profile for a user
+	 * ACCESS: ANONYMOUS
+	 * @param userName the userName for the account to return the profile of
 	 * @return The account's GalleryProfile
 	 * @throws ImgurApiException - something failed
 	 */
-	public GalleryProfile getGalleryProfile() throws ImgurApiException {
-		Account acct = client.getAuthenticatedAccount() ;
-		if( acct == null ) {
-			throw new ImgurApiException( "No user logged in", 401 );
-		} // if
-
+	public GalleryProfile getGalleryProfile( String userName) throws ImgurApiException {
 		Call<ImgurResponseWrapper<GalleryProfile>> call =
-				client.getApi().getAccountGalleryProfile( acct.getUserName() );
+				client.getApi().getAccountGalleryProfile( userName );
 
 		try {
 			Response<ImgurResponseWrapper<GalleryProfile>> res = call.execute();
