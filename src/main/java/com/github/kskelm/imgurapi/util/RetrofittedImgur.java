@@ -86,18 +86,18 @@ public interface RetrofittedImgur {
 	Call<ImgurResponseWrapper<Object>> sendAccountVerificationEmail(
 			@Path("username") String userName );
 
-	@GET("/3/account/{username}/album/{page}")
+	@GET("/3/account/{username}/albums/{page}")
 	Call<ImgurResponseWrapper<List<Album>>> listAccountAlbums(
 			@Path("username") String userName,
 			@Path("page") int page );
 
-	@GET("/3/account/{username}/album/{page}")
-	Call<ImgurResponseWrapper<List<Integer>>> listAccountAlbumIds(
+	@GET("/3/account/{username}/albums/ids/{page}")
+	Call<ImgurResponseWrapper<List<String>>> listAccountAlbumIds(
 			@Path("username") String userName,
 			@Path("page") int page );
 
-	@GET("/3/account/{username}/album/count")
-	Call<ImgurResponseWrapper<Integer>> getAlbumCount(
+	@GET("/3/account/{username}/albums/count")
+	Call<ImgurResponseWrapper<Integer>> getAccountAlbumCount(
 			@Path("username") String userName );
 
 
@@ -108,9 +108,10 @@ public interface RetrofittedImgur {
 			@Path("page") int page
 			);
 
-	@GET("/3/account/{username}/comments/ids/{page}")
+	@GET("/3/account/{username}/comments/ids/{sort}/{page}")
 	Call<ImgurResponseWrapper<List<Integer>>> listAccountCommentIds(
 			@Path("username") String userName,
+			@Path("sort") Comment.Sort sort,
 			@Path("page") int page
 			);
 

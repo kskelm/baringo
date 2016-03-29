@@ -6,6 +6,8 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 import com.github.kskelm.imgurapi.model.Account;
+import com.github.kskelm.imgurapi.model.Album;
+import com.github.kskelm.imgurapi.model.Comment;
 import com.github.kskelm.imgurapi.model.GalleryImage;
 import com.github.kskelm.imgurapi.model.GalleryItem;
 import com.github.kskelm.imgurapi.model.GalleryProfile;
@@ -41,7 +43,7 @@ public class AccountTest extends TestCase {
 	// TODO: test case
 	@Test
 	public void testListFavorites() throws ImgurApiException {
-		System.err.println("TODO: test getFavorites" );
+		System.err.println("TODO: must be logged in to testGetFavorites" );
 //		Setup setup = new Setup();
 //		List<GalleryItem> items = setup.getClient().accountService()
 //				.listFavorites();
@@ -57,7 +59,7 @@ public class AccountTest extends TestCase {
 
 		assertEquals( "Submissions come back", list.size(), 4 );
 		assertEquals( "First object is image", list.get(0).isAlbum(), false );
-		GalleryImage img = (GalleryImage)list.get( 0 );
+		assertEquals( "First object is GalleryImage", list.get( 0 ).getClass(), GalleryImage.class );
 	}
 
 	@Test
@@ -82,99 +84,97 @@ public class AccountTest extends TestCase {
 	// TODO: test case
 	@Test
 	public void testGetAccountSettings() throws ImgurApiException {
-		System.err.println("TODO: testGetAccountSettings" );
+		System.err.println("TODO: must be logged in to testGetAccountSettings" );
 	}
 	// TODO: test case
 	@Test
 	public void testSetAccountSettings() throws ImgurApiException {
-		System.err.println("TODO: testSetAccountSettings" );
+		System.err.println("TODO: must be logged in to testSetAccountSettings" );
 	}
 	// TODO: test case
 	@Test
 	public void testIsVerified() throws ImgurApiException {
-		System.err.println("TODO: testIsVerified" );
+		System.err.println("TODO: must be logged in to testIsVerified" );
 	}
 	// TODO: test case
 	@Test
 	public void testSendVerificationEmail() throws ImgurApiException {
-		System.err.println("TODO: testSendVerificationEmail" );
+		System.err.println("TODO: must be logged in to testSendVerificationEmail" );
 	}
-	// TODO: test case
+
 	@Test
 	public void testListAlbums() throws ImgurApiException {
-		// TODO: test this on a different account than the test
-		// account first to make sure it's not specifically
-		// for the authenticated user instead of just any user
-		// (then simplify the call if necessary)
-		System.err.println("TODO: testListAlbums" );
+		Setup setup = new Setup();
+		List<Album> list = setup.getClient()
+				.accountService().listAlbums( Setup.TEST_USER_NAME, 0);
+
+		assertEquals( "Albums come back", list.size(), 1 );
 	}
-	// TODO: test case
+
 	@Test
 	public void testListAlbumIds() throws ImgurApiException {
-		// TODO: test this on a different account than the test
-		// account first to make sure it's not specifically
-		// for the authenticated user instead of just any user
-		// (then simplify the call if necessary)
-		System.err.println("TODO: testListAlbumIds" );
+		Setup setup = new Setup();
+		List<String> list = setup.getClient()
+				.accountService().listAlbumIds( Setup.TEST_USER_NAME, 0);
+
+		assertEquals( "Album IDs come back", list.size(), 1 );
 	}
-	// TODO: test case
+
 	@Test
 	public void testGetAlbumCount() throws ImgurApiException {
-		// TODO: test this on a different account than the test
-		// account first to make sure it's not specifically
-		// for the authenticated user instead of just any user
-		// (then simplify the call if necessary)
-		System.err.println("TODO: testGetAlbumCount" );
+		Setup setup = new Setup();
+		int count = setup.getClient()
+				.accountService().getAlbumCount( Setup.TEST_USER_NAME);
+
+		assertEquals( "Album count is right", count, 1 );
 	}
-	// TODO: test case
+
 	@Test
 	public void testListComments() throws ImgurApiException {
-		// TODO: test this on a different account than the test
-		// account first to make sure it's not specifically
-		// for the authenticated user instead of just any user
-		// (then simplify the call if necessary)
-		System.err.println("TODO: testListComments" );
+		Setup setup = new Setup();
+		List<Comment> list = setup.getClient()
+				.accountService()
+				.listComments( Setup.TEST_USER_NAME, Comment.Sort.Newest, 0 );
+
+		assertEquals( "Comments come back", list.size(), 1 );
 	}
-	// TODO: test case
+
 	@Test
 	public void testListCommentIds() throws ImgurApiException {
-		// TODO: test this on a different account than the test
-		// account first to make sure it's not specifically
-		// for the authenticated user instead of just any user
-		// (then simplify the call if necessary)
-		System.err.println("TODO: testListCommentIds" );
+		Setup setup = new Setup();
+		List<Integer> list = setup.getClient()
+				.accountService()
+				.listCommentIds( Setup.TEST_USER_NAME, Comment.Sort.Newest, 0 );
+
+		assertEquals( "Comments come back", list.size(), 1 );
 	}
-	// TODO: test case
+
 	@Test
 	public void testGetCommentCount() throws ImgurApiException {
-		// TODO: test this on a different account than the test
-		// account first to make sure it's not specifically
-		// for the authenticated user instead of just any user
-		// (then simplify the call if necessary)
-		System.err.println("TODO: testGetCommentCount" );
+		Setup setup = new Setup();
+		int count = setup.getClient()
+				.accountService().getCommentCount( Setup.TEST_USER_NAME);
+
+		assertEquals( "Comment count is right", count, 1 );
 	}
 	// TODO: test case
 	@Test
 	public void testListImages() throws ImgurApiException {
-		System.err.println("TODO: testListImages" );
+		System.err.println("TODO: must be logged in to testListImages" );
 	}
 	// TODO: test case
 	@Test
 	public void testListImageIds() throws ImgurApiException {
-		System.err.println("TODO: testListImageIds" );
+		System.err.println("TODO: must be logged in to testListImageIds" );
 	}
 	// TODO: test case
 	@Test
 	public void testGetImageCount() throws ImgurApiException {
-		System.err.println("TODO: testGetImageCount" );
+		System.err.println("TODO: must be logged in to testGetImageCount" );
 	}
 	// TODO: test case
 	@Test
 	public void testListReplies() throws ImgurApiException {
-		// TODO: test this on a different account than the test
-		// account first to make sure it's not specifically
-		// for the authenticated user instead of just any user
-		// (then simplify the call if necessary)
-		System.err.println("TODO: testListReplies");
+		System.err.println("TODO: must be logged in to testListReplies");
 	}
 }

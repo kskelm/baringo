@@ -5,7 +5,6 @@
 package com.github.kskelm.imgurapi;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.github.kskelm.imgurapi.model.Account;
@@ -13,8 +12,6 @@ import com.github.kskelm.imgurapi.model.AccountSettings;
 import com.github.kskelm.imgurapi.model.Album;
 import com.github.kskelm.imgurapi.model.ChangedAccountSettings;
 import com.github.kskelm.imgurapi.model.Comment;
-import com.github.kskelm.imgurapi.model.GalleryAlbum;
-import com.github.kskelm.imgurapi.model.GalleryImage;
 import com.github.kskelm.imgurapi.model.GalleryItem;
 import com.github.kskelm.imgurapi.model.GalleryItemProxy;
 import com.github.kskelm.imgurapi.model.GalleryProfile;
@@ -214,10 +211,8 @@ public class AccountService {
 
 		try {
 			Response<ImgurResponseWrapper<Object>> res = call.execute();
-// TODO: remove me?
-//			ImgurResponseWrapper<Object> out = res.body();
-
 			client.throwOnWrapperError( res );
+			
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
 		} 
@@ -268,6 +263,7 @@ public class AccountService {
 
 			client.throwOnWrapperError( res );
 // TODO: address me!
+int foo;
 System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS SHOULD BE");
 			return out.equals( true );
 		} catch (IOException e) {
@@ -336,15 +332,15 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * @return A list of album IDs (integers)
 	 * @throws ImgurApiException - something failed
 	 */
-	public List<Integer> listAlbumIds(
+	public List<String> listAlbumIds(
 			String userName,
 			int page ) throws ImgurApiException {
 
-		Call<ImgurResponseWrapper<List<Integer>>> call =
+		Call<ImgurResponseWrapper<List<String>>> call =
 				client.getApi().listAccountAlbumIds( userName, page );
 		try {
-			Response<ImgurResponseWrapper<List<Integer>>> res = call.execute();
-			ImgurResponseWrapper<List<Integer>> out = res.body();
+			Response<ImgurResponseWrapper<List<String>>> res = call.execute();
+			ImgurResponseWrapper<List<String>> out = res.body();
 			client.throwOnWrapperError( res );
 			return out.getData();
 		} catch (IOException e) {
@@ -355,29 +351,43 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	/**
 	 * Returns the total number of Albums the given user
 	 * owns.
+	 * ACCESS: ANONYMOUS
 	 * @param userName - The name of the user to fetch an album count for
 	 * @return Integer - the number of albums the user owns
 	 * @throws ImgurApiException - something failed
 	 */
 	public int getAlbumCount(
 				String userName ) throws ImgurApiException {
-// TODO: FIX <Object>?
-		Call<ImgurResponseWrapper<Object>> call =
-				client.getApi().isAccountVerified( userName );
+
+		Call<ImgurResponseWrapper<Integer>> call =
+				client.getApi().getAccountAlbumCount( userName );
 
 		try {
-			Response<ImgurResponseWrapper<Object>> res = call.execute();
-			ImgurResponseWrapper<Object> out = res.body();
+			Response<ImgurResponseWrapper<Integer>> res = call.execute();
+			ImgurResponseWrapper<Integer> out = res.body();
 
 			client.throwOnWrapperError( res );
-// TODO: address me!
-System.err.println("TODO: RETURN CORRECT AccountService.getAlbumCount DATA HERE!");
-			return (Integer)out.getData();
+			return out.getData();
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
 		} 
 	} // getAlbumCount
 
+	/**
+	 * Returns a paged list of comments associated with the given
+	 * userName, paged 50 at a time, sorted by newest-first
+	 * ACCESS: ANONYMOUS
+	 * @param userName - the name of the user to fetch comments for
+	 * @param page - the page number, starting at 0
+	 * @return A list of Comment objects
+	 * @throws ImgurApiException - something failed
+	 */
+	public List<Comment> listComments(
+			String userName,
+			int page ) throws ImgurApiException {
+		return listComments( userName, Comment.Sort.Newest, page );
+	} // listComments
+	
 	/**
 	 * Returns a paged list of comments associated with the given
 	 * userName, paged 50 at a time.
@@ -412,16 +422,18 @@ System.err.println("TODO: RETURN CORRECT AccountService.getAlbumCount DATA HERE!
 	 * userName, paged 50 at a time
 	 * ACCESS: ANONYMOUS
 	 * @param userName - the name of the user to fetch comment ids for
+	 * @param sort - a sort direction
 	 * @param page - The page number to fetch, starting at 0
 	 * @return A list of comment IDs (integers)
 	 * @throws ImgurApiException - something failed
 	 */
 	public List<Integer> listCommentIds(
 			String userName,
+			Comment.Sort sort,
 			int page ) throws ImgurApiException {
 
 		Call<ImgurResponseWrapper<List<Integer>>> call =
-				client.getApi().listAccountCommentIds( userName, page );
+				client.getApi().listAccountCommentIds( userName, sort, page );
 		try {
 			Response<ImgurResponseWrapper<List<Integer>>> res = call.execute();
 			ImgurResponseWrapper<List<Integer>> out = res.body();
@@ -442,15 +454,13 @@ System.err.println("TODO: RETURN CORRECT AccountService.getAlbumCount DATA HERE!
 	public int getCommentCount(
 				String userName ) throws ImgurApiException {
 		Call<ImgurResponseWrapper<Integer>> call =
-				client.getApi().getAccountImageCount( userName );
+				client.getApi().getAccountCommentCount( userName );
 
 		try {
 			Response<ImgurResponseWrapper<Integer>> res = call.execute();
 			ImgurResponseWrapper<Integer> out = res.body();
 
 			client.throwOnWrapperError( res );
-// TODO: address me!
-System.err.println("TODO: RETURN CORRECT AccountService.getCommentCount DATA HERE!");
 			return (Integer)out.getData();
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
@@ -526,9 +536,6 @@ System.err.println("TODO: RETURN CORRECT AccountService.getCommentCount DATA HER
 			ImgurResponseWrapper<Integer> out = res.body();
 
 			client.throwOnWrapperError( res );
-// TODO: address me!
-int foo; // to trigger a warning on the icon to remind me to come back for this
-System.err.println("TODO: RETURN CORRECT AccountService.getImageCount DATA HERE!");
 			return (Integer)out.getData();
 		} catch (IOException e) {
 			throw new ImgurApiException( e.getMessage() );
