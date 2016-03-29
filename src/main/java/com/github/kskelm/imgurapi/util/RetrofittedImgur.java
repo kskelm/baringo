@@ -51,17 +51,17 @@ public interface RetrofittedImgur {
 			@Path("username") String userName );
 
 	@GET("/3/account/{username}/gallery_favorites/{page}/{sort}")
-	Call<ImgurResponseWrapper<List<GalleryItem>>> listAccountGalleryFavorites(
+	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listAccountGalleryFavorites(
 			@Path("username") String userName,
 			@Path("page") int page,
 			@Path("sort") Account.GallerySort sort );
 
 	@GET("/3/account/{username}/favorites")
-	Call<ImgurResponseWrapper<List<GalleryItem>>> listAccountFavorites(
+	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listAccountFavorites(
 			@Path("username") String userName );
 
 	@GET("/3/account/{username}/submissions/{page}")
-	Call<ImgurResponseWrapper<List<GalleryItem>>> listAccountSubmissions(
+	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listAccountSubmissions(
 			@Path("username") String userName,
 			@Path("page") int page );
 

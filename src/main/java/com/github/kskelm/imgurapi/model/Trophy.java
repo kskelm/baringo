@@ -36,8 +36,8 @@ public class Trophy {
 	 * The machine-readable name of the trophy
 	 * @return the trophyType
 	 */
-	public String getTrophyType() {
-		return trophyType;
+	public String getType() {
+		return type;
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class Trophy {
 	private int id;
 	private String name;
 	@SerializedName("name_clean")
-	private String trophyType;
+	private String type;
 	private String description;
 	@SerializedName("data")
 	private String earnedAtId;

@@ -8,6 +8,7 @@ import com.github.kskelm.imgurapi.ImgurClient;
  */
 public class Setup {
 	public static final String TEST_USER_NAME = "kskelmapitest";
+	public static final String TEST_USER_NAME_2 = "kevinkelm";
 	public static final String TEST_ENDPOINT = "http://localhost:8080";
 	
     public Setup() {

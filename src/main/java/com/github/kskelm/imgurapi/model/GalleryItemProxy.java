@@ -16,11 +16,15 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class GalleryItemProxy {
 
+	public boolean isAlbum() {
+		return album;
+	}
+	
 	public String id;
 	public String title;
 	public String description;
 	@SerializedName("datetime")
-	public Date insertedDate;
+	public Date uploadDate;
 	public int views;
 	public String link;
 	public String vote;
@@ -38,7 +42,7 @@ public class GalleryItemProxy {
 	@SerializedName("topic_id")
 	public int topicId;
 	@SerializedName("account_url")
-	public String accountName;
+	public String userName;
 	@SerializedName("account_id")
 	public int accountId;
 	@SerializedName("type")
@@ -55,7 +59,7 @@ public class GalleryItemProxy {
 	public String webmLink;
 	public boolean looping;
 	public GalleryItem.Section section;
-	public String cover;
+	public String coverId;
 	public int coverWidth;
 	public int coverHeight;
 	public Privacy privacy;
@@ -63,7 +67,8 @@ public class GalleryItemProxy {
 	@SerializedName("images_count")
 	public int imageCount;
 	public List<Image> images;
-	public boolean is_album;
+	@SerializedName("is_album")
+	public boolean album;
 	
 
 }
