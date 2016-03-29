@@ -56,7 +56,7 @@ public class Album {
 	 * The id for the album
 	 * @return the id
 	 */
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -224,7 +224,7 @@ public class Album {
 	// INTERNAL ONLY
 	public Album() { }
 
-	private int id;
+	private String id;
 	private String title;
 	private String description;
 	@SerializedName("datetime")
