@@ -2,7 +2,7 @@ package com.github.kskelm.baringo;
 
 import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.Image;
-import com.github.kskelm.baringo.util.ImgurApiException;
+import com.github.kskelm.baringo.util.BaringoApiException;
 
 public class Main {
 
@@ -10,21 +10,27 @@ public class Main {
 	    // Optimally these would come from a property file or somesuch.
 	    String clientId = args[0];  // PUT YOUR CLIENT ID HERE!
 	    String clientSecret = args[1]; // PUT YOUR CLIENT SECRET HERE!
-		ImgurClient svc = new ImgurClient(clientId, clientSecret);
+		BaringoClient client = null;
+		try {
+			client = new BaringoClient(clientId, clientSecret);
+		} catch (BaringoApiException e1) {
+			e1.printStackTrace();
+			return;
+		}
 		
 		try {
-			Image img = svc.imageService().getImageInfo( "PgZtz0j" );
+			Image img = client.imageService().getImageInfo( "PgZtz0j" );
 			System.out.println( img );
-		} catch (ImgurApiException e) {
+		} catch (BaringoApiException e) {
 			e.printStackTrace();
 		}
 		
-		System.out.println( svc.getQuota() );
+		System.out.println( client.getQuota() );
 
 		try {
-			Account acct = svc.accountService().getAccount( "kskelmapitest" );
+			Account acct = client.accountService().getAccount( "kskelmapitest" );
 			System.out.println( acct );
-		} catch (ImgurApiException e) {
+		} catch (BaringoApiException e) {
 			e.printStackTrace();
 		}
 /*		
@@ -43,7 +49,7 @@ public class Main {
 				System.out.println( item );
 			} // for
 			
-		} catch (ImgurApiException e) {
+		} catch (BaringoApiException e) {
 			e.printStackTrace();
 		}
 */		

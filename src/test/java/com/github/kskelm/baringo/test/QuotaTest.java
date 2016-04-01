@@ -4,7 +4,7 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 import com.github.kskelm.baringo.Quota;
-import com.github.kskelm.baringo.util.ImgurApiException;
+import com.github.kskelm.baringo.util.BaringoApiException;
 
 
 public class QuotaTest extends TestCase {
@@ -13,7 +13,7 @@ public class QuotaTest extends TestCase {
 	}
 	
 	@Test
-	public void testQuotaIsSetOnCall() throws ImgurApiException {
+	public void testQuotaIsSetOnCall() throws BaringoApiException {
 		Setup setup = new Setup();
 		
 		Quota q1 = setup.getClient().getQuota();

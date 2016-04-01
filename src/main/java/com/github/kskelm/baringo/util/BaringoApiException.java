@@ -7,13 +7,13 @@ package com.github.kskelm.baringo.util;
  * @author kskelm
  *
  */
-public class ImgurApiException extends Exception {
+public class BaringoApiException extends Exception {
 
 	/**
 	 * Behaves just like every other exception constructor
 	 * @param msg - The message text for the exception
 	 */
-	public ImgurApiException( String msg ) {
+	public BaringoApiException( String msg ) {
 		super( msg );
 	}
 	
@@ -22,7 +22,7 @@ public class ImgurApiException extends Exception {
 	 * @param msg - The message text for the exception
 	 * @param httpCode - The HTTP code associated with the exception
 	 */
-	public ImgurApiException( String msg, int httpCode ) {
+	public BaringoApiException( String msg, int httpCode ) {
 		super( msg );
 		this.httpCode = httpCode;
 	}

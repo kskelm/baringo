@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
-import com.github.kskelm.baringo.util.ImgurApiException;
+import com.github.kskelm.baringo.util.BaringoApiException;
 import com.github.kskelm.baringo.util.RetrofittedImgur;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,26 +30,11 @@ import retrofit.Response;
  * @author kskelm
  *
  */
-public class ImgurClient {
+public class BaringoClient {
 
-	public static final String PROPERTY_CLIENT_ID     = "imgurclient.clientid";
-	public static final String PROPERTY_CLIENT_SECRET = "imgurclient.clientsecret";
+	public static final String PROPERTY_CLIENT_ID     = "baringoclient.clientid";
+	public static final String PROPERTY_CLIENT_SECRET = "baringoclient.clientsecret";
 	
-	/**
-	 * Construct a client.  This is necessary before using
-	 * any of the API calls.  It is advised to store clientId
-	 * and clientSecret somewhere other than in your code.
-	 * Note that logging in a user is a separate step that comes
-	 * later.
-	 * @param clientId - the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.
-	 * @param clientSecret- the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.  THIS IS A SECRET- DO NOT SHARE IT. STORE THIS IN A SECURE PLACE.
-	 */
-	public ImgurClient( String clientId, String clientSecret ) {
-		this.clientId = clientId;
-		this.clientSecret = clientSecret;
-		this.api = create();
-	} // constructor
-
 	/**
 	 * Returns the AccountService object used to execute account-related operations
 	 * @return the account service
@@ -73,7 +58,15 @@ public class ImgurClient {
 	public GalleryService galleryService() {
 		return gSvc;
 	} // galleryService
-	
+
+	/**
+	 * Returns the AuthService object used to execute gallery-related operations
+	 * @return the gallery service
+	 */
+	public AuthService authService() {
+		return authSvc;
+	} // authService
+
 	/**
 	 * Returns an object that describes the remaining quotas left over for this client
 	 * @return quota information
@@ -82,23 +75,89 @@ public class ImgurClient {
 		return quota;
 	} // getQuota
 	
-	
+	/**
+	 * As a convenience measure, return the username of the logged-in user
+	 * @return user name or null if none
+	 */
+	public String getAuthenticatedUserName() {
+		return authSvc.getAuthenticatedUserName();
+	}
+
+	/**
+	 * This is used to construct a new BaringoClient
+	 * @author kskelm
+	 *
+	 */
+	public static class Builder {
+		
+		/**
+		 * Sets the client id and secret, which are the minimum kind
+		 * of Imgur authentication.  They give you access to only the
+		 * publicly-accessible features of the site, not private details
+		 * in a specific user's account. {Link http://api.imgur.com/}
+		 * @param clientId - the client_id assigned by Imgur
+		 * @param clientSecret - the client_secret assigned by Imgur
+		 * @return This builder object
+		 */
+		public Builder clientAuth( String clientId, String clientSecret ) {
+			this._clientId = clientId;
+			this._clientSecret = clientSecret;
+			
+			return this;
+		} // clientAuth
+		
+		/**
+		 * Constructs the BaringoClient and returns it
+		 * @return The Baringo client
+		 * @throws BaringoApiException Unable to build the client
+		 */
+		public BaringoClient build() throws BaringoApiException {
+			BaringoClient client = new BaringoClient( _clientId, _clientSecret );
+			
+			return client;
+		} // build
+		
+		private String _clientId = null;
+		private String _clientSecret = null;
+	}
+
 	// =========================================================
 	
+//	/**
+//	 * Construct a client.  This is necessary before using
+//	 * any of the API calls.  It is advised to store clientId
+//	 * and clientSecret somewhere other than in your code.
+//	 * Note that logging in a user is a separate step that comes
+//	 * later.
+//	 * @param clientId - the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.
+//	 * @param clientSecret- the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.  THIS IS A SECRET- DO NOT SHARE IT. STORE THIS IN A SECURE PLACE.
+//	 * @throws BaringoApiException 
+//	 */
+	protected BaringoClient( String clientId, String clientSecret ) throws BaringoApiException {
+		if( clientId == null || clientSecret == null ) {
+			throw new BaringoApiException( "Must have clientId and clientSecret to run Baringo.  See http://api.imgur.com/");
+		} // if
+		
+		this.clientId = clientId;
+		this.clientSecret = clientSecret;
+		this.api = create();
+	} // constructor
+
+
 	protected RetrofittedImgur getApi() {
 		return api;
 	} // getApi
 
-	protected <T> void throwOnWrapperError( Response<ImgurResponseWrapper<T>> resp ) throws ImgurApiException {
+	protected <T> void throwOnWrapperError( Response<ImgurResponseWrapper<T>> resp ) throws BaringoApiException {
 		if( resp.code() != 200 ) {
-			throw new ImgurApiException( resp.raw().request().urlString()
+			throw new BaringoApiException( resp.raw().request().urlString()
 					+ ": " +  resp.message(), resp.code() );
 		} // if
 		if( resp.body() == null ) {
-			throw new ImgurApiException( "No response body found", 0 );
+			throw new BaringoApiException( "No response body found", 0 );
 		} // if
 		if( resp.body().getStatus() != 200 || !resp.body().isSuccess() ) {
-			throw new ImgurApiException( "Unknown error", resp.body().getStatus() );
+			throw new BaringoApiException( "Unknown error", resp.body().getStatus() );
 		} // if
 	} // throwOnWrapperError
 
@@ -115,6 +174,9 @@ public class ImgurClient {
 		this.aSvc = new AccountService( this, gsonBuilder );
 		this.iSvc = new ImageService( this, gsonBuilder );
 		this.gSvc = new GalleryService( this, gsonBuilder );
+		
+		this.authSvc = new AuthService( this, clientId, clientSecret );
+		
 		// build the gson object
 	    final Gson gson = gsonBuilder.create();
 	    
@@ -134,15 +196,17 @@ public class ImgurClient {
 	 * @author kskelm
 	 *
 	 */
-	class ImgurInterceptor implements Interceptor {
+	private class ImgurInterceptor implements Interceptor {
 
 		public com.squareup.okhttp.Response intercept(Chain chain) throws IOException {
 			Request  request  = chain.request();
 
 			log.fine( "API Call: " + request.url().toString() );
-			request = request.newBuilder()
-					.header( "Authorization", "Client-ID " + clientId )
-					.build();
+			request = authService().buildAuthenticatedRequest( request );
+//			request = request.newBuilder()
+//					.header( "Authorization", "Client-ID " + clientId )
+//					.header( "Authorization", "Bearer " + "9d1ec1e02c6b6fc1df19ec36146b3b8ca01b24de" )
+//					.build();
 
 			com.squareup.okhttp.Response response = chain.proceed(request);
 			
@@ -150,10 +214,6 @@ public class ImgurClient {
 			return response;
 		}
 	}
-
-	public Account getAuthenticatedAccount() {
-		return authenticatedAccount;
-	} // getAuthenticatedAccount
 
 	/**
 	 * These define the headers that return relevant quota information
@@ -245,23 +305,27 @@ public class ImgurClient {
 	 * @param url - new endpoint
 	 */
 	public static void setEndpoint( String url ) {
-		ImgurClient.apiEndpoint = url;
+		BaringoClient.apiEndpoint = url;
 	} // setEndpoint
 	
+	// =============================================
 	private RetrofittedImgur api = null;
 	private String clientId = null;
 	private String clientSecret = null;
-	private Account authenticatedAccount = null;
-	private static final Logger log = Logger.getLogger( ImgurClient.LOG_NAME );
+//	private Account authenticatedAccount = null;
+	private static final Logger log = Logger.getLogger( BaringoClient.LOG_NAME );
 	private Quota quota = new Quota();
 	
 	private AccountService aSvc = null;
 	private ImageService   iSvc = null;
 	private GalleryService gSvc = null;
 
+	private AuthService authSvc = null;
+
 	public static final String DEFAULT_IMGUR_BASE_URL = "https://api.imgur.com/";
 	public static final String LOG_NAME = "ImgurApi";
 	
 
 	private static String apiEndpoint = DEFAULT_IMGUR_BASE_URL;
-} // class ImgurClient
+
+} // class BaringoClient

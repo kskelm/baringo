@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
-import com.github.kskelm.baringo.util.ImgurApiException;
+import com.github.kskelm.baringo.util.BaringoApiException;
 import com.google.gson.GsonBuilder;
 
 import retrofit.Call;
@@ -27,9 +27,9 @@ public class ImageService {
 	 * deleteHash property will be filled in.  It will otherwise
 	 * be null
 	 * @return Image object
-	 * @throws ImgurApiException - something went pear-shaped
+	 * @throws BaringoApiException - something went pear-shaped
 	 */
-	Image getImageInfo( String id ) throws ImgurApiException {
+	Image getImageInfo( String id ) throws BaringoApiException {
 		
 		Call<ImgurResponseWrapper<Image>> call =
 				client.getApi().getImageInfo( id );
@@ -42,17 +42,17 @@ public class ImageService {
 
 			return out.getData();
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} // try-catch
 	} // getImageInfo
 
 
 	
 	// ================================================
-	protected ImageService( ImgurClient imgurClient, GsonBuilder gsonBuilder ) {
+	protected ImageService( BaringoClient imgurClient, GsonBuilder gsonBuilder ) {
 		this.client = imgurClient;
 	} // constructor
 
-	ImgurClient client = null;
+	private BaringoClient client = null;
 
 } // class AccountService

@@ -13,7 +13,7 @@ import com.github.kskelm.baringo.model.GalleryItem;
 import com.github.kskelm.baringo.model.GalleryItemProxy;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
-import com.github.kskelm.baringo.util.ImgurApiException;
+import com.github.kskelm.baringo.util.BaringoApiException;
 import com.google.gson.GsonBuilder;
 
 
@@ -40,12 +40,12 @@ public class GalleryService {
 	 * one {@link Image.Sort}
 	 * @param page - the page number to return, starting at 0
 	 * @return A list of GalleryItemProxy objects
-	 * @throws ImgurApiException - something went sideways
+	 * @throws BaringoApiException - something went sideways
 	 */
 	List<GalleryItem> getGallery(
 			GalleryImage.Section section,
 			GalleryImage.Sort sort,
-			int page ) throws ImgurApiException {
+			int page ) throws BaringoApiException {
 
 		String sectionStr = section.name().toLowerCase();
 		String sortStr = sort.name().toLowerCase();
@@ -65,7 +65,7 @@ public class GalleryService {
 			// This is so filthy that I need a shower.
 			return convertToItems( list.getData() );
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 
 	} // getGallery
@@ -91,10 +91,10 @@ public class GalleryService {
 	
 	// ================================================
 	
-	protected GalleryService( ImgurClient client, GsonBuilder gsonBuilder ) {
+	protected GalleryService( BaringoClient client, GsonBuilder gsonBuilder ) {
 		this.client = client;
 	} // constructor
 	
-	ImgurClient client = null;
+	private BaringoClient client = null;
 
 } // class AccountService

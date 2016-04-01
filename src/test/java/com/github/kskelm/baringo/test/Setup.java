@@ -1,7 +1,8 @@
 package com.github.kskelm.baringo.test;
 
 
-import com.github.kskelm.baringo.ImgurClient;
+import com.github.kskelm.baringo.BaringoClient;
+import com.github.kskelm.baringo.util.BaringoApiException;
 
 /**
  * Parent class for tests that sets up client
@@ -12,20 +13,27 @@ public class Setup {
 	public static final String TEST_ENDPOINT = "http://localhost:8080";
 	
     public Setup() {
-//        ImgurClient.setEndpoint( TEST_ENDPOINT );
-        String clientId = System.getProperty( ImgurClient.PROPERTY_CLIENT_ID );
-        String clientSecret = System.getProperty( ImgurClient.PROPERTY_CLIENT_SECRET );
-        client = new ImgurClient( clientId, clientSecret );       
+//        BaringoClient.setEndpoint( TEST_ENDPOINT );
+        String clientId = System.getProperty( BaringoClient.PROPERTY_CLIENT_ID );
+        String clientSecret = System.getProperty( BaringoClient.PROPERTY_CLIENT_SECRET );
+        try {
+			client = new BaringoClient.Builder()
+					.clientAuth( clientId, clientSecret )
+					.build();
+		} catch (BaringoApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}       
     }
 
 	/**
 	 * @return the client
 	 */
-	public ImgurClient getClient() {
+	public BaringoClient getClient() {
 		return client;
 	}
 
-	private ImgurClient client = null;
+	private BaringoClient client = null;
 
     
 }
