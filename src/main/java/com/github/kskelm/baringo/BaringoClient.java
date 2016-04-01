@@ -34,7 +34,7 @@ public class BaringoClient {
 
 	public static final String PROPERTY_CLIENT_ID     = "baringoclient.clientid";
 	public static final String PROPERTY_CLIENT_SECRET = "baringoclient.clientsecret";
-	
+
 	/**
 	 * Returns the AccountService object used to execute account-related operations
 	 * @return the account service
@@ -42,7 +42,7 @@ public class BaringoClient {
 	public AccountService accountService() {
 		return aSvc;
 	} // accountService
-	
+
 	/**
 	 * Returns the ImageService object used to execute image-related operations
 	 * @return the image service
@@ -50,7 +50,7 @@ public class BaringoClient {
 	public ImageService imageService() {
 		return iSvc;
 	} // imageService
-	
+
 	/**
 	 * Returns the GalleryService object used to execute gallery-related operations
 	 * @return the gallery service
@@ -74,7 +74,7 @@ public class BaringoClient {
 	public Quota getQuota() {
 		return quota;
 	} // getQuota
-	
+
 	/**
 	 * As a convenience measure, return the username of the logged-in user
 	 * @return user name or null if none
@@ -84,12 +84,25 @@ public class BaringoClient {
 	}
 
 	/**
+	 * Returns the Account object for the account that's currently
+	 * authenticated via OAuth2, or null if none.  This is a
+	 * convenience method that caches, since it seems like something
+	 * that might be requested frequently.
+	 * @return the current Account
+	 * @throws BaringoApiException 
+	 */
+	public Account getAuthenticatedAccount() throws BaringoApiException {
+		return authSvc.getAuthenticatedAccount();
+	}
+
+
+	/**
 	 * This is used to construct a new BaringoClient
 	 * @author kskelm
 	 *
 	 */
 	public static class Builder {
-		
+
 		/**
 		 * Sets the client id and secret, which are the minimum kind
 		 * of Imgur authentication.  They give you access to only the
@@ -102,10 +115,11 @@ public class BaringoClient {
 		public Builder clientAuth( String clientId, String clientSecret ) {
 			this._clientId = clientId;
 			this._clientSecret = clientSecret;
-			
+
 			return this;
 		} // clientAuth
-		
+
+
 		/**
 		 * Constructs the BaringoClient and returns it
 		 * @return The Baringo client
@@ -113,31 +127,31 @@ public class BaringoClient {
 		 */
 		public BaringoClient build() throws BaringoApiException {
 			BaringoClient client = new BaringoClient( _clientId, _clientSecret );
-			
+
 			return client;
 		} // build
-		
+
 		private String _clientId = null;
 		private String _clientSecret = null;
 	}
 
 	// =========================================================
-	
-//	/**
-//	 * Construct a client.  This is necessary before using
-//	 * any of the API calls.  It is advised to store clientId
-//	 * and clientSecret somewhere other than in your code.
-//	 * Note that logging in a user is a separate step that comes
-//	 * later.
-//	 * @param clientId - the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.
-//	 * @param clientSecret- the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.  THIS IS A SECRET- DO NOT SHARE IT. STORE THIS IN A SECURE PLACE.
-//	 * @throws BaringoApiException 
-//	 */
+
+	//	/**
+	//	 * Construct a client.  This is necessary before using
+	//	 * any of the API calls.  It is advised to store clientId
+	//	 * and clientSecret somewhere other than in your code.
+	//	 * Note that logging in a user is a separate step that comes
+	//	 * later.
+	//	 * @param clientId - the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.
+	//	 * @param clientSecret- the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.  THIS IS A SECRET- DO NOT SHARE IT. STORE THIS IN A SECURE PLACE.
+	//	 * @throws BaringoApiException 
+	//	 */
 	protected BaringoClient( String clientId, String clientSecret ) throws BaringoApiException {
 		if( clientId == null || clientSecret == null ) {
 			throw new BaringoApiException( "Must have clientId and clientSecret to run Baringo.  See http://api.imgur.com/");
 		} // if
-		
+
 		this.clientId = clientId;
 		this.clientSecret = clientSecret;
 		this.api = create();
@@ -166,21 +180,21 @@ public class BaringoClient {
 		client.interceptors().add(new ImgurInterceptor());
 
 		final GsonBuilder gsonBuilder = new GsonBuilder();
-	    gsonBuilder.registerTypeAdapter(Date.class, new DateAdapter());
-	    
+		gsonBuilder.registerTypeAdapter(Date.class, new DateAdapter());
+
 		// we pause right here to create the various topic-specific
-	    // services, giving them a chance to register any Gson
-	    // type adapters they're going to need.
+		// services, giving them a chance to register any Gson
+		// type adapters they're going to need.
 		this.aSvc = new AccountService( this, gsonBuilder );
 		this.iSvc = new ImageService( this, gsonBuilder );
 		this.gSvc = new GalleryService( this, gsonBuilder );
-		
+
 		this.authSvc = new AuthService( this, clientId, clientSecret );
-		
+
 		// build the gson object
-	    final Gson gson = gsonBuilder.create();
-	    
-	    // start up the API client
+		final Gson gson = gsonBuilder.create();
+
+		// start up the API client
 		GsonConverterFactory gcf = GsonConverterFactory.create( gson );
 		Retrofit retrofit = new Retrofit.Builder()
 				.baseUrl( apiEndpoint )
@@ -203,13 +217,13 @@ public class BaringoClient {
 
 			log.fine( "API Call: " + request.url().toString() );
 			request = authService().buildAuthenticatedRequest( request );
-//			request = request.newBuilder()
-//					.header( "Authorization", "Client-ID " + clientId )
-//					.header( "Authorization", "Bearer " + "9d1ec1e02c6b6fc1df19ec36146b3b8ca01b24de" )
-//					.build();
+			//			request = request.newBuilder()
+			//					.header( "Authorization", "Client-ID " + clientId )
+			//					.header( "Authorization", "Bearer " + "9d1ec1e02c6b6fc1df19ec36146b3b8ca01b24de" )
+			//					.build();
 
 			com.squareup.okhttp.Response response = chain.proceed(request);
-			
+
 			updateQuota( response );
 			return response;
 		}
@@ -226,7 +240,7 @@ public class BaringoClient {
 	private static final String HEADER_POST_CREDIT_RESET_DATE = "X-Post-Rate-Limit-Reset";
 	private static final String HEADER_POST_CREDITS_ALLOCATED = "X-Post-Rate-Limit-Limit";
 	private static final String HEADER_POST_CREDITS_AVAILABLE = "X-Post-Rate-Limit-Remaining";
-	
+
 	private void updateQuota( com.squareup.okhttp.Response response ) {
 		String val = response.header( HEADER_USER_CREDIT_RESET_DATE );
 		if( val != null ) {
@@ -269,7 +283,7 @@ public class BaringoClient {
 			quota.setPostCreditsAvailable(valInt);
 		} // if
 	} // updateQuota
-	
+
 	/**
 	 * Apparently standard Gson can't tolerate a unix timestamp
 	 * representing a date object.  That's pretty much all we care
@@ -295,7 +309,7 @@ public class BaringoClient {
 				in.nextBoolean();  // throw it away
 				return null;
 			} // if-else
-			
+
 			return new Date( in.nextLong() * 1000 );
 		}
 	} // DateAdapter
@@ -307,15 +321,15 @@ public class BaringoClient {
 	public static void setEndpoint( String url ) {
 		BaringoClient.apiEndpoint = url;
 	} // setEndpoint
-	
+
 	// =============================================
 	private RetrofittedImgur api = null;
 	private String clientId = null;
 	private String clientSecret = null;
-//	private Account authenticatedAccount = null;
+	//	private Account authenticatedAccount = null;
 	private static final Logger log = Logger.getLogger( BaringoClient.LOG_NAME );
 	private Quota quota = new Quota();
-	
+
 	private AccountService aSvc = null;
 	private ImageService   iSvc = null;
 	private GalleryService gSvc = null;
@@ -324,7 +338,7 @@ public class BaringoClient {
 
 	public static final String DEFAULT_IMGUR_BASE_URL = "https://api.imgur.com/";
 	public static final String LOG_NAME = "ImgurApi";
-	
+
 
 	private static String apiEndpoint = DEFAULT_IMGUR_BASE_URL;
 

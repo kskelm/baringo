@@ -4,12 +4,10 @@
 package com.github.kskelm.baringo.util;
 
 import java.util.List;
-import java.util.Map;
 
 import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.AccountSettings;
 import com.github.kskelm.baringo.model.Album;
-import com.github.kskelm.baringo.model.BasicResponse;
 import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.GalleryItem;
@@ -30,7 +28,6 @@ import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
-import retrofit.http.QueryMap;
 
 /**
  * @author kskelm
@@ -86,11 +83,11 @@ public interface RetrofittedImgur {
 			@Path("username") String userName );
 	
 	@GET("/3/account/{username}/verifyemail")
-	Call<ImgurResponseWrapper<Object>> isAccountVerified(
+	Call<ImgurResponseWrapper<Boolean>> isAccountVerified(
 			@Path("username") String userName );
-	// TODO: MAY REQUIRE REMOVING USERNAME FROM SIGNATURE
+	
 	@POST("/3/account/{username}/verifyemail")
-	Call<ImgurResponseWrapper<Object>> sendAccountVerificationEmail(
+	Call<ImgurResponseWrapper<Boolean>> sendAccountVerificationEmail(
 			@Path("username") String userName );
 
 	@GET("/3/account/{username}/albums/{page}")
@@ -143,10 +140,10 @@ public interface RetrofittedImgur {
 			@Path("username") String userName);
 
 	// TODO PICK UP HERE
-	@GET("/3/account/{username}/notifications/replies?new={onlyNew}")
+	@GET("/3/account/{username}/notifications/replies")
 	Call<ImgurResponseWrapper<List<Notification>>> listAccountReplyNotifications(
 			@Path("username") String userName,
-			@Query("onlyNew") boolean onlyNew );
+			@Query("new") boolean onlyNew );
 
 	
 	
@@ -172,10 +169,10 @@ public interface RetrofittedImgur {
 	// ============================================================
 	@GET("/3/gallery/{section}/{sort}/{window}/{page}?showViral={viral}")
 	Call<List<GalleryItemProxy>> getGallery(
-			@Query("page") int page,
-			@Query("section") GalleryItem.Section section,
-			@Query("sort") GalleryItem.Sort sort,
-			@Query("window") GalleryItem.Window window,
+			@Path("page") int page,
+			@Path("section") GalleryItem.Section section,
+			@Path("sort") GalleryItem.Sort sort,
+			@Path("window") GalleryItem.Window window,
 			@Query("viral") boolean viral
 			);	
 

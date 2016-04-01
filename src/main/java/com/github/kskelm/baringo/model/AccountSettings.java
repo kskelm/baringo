@@ -51,14 +51,13 @@ public class AccountSettings {
 		return publicImages;
 	}
 
-// TODO: fix me
-//	/**
-//	 * Gets the default privacy value for new albums for this user
-//	 * @return the albumPrivacy
-//	 */
-//	public AlbumPrivacy getAlbumPrivacy() {
-//		return albumPrivacy;
-//	}
+ 	/**
+	 * Gets the default privacy value for new albums for this user
+	 * @return the albumPrivacy
+	 */
+	public Album.Privacy getAlbumPrivacy() {
+		return albumPrivacy;
+	}
 
 
 	/**
@@ -123,9 +122,8 @@ public class AccountSettings {
 	private boolean highQuality;
 	@SerializedName("public_images")
 	private boolean publicImages;
-// TODO: reference Album object
-//	@SerializedName("album_privacy")
-//	private AlbumPrivacy albumPrivacy;
+	@SerializedName("album_privacy")
+	private Album.Privacy albumPrivacy;
 	@SerializedName("pro_expiration")
 	private Date proExpiration;
 	@SerializedName("accepted_gallery_terms")
@@ -139,9 +137,7 @@ public class AccountSettings {
 	@SerializedName("show_mature")
 	private boolean showMature;
 
-	public AccountSettings() {
-		System.err.println("TODO: Add Album.Privacy as albumPrivacy ");
-	}
+	public AccountSettings() {}
 
 	@Override
 	public String toString() {

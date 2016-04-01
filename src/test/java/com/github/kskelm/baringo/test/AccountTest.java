@@ -8,10 +8,13 @@ import junit.framework.TestCase;
 import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.AccountSettings;
 import com.github.kskelm.baringo.model.Album;
+import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.GalleryImage;
 import com.github.kskelm.baringo.model.GalleryItem;
 import com.github.kskelm.baringo.model.GalleryProfile;
+import com.github.kskelm.baringo.model.Image;
+import com.github.kskelm.baringo.model.Notification;
 import com.github.kskelm.baringo.model.Trophy;
 import com.github.kskelm.baringo.util.BaringoApiException;
 
@@ -41,15 +44,16 @@ public class AccountTest extends TestCase {
 
 		assertEquals( "Found 2 gallery favorites", items.size(), 2 );
 	}
-	// TODO: test case
+
 	@Test
 	public void testListFavorites() throws BaringoApiException {
-		System.err.println("TODO: must be logged in to testGetFavorites" );
-//		Setup setup = new Setup();
-//		List<GalleryItem> items = setup.getClient().accountService()
-//				.listFavorites();
-//
-//		assertEquals( "Found 2 favorites", items.size(), 2 );
+		Setup setup = new Setup();
+		setup.switchToUserAuth();
+
+		List<GalleryItem> items = setup.getClient().accountService()
+				.listFavorites();
+
+		assertEquals( "Found 2 favorites", items.size(), 2 );
 	}
 
 	@Test
@@ -82,33 +86,53 @@ public class AccountTest extends TestCase {
 		assertNotNull( "Trophy has name", t.getName() );
 		assertNotNull( "Trophy has type", t.getType() );
 	}
-	// TODO: test case
+
 	@Test
 	public void testGetAccountSettings() throws BaringoApiException {
-		System.err.println("TODO: must be logged in to testGetAccountSettings" );
 		Setup setup = new Setup();
-		setup.getClient().authService().setRefreshToken( "5a31741dada1d6caa2939127db2427fb4f0494cd" );
+		setup.switchToUserAuth();
 
 		AccountSettings settings = setup.getClient()
 				.accountService().getAccountSettings();
 
-System.out.println( settings );
+		assertEquals( "Mature works", settings.isShowMature(), true );
+		assertNotNull( "GetUserName works", settings.getUserName() );
+		assertNotNull( "Email works", settings.getEmail() );
+		assertEquals( "Album privacy works", settings.getAlbumPrivacy(), Album.Privacy.Public );
 	}
-	// TODO: test case
+
 	@Test
 	public void testSetAccountSettings() throws BaringoApiException {
-		System.err.println("TODO: must be logged in to testSetAccountSettings" );
+		Setup setup = new Setup();
+		setup.switchToUserAuth();
+
+		AccountSettings settings = setup.getClient()
+				.accountService().getAccountSettings();
+		Account acct = setup.getClient().getAuthenticatedAccount();
+
+		ChangedAccountSettings changedSettings = new ChangedAccountSettings(settings, acct );
+
+		setup.getClient().accountService().setAccountSettings(changedSettings);
 	}
-	// TODO: test case
+
 	@Test
 	public void testIsVerified() throws BaringoApiException {
-		System.err.println("TODO: must be logged in to testIsVerified" );
+		Setup setup = new Setup();
+		setup.switchToUserAuth();
+
+		// just calling it without dying is cool
+		setup.getClient().accountService().isVerified();
 	}
-	// TODO: test case
-	@Test
-	public void testSendVerificationEmail() throws BaringoApiException {
-		System.err.println("TODO: must be logged in to testSendVerificationEmail" );
-	}
+
+// I don't really want a thousand test emails.
+//	@Test
+//	public void testSendVerificationEmail() throws BaringoApiException {
+//		Setup setup = new Setup();
+//		setup.switchToUserAuth();
+//
+//		// just calling it without dying is cool
+//		setup.getClient().accountService().sendVerificationEmail();
+//	}
 
 	@Test
 	public void testListAlbums() throws BaringoApiException {
@@ -165,24 +189,50 @@ System.out.println( settings );
 
 		assertEquals( "Comment count is right", count, 1 );
 	}
-	// TODO: test case
+
 	@Test
 	public void testListImages() throws BaringoApiException {
-		System.err.println("TODO: must be logged in to testListImages" );
+		Setup setup = new Setup();
+		setup.switchToUserAuth();
+
+		List<Image> list = setup.getClient()
+				.accountService().listImages( 0 );
+		
+		assertEquals( "Image count is right", list.size(), 3 );
 	}
-	// TODO: test case
+
 	@Test
 	public void testListImageIds() throws BaringoApiException {
-		System.err.println("TODO: must be logged in to testListImageIds" );
+		Setup setup = new Setup();
+		setup.switchToUserAuth();
+
+		List<String> list = setup.getClient()
+				.accountService().listImageIds( 0 );
+		
+		assertEquals( "Image count is right", list.size(), 3 );
 	}
-	// TODO: test case
+
 	@Test
 	public void testGetImageCount() throws BaringoApiException {
-		System.err.println("TODO: must be logged in to testGetImageCount" );
+		Setup setup = new Setup();
+		setup.switchToUserAuth();
+
+		int count = setup.getClient()
+				.accountService().getImageCount();
+		
+		assertEquals( "Image count is right", count, 3 );
+
 	}
-	// TODO: test case
+
 	@Test
-	public void testListReplies() throws BaringoApiException {
-		System.err.println("TODO: must be logged in to testListReplies");
+	public void testListNotifications() throws BaringoApiException {
+		Setup setup = new Setup();
+		setup.switchToUserAuth();
+
+		List<Notification> list = setup.getClient()
+				.accountService().listNotifications( false );
+		
+		assertNotNull( "Notification list came back", list );
+
 	}
 }

@@ -17,7 +17,28 @@ import com.google.gson.annotations.SerializedName;
 
 public class ChangedAccountSettings {
 
-
+	/**
+	 * To help alleviate the assymmetry of the account settings/bio
+	 * objects, this copies AccountSettings to ChangedAccountSettings
+	 * so it's easier to make changes
+	 * NOTE: no API call from Imgur returns newsletter_subscribed so
+	 * that will get lost unless you magically know somehow.
+	 * @param src - the original AccountSettings to copy in
+	 * @param account - the Account object to get bio from
+	 */
+	public ChangedAccountSettings( AccountSettings settings, Account acct ) {
+		if( acct != null ) {
+			this.bio = acct.getBio();
+			this.userName = acct.getUserName();
+		} // if
+		if( settings != null ) {
+			this.acceptedGalleryTerms = settings.isAcceptedGalleryTerms();
+			this.messagingEnabled = settings.isMessagingEnabled();
+			this.publicImages = settings.isPublicImages();
+			this.showMature = settings.isShowMature();
+		} // if
+	}
+	
 	/**
 	 * Get the biography of the user that's displayed in the gallery profile page
 	 * @return the bio

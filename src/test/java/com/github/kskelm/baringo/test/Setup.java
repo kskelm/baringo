@@ -3,6 +3,7 @@ package com.github.kskelm.baringo.test;
 
 import com.github.kskelm.baringo.BaringoClient;
 import com.github.kskelm.baringo.util.BaringoApiException;
+import com.github.kskelm.baringo.util.BaringoAuthException;
 
 /**
  * Parent class for tests that sets up client
@@ -13,7 +14,6 @@ public class Setup {
 	public static final String TEST_ENDPOINT = "http://localhost:8080";
 	
     public Setup() {
-//        BaringoClient.setEndpoint( TEST_ENDPOINT );
         String clientId = System.getProperty( BaringoClient.PROPERTY_CLIENT_ID );
         String clientSecret = System.getProperty( BaringoClient.PROPERTY_CLIENT_SECRET );
         try {
@@ -34,6 +34,12 @@ public class Setup {
 	}
 
 	private BaringoClient client = null;
+
+	public void switchToUserAuth() throws BaringoAuthException {
+        String refreshToken = System.getProperty( "baringoclient.refreshtoken" );
+        client.authService().setRefreshToken( refreshToken );
+		
+	}
 
     
 }
