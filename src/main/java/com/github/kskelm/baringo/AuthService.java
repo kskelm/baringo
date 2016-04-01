@@ -43,6 +43,7 @@ public class AuthService {
 		return oAuth2.getRefreshToken();
 	} // setAuthorizationCode
 
+
 	/**
 	 * Returns true if the current user's OAuth2 access token
 	 * is valid.  If there is no authenticated user, 
@@ -177,6 +178,19 @@ public class AuthService {
 		return oAuth2.getUserName();
 	}
 
+	/**
+	 * Returns the currently valid refresh token.  Call this
+	 * after passing in your credentials while setting up user
+	 * authorization, <i>and store it someone securely</i>.
+	 * @return the current refresh token
+	 */
+	public String getRefreshToken() {
+		if( this.oAuth2 == null ) {
+			return null;
+		} // if
+		return this.oAuth2.getRefreshToken();
+	}
+	
 	/**
 	 * This sets the OAuth2 refresh token for user-level authentication.
 	 * Baringo synchronously contacts Imgur to get an access token.
