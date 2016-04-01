@@ -6,13 +6,14 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 import com.github.kskelm.baringo.model.Account;
+import com.github.kskelm.baringo.model.AccountSettings;
 import com.github.kskelm.baringo.model.Album;
 import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.GalleryImage;
 import com.github.kskelm.baringo.model.GalleryItem;
 import com.github.kskelm.baringo.model.GalleryProfile;
 import com.github.kskelm.baringo.model.Trophy;
-import com.github.kskelm.baringo.util.ImgurApiException;
+import com.github.kskelm.baringo.util.BaringoApiException;
 
 
 public class AccountTest extends TestCase {
@@ -21,7 +22,7 @@ public class AccountTest extends TestCase {
 	}
 
 	@Test
-	public void testGetAccount() throws ImgurApiException {
+	public void testGetAccount() throws BaringoApiException {
 		Setup setup = new Setup();
 
 		Account acct = setup.getClient().accountService().getAccount( Setup.TEST_USER_NAME );
@@ -32,7 +33,7 @@ public class AccountTest extends TestCase {
 	}
 
 	@Test
-	public void testListGalleryFavorites() throws ImgurApiException {
+	public void testListGalleryFavorites() throws BaringoApiException {
 		Setup setup = new Setup();
 		List<GalleryItem> items = setup.getClient().accountService()
 				.listGalleryFavorites(
@@ -42,7 +43,7 @@ public class AccountTest extends TestCase {
 	}
 	// TODO: test case
 	@Test
-	public void testListFavorites() throws ImgurApiException {
+	public void testListFavorites() throws BaringoApiException {
 		System.err.println("TODO: must be logged in to testGetFavorites" );
 //		Setup setup = new Setup();
 //		List<GalleryItem> items = setup.getClient().accountService()
@@ -52,7 +53,7 @@ public class AccountTest extends TestCase {
 	}
 
 	@Test
-	public void testListSubmissions() throws ImgurApiException {
+	public void testListSubmissions() throws BaringoApiException {
 		Setup setup = new Setup();
 		List<GalleryItem> list = setup.getClient()
 				.accountService().listSubmissions( Setup.TEST_USER_NAME_2, 0 );
@@ -63,7 +64,7 @@ public class AccountTest extends TestCase {
 	}
 
 	@Test
-	public void testGetGalleryProfile() throws ImgurApiException {
+	public void testGetGalleryProfile() throws BaringoApiException {
 		Setup setup = new Setup();
 		GalleryProfile prof = setup.getClient()
 				.accountService().getGalleryProfile( Setup.TEST_USER_NAME_2 );
@@ -83,27 +84,34 @@ public class AccountTest extends TestCase {
 	}
 	// TODO: test case
 	@Test
-	public void testGetAccountSettings() throws ImgurApiException {
+	public void testGetAccountSettings() throws BaringoApiException {
 		System.err.println("TODO: must be logged in to testGetAccountSettings" );
+		Setup setup = new Setup();
+		setup.getClient().authService().setRefreshToken( "5a31741dada1d6caa2939127db2427fb4f0494cd" );
+
+		AccountSettings settings = setup.getClient()
+				.accountService().getAccountSettings();
+
+System.out.println( settings );
 	}
 	// TODO: test case
 	@Test
-	public void testSetAccountSettings() throws ImgurApiException {
+	public void testSetAccountSettings() throws BaringoApiException {
 		System.err.println("TODO: must be logged in to testSetAccountSettings" );
 	}
 	// TODO: test case
 	@Test
-	public void testIsVerified() throws ImgurApiException {
+	public void testIsVerified() throws BaringoApiException {
 		System.err.println("TODO: must be logged in to testIsVerified" );
 	}
 	// TODO: test case
 	@Test
-	public void testSendVerificationEmail() throws ImgurApiException {
+	public void testSendVerificationEmail() throws BaringoApiException {
 		System.err.println("TODO: must be logged in to testSendVerificationEmail" );
 	}
 
 	@Test
-	public void testListAlbums() throws ImgurApiException {
+	public void testListAlbums() throws BaringoApiException {
 		Setup setup = new Setup();
 		List<Album> list = setup.getClient()
 				.accountService().listAlbums( Setup.TEST_USER_NAME, 0);
@@ -112,7 +120,7 @@ public class AccountTest extends TestCase {
 	}
 
 	@Test
-	public void testListAlbumIds() throws ImgurApiException {
+	public void testListAlbumIds() throws BaringoApiException {
 		Setup setup = new Setup();
 		List<String> list = setup.getClient()
 				.accountService().listAlbumIds( Setup.TEST_USER_NAME, 0);
@@ -121,7 +129,7 @@ public class AccountTest extends TestCase {
 	}
 
 	@Test
-	public void testGetAlbumCount() throws ImgurApiException {
+	public void testGetAlbumCount() throws BaringoApiException {
 		Setup setup = new Setup();
 		int count = setup.getClient()
 				.accountService().getAlbumCount( Setup.TEST_USER_NAME);
@@ -130,7 +138,7 @@ public class AccountTest extends TestCase {
 	}
 
 	@Test
-	public void testListComments() throws ImgurApiException {
+	public void testListComments() throws BaringoApiException {
 		Setup setup = new Setup();
 		List<Comment> list = setup.getClient()
 				.accountService()
@@ -140,7 +148,7 @@ public class AccountTest extends TestCase {
 	}
 
 	@Test
-	public void testListCommentIds() throws ImgurApiException {
+	public void testListCommentIds() throws BaringoApiException {
 		Setup setup = new Setup();
 		List<Integer> list = setup.getClient()
 				.accountService()
@@ -150,7 +158,7 @@ public class AccountTest extends TestCase {
 	}
 
 	@Test
-	public void testGetCommentCount() throws ImgurApiException {
+	public void testGetCommentCount() throws BaringoApiException {
 		Setup setup = new Setup();
 		int count = setup.getClient()
 				.accountService().getCommentCount( Setup.TEST_USER_NAME);
@@ -159,22 +167,22 @@ public class AccountTest extends TestCase {
 	}
 	// TODO: test case
 	@Test
-	public void testListImages() throws ImgurApiException {
+	public void testListImages() throws BaringoApiException {
 		System.err.println("TODO: must be logged in to testListImages" );
 	}
 	// TODO: test case
 	@Test
-	public void testListImageIds() throws ImgurApiException {
+	public void testListImageIds() throws BaringoApiException {
 		System.err.println("TODO: must be logged in to testListImageIds" );
 	}
 	// TODO: test case
 	@Test
-	public void testGetImageCount() throws ImgurApiException {
+	public void testGetImageCount() throws BaringoApiException {
 		System.err.println("TODO: must be logged in to testGetImageCount" );
 	}
 	// TODO: test case
 	@Test
-	public void testListReplies() throws ImgurApiException {
+	public void testListReplies() throws BaringoApiException {
 		System.err.println("TODO: must be logged in to testListReplies");
 	}
 }

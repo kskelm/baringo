@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html>
+<head>
+    <title>Baringo OAuth2 Playground</title>
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+</head>
+
+<body>
+<div id="top-bar">
+<h1>Baringo OAuth2 Playground</h1>
+</div>
+<div id="top-spacer"></div>
+<div id="page-wrap">
+<h2>Step 1: Getting an Authorization Code</h2>
+<p>
+    Hi! We're going to see if we can get auth tokens from Imgur for account-level API calls.
+</p>
+<p>
+    First, you need to have already logged into your account on Imgur in another page.
+    <a target="elsewhere" href="https://imgur.com">Go do that now</a> if you haven't already;
+    The user needs to be logged in for this to work.
+</p>
+<p>
+    ... o/` doo dee doo o/` ...
+</p>
+<p>
+    Welcome back!
+</p>
+<p>
+    All right, so now we're going to bounce from here to Imgur, passing your application's
+    clientId so Imgur knows what app is trying to access the currently-logged-in account.
+</p>
+<p>
+    You have a clientId, right?  You got it when you registered your application with Imgur.
+    You received an email with it and the clientSecret.
+    If you haven't done that yet, <a target="elsewhere" href="https://api.imgur.com/oauth2/addclient">
+    go do that now</a> and come back here.  When you register, select Authorization type "OAuth 2
+    authorization <i>with</i> a callback URL" and-- for now-- enter
+    <code>http://localhost:54321/gotcode</code> as the Authorization callback URL.
+</p>
+<p>
+    If you have already registered your app, make sure the callback URL is set as above.  You can do this
+    in the "applications" section of your <a target="elsewhere" href="https://imgur.com/account/settings/apps">
+    Imgur Account Settings</a>.
+</p>
+<p>
+    Now to make a request to Imgur to get an authorization code, we need to send your application's
+    clientId <i>(NOT the clientSecret)</i>.
+</p>
+<p>
+    <form method="GET" action="https://api.imgur.com/oauth2/authorize">
+        Your app's clientId: <input id="client-id-field" name="client_id" type="text"/>
+<br/><br/>
+    When you click the button, the page is going to visit:
+    <pre>https://api.imgur.com/oauth2/authorize?response_type=code&client_id=YOUR_CLIENT_ID_GOES_HERE</pre>
+<br/>
+        <input name="response_type" type="hidden" value="code"/>
+        <input class="submit" type="submit" value="Ask Imgur for an auth code"/>
+    </form>
+</p>
+</div>
+</body>
+</html>

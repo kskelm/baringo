@@ -18,7 +18,8 @@ import com.github.kskelm.baringo.model.GalleryProfile;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.Notification;
-import com.github.kskelm.baringo.util.ImgurApiException;
+import com.github.kskelm.baringo.util.BaringoApiException;
+import com.github.kskelm.baringo.util.BaringoAuthException;
 import com.google.gson.GsonBuilder;
 
 import retrofit.Call;
@@ -39,9 +40,9 @@ public class AccountService {
 	 * ACCESS: ANONYMOUS
 	 * @param userName - the name of the account
 	 * @return Account object
-	 * @throws ImgurApiException - something went pear-shaped
+	 * @throws BaringoApiException - something went pear-shaped
 	 */
-	public Account getAccount( String userName ) throws ImgurApiException {
+	public Account getAccount( String userName ) throws BaringoApiException {
 		Call<ImgurResponseWrapper<Account>> call =
 				client.getApi().getAccount( userName );
 
@@ -52,7 +53,7 @@ public class AccountService {
 
 			return out.getData();
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // getAccount
 
@@ -67,10 +68,10 @@ public class AccountService {
 	 * @param userName - the userName to return gallery items for
 	 * @param page - page number of results to return, starting at 0
 	 * @return a list of gallery items
-	 * @throws ImgurApiException - something went wrong
+	 * @throws BaringoApiException - something went wrong
 	 */
 	public List<GalleryItem> listGalleryFavorites( String userName,
-			int page ) throws ImgurApiException {
+			int page ) throws BaringoApiException {
 
 		return listGalleryFavorites( userName, page, Account.GallerySort.newest);
 	} // listFavorites
@@ -86,12 +87,12 @@ public class AccountService {
 	 * @param sort - the sort direction for results
 	 * @param page - the page number to return starting at 0
 	 * @return a list of gallery items
-	 * @throws ImgurApiException - something went wrong
+	 * @throws BaringoApiException - something went wrong
 	 */
 	public List<GalleryItem> listGalleryFavorites( String userName,
 			int page,
 			Account.GallerySort sort
-			) throws ImgurApiException {
+			) throws BaringoApiException {
 		Call<ImgurResponseWrapper<List<GalleryItemProxy>>> call =
 				client.getApi().listAccountGalleryFavorites( userName, page, sort );
 
@@ -103,7 +104,7 @@ public class AccountService {
 
 			return client.galleryService().convertToItems( out.getData() );
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // listFavorites
 
@@ -115,16 +116,16 @@ public class AccountService {
 	 * to more specific fields.
 	 * ACCESS: AUTHENTICATED USER
 	 * @return a list of gallery items
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
-	public List<GalleryItem> listFavorites() throws ImgurApiException {
-		Account acct = client.getAuthenticatedAccount();
-		if( acct == null ) {
-			throw new ImgurApiException( "No user logged in", 401 );
+	public List<GalleryItem> listFavorites() throws BaringoApiException {
+		String userName = client.getAuthenticatedUserName();
+		if( userName == null ) {
+			throw new BaringoAuthException( "No user logged in", 401 );
 		} // if
 
 		Call<ImgurResponseWrapper<List<GalleryItemProxy>>> call =
-				client.getApi().listAccountFavorites( acct.getUserName() );
+				client.getApi().listAccountFavorites( userName );
 
 		try {
 			Response<ImgurResponseWrapper<List<GalleryItemProxy>>> res = call.execute();
@@ -134,7 +135,7 @@ public class AccountService {
 
 			return client.galleryService().convertToItems( out.getData() );
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // listFavorites
 
@@ -148,10 +149,10 @@ public class AccountService {
 	 * @param userName - name of the user to get favorites for
 	 * @param page - the page number to return starting at 0
 	 * @return a list of gallery items
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public List<GalleryItem> listSubmissions( String userName,
-			int page ) throws ImgurApiException {
+			int page ) throws BaringoApiException {
 		Call<ImgurResponseWrapper<List<GalleryItemProxy>>> call =
 				client.getApi().listAccountSubmissions( userName, page );
 
@@ -163,7 +164,7 @@ public class AccountService {
 
 			return client.galleryService().convertToItems( out.getData() );
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // listSubmissions
 
@@ -171,16 +172,16 @@ public class AccountService {
 	 * Return the settings on the currently authenticated account.
 	 * ACCESS: AUTHENTICATED USER
 	 * @return The account's settings
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
-	public AccountSettings getAccountSettings() throws ImgurApiException {
-		Account acct = client.getAuthenticatedAccount() ;
-		if( acct == null ) {
-			throw new ImgurApiException( "No user logged in", 401 );
+	public AccountSettings getAccountSettings() throws BaringoApiException {
+		String userName = client.getAuthenticatedUserName();
+		if( userName == null ) {
+			throw new BaringoAuthException( "No user logged in", 401 );
 		} // if
 
 		Call<ImgurResponseWrapper<AccountSettings>> call =
-				client.getApi().getAccountSettings( acct.getUserName() );
+				client.getApi().getAccountSettings( userName );
 
 		try {
 			Response<ImgurResponseWrapper<AccountSettings>> res = call.execute();
@@ -190,7 +191,7 @@ public class AccountService {
 
 			return out.getData();
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // getAccountSettings
 
@@ -198,23 +199,23 @@ public class AccountService {
 	 * Saves the settings on the currently authenticated account.
 	 * ACCESS: AUTHENTICATED USER
 	 * @param settings - the settings to save
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
-	public void setAccountSettings( ChangedAccountSettings settings ) throws ImgurApiException {
-		Account acct = client.getAuthenticatedAccount() ;
-		if( acct == null ) {
-			throw new ImgurApiException( "No user logged in", 401 );
+	public void setAccountSettings( ChangedAccountSettings settings ) throws BaringoApiException {
+		String userName = client.getAuthenticatedUserName();
+		if( userName == null ) {
+			throw new BaringoAuthException( "No user logged in", 401 );
 		} // if
 
 		Call<ImgurResponseWrapper<Object>> call =
-				client.getApi().setAccountSettings( acct.getUserName(), settings );
+				client.getApi().setAccountSettings( userName, settings );
 
 		try {
 			Response<ImgurResponseWrapper<Object>> res = call.execute();
 			client.throwOnWrapperError( res );
 			
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // setAccountSettings
 
@@ -223,9 +224,9 @@ public class AccountService {
 	 * ACCESS: ANONYMOUS
 	 * @param userName the userName for the account to return the profile of
 	 * @return The account's GalleryProfile
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
-	public GalleryProfile getGalleryProfile( String userName) throws ImgurApiException {
+	public GalleryProfile getGalleryProfile( String userName) throws BaringoApiException {
 		Call<ImgurResponseWrapper<GalleryProfile>> call =
 				client.getApi().getAccountGalleryProfile( userName );
 
@@ -237,7 +238,7 @@ public class AccountService {
 
 			return out.getData();
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // getGalleryProfile
 
@@ -246,16 +247,16 @@ public class AccountService {
 	 * email address has been verified.
 	 * ACCESS: AUTHENTICATED USER
 	 * @return The account's GalleryProfile
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
-	public boolean isVerified() throws ImgurApiException {
-		Account acct = client.getAuthenticatedAccount() ;
-		if( acct == null ) {
-			throw new ImgurApiException( "No user logged in", 401 );
+	public boolean isVerified() throws BaringoApiException {
+		String userName = client.getAuthenticatedUserName();
+		if( userName == null ) {
+			throw new BaringoAuthException( "No user logged in", 401 );
 		} // if
 
 		Call<ImgurResponseWrapper<Object>> call =
-				client.getApi().isAccountVerified( acct.getUserName() );
+				client.getApi().isAccountVerified( userName );
 
 		try {
 			Response<ImgurResponseWrapper<Object>> res = call.execute();
@@ -267,23 +268,23 @@ int foo;
 System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS SHOULD BE");
 			return out.equals( true );
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // isVerified
 
 	/**
 	 * Initiates re-sending of the verification email.
 	 * ACCESS: AUTHENTICATED USER
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
-	public void sendVerificationEmail() throws ImgurApiException {
-		Account acct = client.getAuthenticatedAccount() ;
-		if( acct == null ) {
-			throw new ImgurApiException( "No user logged in", 401 );
+	public void sendVerificationEmail() throws BaringoApiException {
+		String userName = client.getAuthenticatedUserName();
+		if( userName == null ) {
+			throw new BaringoAuthException( "No user logged in", 401 );
 		} // if
 
 		Call<ImgurResponseWrapper<Object>> call =
-				client.getApi().sendAccountVerificationEmail( acct.getUserName() );
+				client.getApi().sendAccountVerificationEmail( userName );
 
 		try {
 			Response<ImgurResponseWrapper<Object>> res = call.execute();
@@ -292,7 +293,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			res.body();
 			client.throwOnWrapperError( res );
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // sendVerificationEmail
 
@@ -303,11 +304,11 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * @param userName - the name of the user to fetch albums for
 	 * @param page - the page number, starting at 0
 	 * @return A list of Album objects
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public List<Album> listAlbums(
 			String userName,
-			int page ) throws ImgurApiException {
+			int page ) throws BaringoApiException {
 
 		Call<ImgurResponseWrapper<List<Album>>> call =
 				client.getApi().listAccountAlbums( userName, page );
@@ -319,7 +320,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			return out.getData();
 			
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // listAlbums
 
@@ -330,11 +331,11 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * @param userName - the name of the user to fetch album ids for
 	 * @param page - The page number to fetch, starting at 0
 	 * @return A list of album IDs (integers)
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public List<String> listAlbumIds(
 			String userName,
-			int page ) throws ImgurApiException {
+			int page ) throws BaringoApiException {
 
 		Call<ImgurResponseWrapper<List<String>>> call =
 				client.getApi().listAccountAlbumIds( userName, page );
@@ -344,7 +345,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			client.throwOnWrapperError( res );
 			return out.getData();
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // listAlbumIds
 
@@ -354,10 +355,10 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * ACCESS: ANONYMOUS
 	 * @param userName - The name of the user to fetch an album count for
 	 * @return Integer - the number of albums the user owns
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public int getAlbumCount(
-				String userName ) throws ImgurApiException {
+				String userName ) throws BaringoApiException {
 
 		Call<ImgurResponseWrapper<Integer>> call =
 				client.getApi().getAccountAlbumCount( userName );
@@ -369,7 +370,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			client.throwOnWrapperError( res );
 			return out.getData();
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // getAlbumCount
 
@@ -380,11 +381,11 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * @param userName - the name of the user to fetch comments for
 	 * @param page - the page number, starting at 0
 	 * @return A list of Comment objects
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public List<Comment> listComments(
 			String userName,
-			int page ) throws ImgurApiException {
+			int page ) throws BaringoApiException {
 		return listComments( userName, Comment.Sort.Newest, page );
 	} // listComments
 	
@@ -396,12 +397,12 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * @param sort - a sort direction
 	 * @param page - the page number, starting at 0
 	 * @return A list of Comment objects
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public List<Comment> listComments(
 			String userName,
 			Comment.Sort sort,
-			int page ) throws ImgurApiException {
+			int page ) throws BaringoApiException {
 
 		Call<ImgurResponseWrapper<List<Comment>>> call =
 				client.getApi().listAccountComments( userName, sort, page );
@@ -413,7 +414,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			return out.getData();
 			
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // listComments
 	
@@ -425,12 +426,12 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * @param sort - a sort direction
 	 * @param page - The page number to fetch, starting at 0
 	 * @return A list of comment IDs (integers)
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public List<Integer> listCommentIds(
 			String userName,
 			Comment.Sort sort,
-			int page ) throws ImgurApiException {
+			int page ) throws BaringoApiException {
 
 		Call<ImgurResponseWrapper<List<Integer>>> call =
 				client.getApi().listAccountCommentIds( userName, sort, page );
@@ -440,7 +441,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			client.throwOnWrapperError( res );
 			return out.getData();
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // listCommentIds
 
@@ -449,10 +450,10 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * owns.
 	 * @param userName - The name of the user to fetch a comment count for
 	 * @return int - the number of comments the user owns
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public int getCommentCount(
-				String userName ) throws ImgurApiException {
+				String userName ) throws BaringoApiException {
 		Call<ImgurResponseWrapper<Integer>> call =
 				client.getApi().getAccountCommentCount( userName );
 
@@ -463,7 +464,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			client.throwOnWrapperError( res );
 			return (Integer)out.getData();
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // getCommentCount
 	
@@ -474,11 +475,11 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * @param userName - the name of the user to fetch images for
 	 * @param page - the page number, starting at 0
 	 * @return A list of Image objects
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public List<Image> listImages(
 			String userName,
-			int page ) throws ImgurApiException {
+			int page ) throws BaringoApiException {
 
 		Call<ImgurResponseWrapper<List<Image>>> call =
 				client.getApi().listAccountImages( userName, page );
@@ -490,7 +491,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			return out.getData();
 			
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // listImages
 	
@@ -501,11 +502,11 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * @param userName - the name of the user to fetch image ids for
 	 * @param page - The page number to fetch, starting at 0
 	 * @return A list of Image IDs (strings)
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public List<String> listImageIds(
 			String userName,
-			int page ) throws ImgurApiException {
+			int page ) throws BaringoApiException {
 
 		Call<ImgurResponseWrapper<List<String>>> call =
 				client.getApi().listAccountImageIds( userName, page );
@@ -515,7 +516,7 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			client.throwOnWrapperError( res );
 			return out.getData();
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // listImageIds
 	
@@ -524,10 +525,10 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 	 * owns.
 	 * @param userName - The name of the user to fetch a image count for
 	 * @return int - the number of images the user owns
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
 	public int getImageCount(
-				String userName ) throws ImgurApiException {
+				String userName ) throws BaringoApiException {
 		Call<ImgurResponseWrapper<Integer>> call =
 				client.getApi().getAccountImageCount( userName );
 
@@ -538,27 +539,23 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			client.throwOnWrapperError( res );
 			return (Integer)out.getData();
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // getImageCount
 	
 	/**
 	 * Returns a list of notifications to the given account
 	 * ACCESS: AUTHENTICATED USER
-	 * @param userName - the name of the user to fetch images for
 	 * @param onlyNew - true if the request is for only the unviewed notifications
 	 * @return A list of Notification objects
-	 * @throws ImgurApiException - something failed
+	 * @throws BaringoApiException - something failed
 	 */
-	public List<Notification> listNotifications(
-			String userName,
-			boolean onlyNew ) throws ImgurApiException {
-
-		Account acct = client.getAuthenticatedAccount();
-		if( acct == null ) {
-			throw new ImgurApiException( "No user logged in", 401 );
+	public List<Notification> listNotifications( boolean onlyNew ) throws BaringoApiException {
+		String userName = client.getAuthenticatedUserName();
+		if( userName == null ) {
+			throw new BaringoAuthException( "No user logged in", 401 );
 		} // if
-
+		
 		Call<ImgurResponseWrapper<List<Notification>>> call =
 				client.getApi().listAccountReplyNotifications( userName, onlyNew );
 
@@ -569,16 +566,16 @@ System.err.println("TODO: INSPECT ACTUAL isVerified() RESPONSE TO SEE WHAT THIS 
 			return out.getData();
 			
 		} catch (IOException e) {
-			throw new ImgurApiException( e.getMessage() );
+			throw new BaringoApiException( e.getMessage() );
 		} 
 	} // listNotifications
 
 	// ================================================
 
-	public AccountService(ImgurClient imgurClient, GsonBuilder gsonBuilder) {
+	protected AccountService(BaringoClient imgurClient, GsonBuilder gsonBuilder) {
 		this.client = imgurClient;
 	}
 
-	ImgurClient client = null;
+	private BaringoClient client = null;
 
 } // class AccountService

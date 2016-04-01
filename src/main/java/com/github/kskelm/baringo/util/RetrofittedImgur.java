@@ -4,10 +4,12 @@
 package com.github.kskelm.baringo.util;
 
 import java.util.List;
+import java.util.Map;
 
 import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.AccountSettings;
 import com.github.kskelm.baringo.model.Album;
+import com.github.kskelm.baringo.model.BasicResponse;
 import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.GalleryItem;
@@ -16,14 +18,19 @@ import com.github.kskelm.baringo.model.GalleryProfile;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.Notification;
+import com.github.kskelm.baringo.model.OAuth2;
 
 import retrofit.Call;
 import retrofit.http.Body;
+import retrofit.http.Field;
+import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
+import retrofit.http.HEAD;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.http.QueryMap;
 
 /**
  * @author kskelm
@@ -172,11 +179,39 @@ public interface RetrofittedImgur {
 			@Query("viral") boolean viral
 			);	
 
-	@GET("/3/gallery/{section}/{sort}/{page}.json")
+	@GET("/3/gallery/{section}/{sort}/{page}")
 	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> getGallery(
 			@Path("section") String section,
 			@Path("sort") String sort,
 			@Path("page") int page );	
+
+	
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// AUTHENTICATION CALLS
+	// ============================================================
+	@FormUrlEncoded
+	@POST("/oauth2/token")
+	Call<OAuth2> tradeAuthCodeForTokens(
+			@Field("client_id") String clientId,
+			@Field("client_secret") String clientSecret,
+			@Field("grant_type") String grantType,
+			@Field("code") String code );
+
+	// returns 200 OK if the token is still good
+	@HEAD("/oauth2/secret")
+	Call<Object> validateToken();
+	
+	@FormUrlEncoded
+	@POST("/oauth2/token")
+	Call<OAuth2> refreshAccessToken(
+			@Field("client_id") String clientId,
+			@Field("client_secret") String clientSecret,
+			@Field("grant_type") String grantType,
+			@Field("refresh_token") String refreshToken );
 
 } // interface RetrofittedImgur
 
