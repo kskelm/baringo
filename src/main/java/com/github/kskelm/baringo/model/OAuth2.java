@@ -80,7 +80,7 @@ public class OAuth2 {
 
 	/**
 	 * Returns the date/time when the access token expires, subject
-	 * to the same conditions as {Ssee getExpiresIn}
+	 * to the same conditions as {link #getExpiresIn}
 	 * @return the date/time on which the access token expires
 	 */
 	public Date getExpiresOn() {

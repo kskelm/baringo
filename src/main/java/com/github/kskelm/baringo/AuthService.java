@@ -5,15 +5,14 @@ package com.github.kskelm.baringo;
 
 import java.io.IOException;
 
+import com.squareup.okhttp.Request;
+import retrofit.Call;
+import retrofit.Response;
+
 import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.OAuth2;
 import com.github.kskelm.baringo.util.BaringoApiException;
 import com.github.kskelm.baringo.util.BaringoAuthException;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.ResponseBody;
-
-import retrofit.Call;
-import retrofit.Response;
 
 
 /**
@@ -38,11 +37,48 @@ public class AuthService {
 	 */
 	public String setAuthorizationCode( String authCode ) throws BaringoAuthException {
 		this.oAuth2 = null;
+		this.authenticatedAccount = null;
 
 		tradeAuthCodeForTokens( authCode );
 		return oAuth2.getRefreshToken();
 	} // setAuthorizationCode
 
+	/**
+	 * Returns true if the current user's OAuth2 access token
+	 * is valid.  If there is no authenticated user, 
+	 * @return
+	 * @throws BaringoAuthException
+	 */
+	public boolean isAccessTokenValid()  throws BaringoAuthException {
+		if( oAuth2 == null ) {
+			return false;
+		} // if
+		Call<Object> call =
+				client.getApi().validateToken();
+		
+		try {
+			Response<Object> res = call.execute();
+			return res.code() == 200;
+		} catch (IOException e) {
+			return false;
+		} // try-catch
+	} // isAccessTokenValid
+	
+	public Account getAuthenticatedAccount() throws BaringoApiException {
+		if( oAuth2 == null ) {
+			return null;
+		} // if
+		if( authenticatedAccount != null ) {
+			return authenticatedAccount;
+		} // if
+		
+		authenticatedAccount = client.accountService().getAccount( oAuth2.getUserName() );
+		return authenticatedAccount;
+	}
+
+	
+	// =======================================================
+	
 	protected Request buildAuthenticatedRequest(Request request) {
 		if( oAuth2 != null && oAuth2.getAccessToken() != null ) {
 			request = request.newBuilder()
@@ -74,18 +110,6 @@ public class AuthService {
 		} 
 
 	} // tradeAuthCodeForTokens
-	
-	private boolean isAccessTokenValid()  throws BaringoApiException {
-		Call<Object> call =
-				client.getApi().validateToken();
-		
-		try {
-			Response<Object> res = call.execute();
-			return res.code() == 200;
-		} catch (IOException e) {
-			return false;
-		} // try-catch
-	} // isAccessTokenValid
 	
 	private boolean updateAccessToken() throws BaringoAuthException {
 		if( oAuth2 != null && !oAuth2.isExpiringSoon() ) {
@@ -157,12 +181,6 @@ public class AuthService {
 	 * This sets the OAuth2 refresh token for user-level authentication.
 	 * Baringo synchronously contacts Imgur to get an access token.
 	 * Each client instance can have only one authenticated user at a time.
-	 * @param userKey - any identifier for the user that is useful
-	 *    for when the callback is notified.  This can be used to
-	 *    store perhaps a database identifier for the user so you
-	 *    don't need to look up the user by their tokens. Null is 
-	 *    okay if you don't need one.
-	 * @param accessToken - The user's last-known-good access token
 	 * @param refreshToken - The user's refresh token.
 	 * @throws BaringoAuthException couldn't fetch an access token
 	 */
@@ -170,6 +188,8 @@ public class AuthService {
 
 		this.refreshToken = refreshToken;
 		this.oAuth2 = null;
+		this.authenticatedAccount = null;
+		
 		updateAccessToken();	
 	} // setRefreshToken
 
@@ -179,7 +199,8 @@ public class AuthService {
 	private String clientId = null;
 	private String clientSecret = null;
 	private OAuth2 oAuth2 = null;
-
+	private Account authenticatedAccount = null;
+	
 	private String refreshToken = null;
 
 	protected AuthService( BaringoClient client, String clientId, String clientSecret ) {
