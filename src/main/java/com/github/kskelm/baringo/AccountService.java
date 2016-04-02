@@ -29,14 +29,11 @@ import retrofit.Response;
 /**
  * @author kskelm
  *
- * This class is not meant to be seen by human eyes.
  */
 public class AccountService {
 
 	/**
 	 * Given an account name, return the Account object for it.
-	 * Note that some accounts cannot be returned, notably ones
-	 * that authenticate in via external systems such as Facebook.
 	 * ACCESS: ANONYMOUS
 	 * @param userName - the name of the account
 	 * @return Account object
@@ -177,7 +174,7 @@ public class AccountService {
 	public AccountSettings getAccountSettings() throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
 		if( userName == null ) {
-			throw new BaringoAuthException( "No user logged in", 401 );
+			throw new BaringoAuthException( "No user logged in", 403 );
 		} // if
 
 		Call<ImgurResponseWrapper<AccountSettings>> call =
@@ -204,7 +201,7 @@ public class AccountService {
 	public void setAccountSettings( ChangedAccountSettings settings ) throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
 		if( userName == null ) {
-			throw new BaringoAuthException( "No user logged in", 401 );
+			throw new BaringoAuthException( "No user logged in", 403 );
 		} // if
 
 		Call<ImgurResponseWrapper<Object>> call =
@@ -252,7 +249,7 @@ public class AccountService {
 	public boolean isVerified() throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
 		if( userName == null ) {
-			throw new BaringoAuthException( "No user logged in", 401 );
+			throw new BaringoAuthException( "No user logged in", 403 );
 		} // if
 
 		Call<ImgurResponseWrapper<Boolean>> call =
@@ -278,7 +275,7 @@ public class AccountService {
 	public boolean sendVerificationEmail() throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
 		if( userName == null ) {
-			throw new BaringoAuthException( "No user logged in", 401 );
+			throw new BaringoAuthException( "No user logged in", 403 );
 		} // if
 
 		Call<ImgurResponseWrapper<Boolean>> call =

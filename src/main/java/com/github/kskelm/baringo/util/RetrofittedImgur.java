@@ -4,10 +4,12 @@
 package com.github.kskelm.baringo.util;
 
 import java.util.List;
+import java.util.Map;
 
 import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.AccountSettings;
 import com.github.kskelm.baringo.model.Album;
+import com.github.kskelm.baringo.model.BasicResponse;
 import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.GalleryItem;
@@ -20,6 +22,7 @@ import com.github.kskelm.baringo.model.OAuth2;
 
 import retrofit.Call;
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -146,18 +149,45 @@ public interface RetrofittedImgur {
 			@Query("new") boolean onlyNew );
 
 	
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ALBUM CALLS
+	// ============================================================
 	
-	// ============================================================
-	// ============================================================
-	// ============================================================
-	// ============================================================
-	// ============================================================
-	// IMAGE CALLS
-	// ============================================================
+	@GET("/3/album/{albumId}")
+	Call<ImgurResponseWrapper<Album>> getAlbum(
+			@Path("albumId") String albumId );
 
-	@GET("/3/image/{id}")
-	Call<ImgurResponseWrapper<Image>> getImageInfo(
-			@Path("id") String id );
+	@GET("/3/album/{albumId}/images")
+	Call<ImgurResponseWrapper<List<Image>>> getAlbumImages( @Path("albumId") String albumId );
+
+	@POST("/3/album/")
+	Call<BasicResponse<Map<String,String>>> createAlbum( @Body() Album album );
+	
+	@POST("/3/album/{albumId}")
+	Call<BasicResponse<Boolean>> updateAlbum(
+			@Path("albumId") String albumId,
+			@Body() Album album );
+
+	@DELETE("/3/album/{albumId}")
+	Call<BasicResponse<Boolean>> deleteAlbum( @Path("albumId") String albumId );
+
+	@GET("/3/album/{albumId}/favorite")
+	Call<BasicResponse<Object>> toggleAlbumFavorite( @Path("albumId") String albumId );
+
+	@FormUrlEncoded
+	@PUT("/3/album/{albumId}/add")
+	Call<BasicResponse<Boolean>> addAlbumImageIds(
+			@Path("albumId") String albumId,
+			@Field("ids") List<String> ids );
+
+	@DELETE("/3/album/{albumId}/remove_images")
+	Call<BasicResponse<Boolean>> deleteAlbumImageIds(
+			@Path("albumId") String albumId,
+			@Query("ids") String ids );
 
 	
 	// ============================================================
@@ -182,6 +212,19 @@ public interface RetrofittedImgur {
 			@Path("sort") String sort,
 			@Path("page") int page );	
 
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// IMAGE CALLS
+	// ============================================================
+
+	@GET("/3/image/{id}")
+	Call<ImgurResponseWrapper<Image>> getImageInfo(
+			@Path("id") String id );
+
+	
 	
 	// ============================================================
 	// ============================================================

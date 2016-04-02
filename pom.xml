@@ -37,5 +37,15 @@
          <artifactId>google-oauth-client</artifactId>
          <version>1.21.0</version>
       </dependency>
+      <dependency>
+    <groupId>com.squareup.okhttp</groupId>
+    <artifactId>logging-interceptor</artifactId>
+    <version>2.7.5</version>    
+</dependency>
+          <dependency>
+    <groupId>commons-beanutils</groupId>
+    <artifactId>commons-beanutils-core</artifactId>
+    <version>1.8.3</version>
+</dependency>
    </dependencies>
 </project>

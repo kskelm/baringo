@@ -11,6 +11,12 @@ import com.github.kskelm.baringo.util.BaringoAuthException;
 public class Setup {
 	public static final String TEST_USER_NAME = "kskelmapitest";
 	public static final String TEST_USER_NAME_2 = "kevinkelm";
+	
+	public static final String TEST_ALBUM_ID = "tZz2i";
+
+	public static final String TEST_IMAGE_ID = "bHEb5Sw";
+	public static final String TEST_IMAGE_ID_2 = "wH8KZXs";
+	
 	public static final String TEST_ENDPOINT = "http://localhost:8080";
 	
     public Setup() {
@@ -21,7 +27,6 @@ public class Setup {
 					.clientAuth( clientId, clientSecret )
 					.build();
 		} catch (BaringoApiException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}       
     }
