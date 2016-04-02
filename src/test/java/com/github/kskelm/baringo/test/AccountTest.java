@@ -124,7 +124,7 @@ public class AccountTest extends TestCase {
 		setup.getClient().accountService().isVerified();
 	}
 
-// I don't really want a thousand test emails.
+// I checked, this works. I don't really want a thousand test emails.
 //	@Test
 //	public void testSendVerificationEmail() throws BaringoApiException {
 //		Setup setup = new Setup();
