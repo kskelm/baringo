@@ -83,21 +83,19 @@
     As an aside, more interesting oAuth stuff is available from:
 </p>
     <pre>
-    String refreshToken = client.authService().getOAuth2().getRefreshToken();
+    String refreshToken = client.authService().getOAuth2();
     </pre>
 <p>   
     Anyway, Baringo manages access tokens passively; when you hand it credentials of some sort,
     it pre-emptively pings the Imgur servers to get a known-good access token and its expiration.
     Instead of internally re-authenticating after a failed API call attempt after an access token
-    expires, it checks to see if the token is going to expire <i>soon</i> and pro-actively fetches
+    expires, it checks to see if the token is going to expire <i>soon</i> and proactively fetches
     a new one so the API calls themselves can stay simple.  If this turns into a problem for some
     reason, we'll change it up and do active token management.
 </p>
 <p> 
     So that's it!  You should have enough now to understand the basics of how OAuth2 works in general,
     and how it work with Imgur in specific.
-</p>
-<p> 
     You can use this tool to regenerate refresh tokens for different users for your debugging and
     experimentation.
 </p>

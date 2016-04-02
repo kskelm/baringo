@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import com.github.kskelm.baringo.model.Account;
-import com.github.kskelm.baringo.model.BasicResponse;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.util.BaringoApiException;
 import com.github.kskelm.baringo.util.RetrofittedImgur;
@@ -21,8 +20,6 @@ import com.google.gson.stream.JsonWriter;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-//import com.squareup.okhttp.logging.HttpLoggingInterceptor;
-//import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
 
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -43,23 +40,15 @@ public class BaringoClient {
 	 * @return the account service
 	 */
 	public AccountService accountService() {
-		return acctSvc;
+		return aSvc;
 	} // accountService
-
-	/**
-	 * Returns the AlbumService object used to execute album-related operations
-	 * @return the account service
-	 */
-	public AlbumService albumService() {
-		return albSvc;
-	} // albumService
 
 	/**
 	 * Returns the ImageService object used to execute image-related operations
 	 * @return the image service
 	 */
 	public ImageService imageService() {
-		return imgSvc;
+		return iSvc;
 	} // imageService
 
 	/**
@@ -67,7 +56,7 @@ public class BaringoClient {
 	 * @return the gallery service
 	 */
 	public GalleryService galleryService() {
-		return galSvc;
+		return gSvc;
 	} // galleryService
 
 	/**
@@ -186,38 +175,19 @@ public class BaringoClient {
 		} // if
 	} // throwOnWrapperError
 
-	protected <T> void throwOnBasicWrapperError( Response<BasicResponse<T>> resp ) throws BaringoApiException {
-		if( resp.code() != 200 ) {
-			throw new BaringoApiException( resp.raw().request().urlString()
-					+ ": " +  resp.message(), resp.code() );
-		} // if
-		if( resp.body() == null ) {
-			throw new BaringoApiException( "No response body found", 0 );
-		} // if
-		if( resp.body().getStatus() != 200 || !resp.body().isSuccess() ) {
-			throw new BaringoApiException( "Unknown error", resp.body().getStatus() );
-		} // if
-	} // throwOnBasicWrapperError
-
 	private RetrofittedImgur create() {
 		OkHttpClient client = new OkHttpClient();
 		client.interceptors().add(new ImgurInterceptor());
 
-//		// super useful
-//		HttpLoggingInterceptor logging = new HttpLoggingInterceptor();  
-//		logging.setLevel(Level.BODY);
-//		client.interceptors().add( logging );
-		
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateAdapter());
 
 		// we pause right here to create the various topic-specific
 		// services, giving them a chance to register any Gson
 		// type adapters they're going to need.
-		this.acctSvc = new AccountService( this, gsonBuilder );
-		this.albSvc = new AlbumService( this, gsonBuilder );
-		this.imgSvc = new ImageService( this, gsonBuilder );
-		this.galSvc = new GalleryService( this, gsonBuilder );
+		this.aSvc = new AccountService( this, gsonBuilder );
+		this.iSvc = new ImageService( this, gsonBuilder );
+		this.gSvc = new GalleryService( this, gsonBuilder );
 
 		this.authSvc = new AuthService( this, clientId, clientSecret );
 
@@ -247,7 +217,11 @@ public class BaringoClient {
 
 			log.fine( "API Call: " + request.url().toString() );
 			request = authService().buildAuthenticatedRequest( request );
-			
+			//			request = request.newBuilder()
+			//					.header( "Authorization", "Client-ID " + clientId )
+			//					.header( "Authorization", "Bearer " + "9d1ec1e02c6b6fc1df19ec36146b3b8ca01b24de" )
+			//					.build();
+
 			com.squareup.okhttp.Response response = chain.proceed(request);
 
 			updateQuota( response );
@@ -356,10 +330,9 @@ public class BaringoClient {
 	private static final Logger log = Logger.getLogger( BaringoClient.LOG_NAME );
 	private Quota quota = new Quota();
 
-	private AccountService acctSvc = null;
-	private AlbumService   albSvc = null;
-	private ImageService   imgSvc = null;
-	private GalleryService galSvc = null;
+	private AccountService aSvc = null;
+	private ImageService   iSvc = null;
+	private GalleryService gSvc = null;
 
 	private AuthService authSvc = null;
 

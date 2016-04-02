@@ -168,15 +168,6 @@ public class AuthService {
 	}
 
 	/**
-	 * Returns whether or not there is a user authenticated right now
-	 * @return true if we're in authenticated user mode
-	 */
-	public boolean isUserAuthenticated() {
-		return oAuth2 != null;
-	}
-
-
-	/**
 	 * Returns the account name of the currently-logged-in user
 	 * @return the name of the authenticated user or null if none
 	 */
