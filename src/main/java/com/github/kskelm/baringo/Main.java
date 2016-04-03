@@ -1,15 +1,15 @@
 package com.github.kskelm.baringo;
 
 import com.github.kskelm.baringo.model.Account;
+import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.util.BaringoApiException;
 
 public class Main {
 
 	public static void main(String[] args) {
-	    // Optimally these would come from a property file or somesuch.
-	    String clientId = args[0];  // PUT YOUR CLIENT ID HERE!
-	    String clientSecret = args[1]; // PUT YOUR CLIENT SECRET HERE!
+        String clientId = System.getProperty( BaringoClient.PROPERTY_CLIENT_ID );
+        String clientSecret = System.getProperty( BaringoClient.PROPERTY_CLIENT_SECRET );
 		BaringoClient client = null;
 		try {
 			client = new BaringoClient(clientId, clientSecret);
@@ -19,7 +19,7 @@ public class Main {
 		}
 		
 		try {
-			Image img = client.imageService().getImageInfo( "PgZtz0j" );
+			Image img = client.imageService().getImageInfo( "G3xkE" );
 			System.out.println( img );
 		} catch (BaringoApiException e) {
 			e.printStackTrace();
@@ -30,6 +30,7 @@ public class Main {
 		try {
 			Account acct = client.accountService().getAccount( "kskelmapitest" );
 			System.out.println( acct );
+			System.out.println( client.accountService().listCommentIds( "kskelmapitest",  Comment.Sort.Newest, 0) );
 		} catch (BaringoApiException e) {
 			e.printStackTrace();
 		}

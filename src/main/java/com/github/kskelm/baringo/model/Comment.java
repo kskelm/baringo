@@ -1,6 +1,7 @@
 package com.github.kskelm.baringo.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.github.kskelm.baringo.util.Utils;
@@ -10,7 +11,9 @@ public class Comment {
 
 	
 	/**
-	 * When requesting a list of comments this is the order
+	 * When requesting a list of comments this is the order.
+	 * Note that loading comments for an image/album is done
+	 * from those services, not this one.
 	 */
 	public enum Sort {
 		/**
@@ -32,10 +35,46 @@ public class Comment {
 	}
 
 	/**
+	 * When reporting a comment as inappropriate, this is
+	 * the reason code to pass in.
+	 */
+	public enum ReportReason {
+		/**
+		 * Ambiguously rejected
+		 */
+		@SerializedName("1") DoesntBelongOnImgur,
+		/**
+		 * The image is advertising spam
+		 */
+		@SerializedName("2") Spam,
+		/**
+		 * The image includes abusive or hateful content
+		 */
+		@SerializedName("3") Abusive,
+		/**
+		 * Not safe for work, but not marked that way
+		 */
+		@SerializedName("4") ShouldBeMarkedNsfw,
+		/**
+		 * Ambiguously rejected
+		 */
+		@SerializedName("5") Pornography,
+	}
+
+	/**
+	 * When voting, these are the two values you can use.
+	 * Removing a vote means sending the same value again.
+	 */
+	public enum Vote {
+		@SerializedName("up") Up,
+		@SerializedName("down") Down
+	}
+	
+	/**
 	 * The ID of the comment
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -62,8 +101,8 @@ public class Comment {
 	 * The userName of the author
 	 * @return the author
 	 */
-	public String getAuthor() {
-		return author;
+	public String getAuthorName() {
+		return authorName;
 	}
 
 
@@ -125,16 +164,16 @@ public class Comment {
 	 * Date/time the comment was created
 	 * @return the createdAt
 	 */
-	public int getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
 
 	/**
 	 * If this is a reply, the comment ID it is replying to
-	 * @return the parentId
+	 * @return the parentId, or 0 if none
 	 */
-	public int getParentId() {
+	public long getParentId() {
 		return parentId;
 	}
 
@@ -154,7 +193,7 @@ public class Comment {
 	 * an opinion yet.
 	 * @return the vote
 	 */
-	public String getVote() {
+	public Vote getVote() {
 		return vote;
 	}
 
@@ -170,11 +209,12 @@ public class Comment {
 
 
 	// ================================================
-	private int id;
+	private long id;
 	@SerializedName("image_id")
 	private String imageId;
 	private String comment;
-	private String author;
+	@SerializedName("author")
+	private String authorName;
 	@SerializedName("author_id")
 	private int authorId;
 	@SerializedName("on_album")
@@ -185,11 +225,11 @@ public class Comment {
 	private int downs;
 	private int points;
 	@SerializedName("datetime")
-	private int createdAt;
+	private Date createdAt;
 	@SerializedName("parent_id")
-	private int parentId;
+	private long parentId;
 	private boolean deleted;
-	private String vote;
+	private Vote vote;
 	private List<Comment> children = new ArrayList<>();
 
 

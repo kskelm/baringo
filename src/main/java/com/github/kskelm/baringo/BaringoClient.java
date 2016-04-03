@@ -21,8 +21,8 @@ import com.google.gson.stream.JsonWriter;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-//import com.squareup.okhttp.logging.HttpLoggingInterceptor;
-//import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
 
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -69,6 +69,14 @@ public class BaringoClient {
 	public GalleryService galleryService() {
 		return galSvc;
 	} // galleryService
+
+	/**
+	 * Returns the GalleryService object used to execute gallery-related operations
+	 * @return the gallery service
+	 */
+	public CommentService commentService() {
+		return comSvc;
+	} // commentService
 
 	/**
 	 * Returns the AuthService object used to execute gallery-related operations
@@ -218,6 +226,7 @@ public class BaringoClient {
 		this.albSvc = new AlbumService( this, gsonBuilder );
 		this.imgSvc = new ImageService( this, gsonBuilder );
 		this.galSvc = new GalleryService( this, gsonBuilder );
+		this.comSvc = new CommentService( this, gsonBuilder );
 
 		this.authSvc = new AuthService( this, clientId, clientSecret );
 
@@ -360,6 +369,7 @@ public class BaringoClient {
 	private AlbumService   albSvc = null;
 	private ImageService   imgSvc = null;
 	private GalleryService galSvc = null;
+	private CommentService comSvc = null;
 
 	private AuthService authSvc = null;
 

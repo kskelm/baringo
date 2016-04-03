@@ -9,7 +9,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	QuotaTest.class,
 	AuthTest.class,
 	AccountTest.class,
-	AlbumTest.class
+	AlbumTest.class,
+	CommentTest.class
+
 })
 public class AllTests {
 

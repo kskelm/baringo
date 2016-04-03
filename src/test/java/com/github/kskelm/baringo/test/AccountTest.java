@@ -168,7 +168,7 @@ public class AccountTest extends TestCase {
 				.accountService()
 				.listComments( Setup.TEST_USER_NAME, Comment.Sort.Newest, 0 );
 
-		assertEquals( "Comments come back", list.size(), 1 );
+		assertTrue( "Comments come back", list.size() > 0 );
 	}
 
 	@Test
@@ -178,7 +178,7 @@ public class AccountTest extends TestCase {
 				.accountService()
 				.listCommentIds( Setup.TEST_USER_NAME, Comment.Sort.Newest, 0 );
 
-		assertEquals( "Comments come back", list.size(), 1 );
+		assertTrue( "Comments come back", list.size() > 0 );
 	}
 
 	@Test
@@ -187,7 +187,7 @@ public class AccountTest extends TestCase {
 		int count = setup.getClient()
 				.accountService().getCommentCount( Setup.TEST_USER_NAME);
 
-		assertEquals( "Comment count is right", count, 1 );
+		assertTrue( "Comments come back", count >= 1 );
 	}
 
 	@Test
