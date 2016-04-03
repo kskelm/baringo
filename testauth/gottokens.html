@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html>
+<head>
+    <title>Baringo OAuth2 Playground</title>
+</head>
+<link rel="stylesheet" type="text/css" href="assets/style.css">
+<body>
+<div id="top-bar">
+<h1>Baringo OAuth2 Playground</h1>
+</div>
+<div id="top-spacer"></div>
+<div id="page-wrap">
+<h2>Step 3: Save your tokens!</h2>
+<p>
+    And here we are... we have an access_token and a refresh_token. Here they are:
+</p>
+    <table>
+      <tr><td>Access token:</td><td><code>{access_token}</code></td></tr>
+      <tr><td>Refresh token:</td><td><code>{refresh_token}</code></td></tr>
+      <tr><td>Expires in:</td><td><code>{expires_in} seconds</code></td></tr>
+      <tr><td>Expires on:</td><td><code>{expires_on}</code></td></tr>
+      <tr><td>Token type:</td><td><code>{token_type}</code></td></tr>
+      <tr><td>Scope:</td><td><code>{scope}</code></td></tr>
+      <tr><td>User id:</td><td><code>{user_id}</code></td></tr>
+      <tr><td>User name:</td><td><code>{user_name}</code></td></tr>
+    </table>
+
+<p>
+    Baringo is not, in itself, responsible for fetching and storing your authorization_code,
+    your access_token, or your refresh_token.  You need to store those (hopefully encrypted)
+    yourself someplace else, probably in a database.
+</p>
+<p>
+    In Baringo, one BaringoClient...
+</p>
+    <pre>
+    BaringoClient client = new BaringoClient.Builder()<br/>
+            .clientAuth( clientId, clientSecret )<br/>
+            .build();
+
+    </pre>
+<p>
+    ...can either access resources anonymously, or you can attach an account
+    to it by calling one of the two approaches.  In the first case, you can pass your
+    authorization code to Baringo and it will attempt to automatically maintain the tokens
+    for you:
+</p>
+    <pre>
+    client.authService().setAuthorizationCode( String authCode );
+    </pre>
+<p>
+<i>The down side is that authorization codes live only a few minutes once you retrieve it
+    from Imgur!</i> You
+    need to get the code into Baringo immediately so it can generate the access and refresh
+    tokens, <i>or you need to do that yourself</i>.  An advantage to doing this yourself is
+    that you should be the one to store the tokens anyway, encrypted in a database somewhere.
+    More about that later.
+</p>
+<p>
+    The second way to get user credentials into Baringo is to pass in the refresh token that
+    you got from a previous session (see below).
+</p>
+    <pre>
+    client.authService().setRefreshToken( String refreshToken );
+    </pre>
+<p>
+    This skips the step necessary for turning authorization codes to access/refresh tokens, and
+    goes straight to getting an access token.  This synchronously pings the Imgur server to
+    verify the refresh token is valid and to fetch a new access token with a known Time To Live.
+</p>
+<p>
+    Either way, once Baringo has successfully set up user-level authorization, you can ask it for
+    the refresh token, <b>which you should keep</b>, stored <i>encrypted</i> in the filesystem or in your
+    database.  The security of refresh tokens is vital because if someone gets ahold of them, they
+    do effectively anything.
+</p>
+    <pre>
+    String refreshToken = client.authService().getRefreshToken();<br/>
+    &lt;do whatever you need to encrypt this (AES256 is fine) and store it in your database&rt;
+    </pre>
+
+<p>
+    As an aside, more interesting oAuth stuff is available from:
+</p>
+    <pre>
+    String refreshToken = client.authService().getOAuth2();
+    </pre>
+<p>   
+    Anyway, Baringo manages access tokens passively; when you hand it credentials of some sort,
+    it pre-emptively pings the Imgur servers to get a known-good access token and its expiration.
+    Instead of internally re-authenticating after a failed API call attempt after an access token
+    expires, it checks to see if the token is going to expire <i>soon</i> and proactively fetches
+    a new one so the API calls themselves can stay simple.  If this turns into a problem for some
+    reason, we'll change it up and do active token management.
+</p>
+<p> 
+    So that's it!  You should have enough now to understand the basics of how OAuth2 works in general,
+    and how it work with Imgur in specific.
+    You can use this tool to regenerate refresh tokens for different users for your debugging and
+    experimentation.
+</p>
+<p>
+<h2>Enjoy using Baringo!</h2>
+</p> 
+</div>
+</body>
+</html>
