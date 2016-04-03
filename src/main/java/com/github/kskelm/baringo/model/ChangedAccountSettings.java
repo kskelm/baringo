@@ -23,8 +23,8 @@ public class ChangedAccountSettings {
 	 * so it's easier to make changes
 	 * NOTE: no API call from Imgur returns newsletter_subscribed so
 	 * that will get lost unless you magically know somehow.
-	 * @param src - the original AccountSettings to copy in
-	 * @param account - the Account object to get bio from
+	 * @param settings - the original AccountSettings to copy in
+	 * @param acct - the Account object to get bio from
 	 */
 	public ChangedAccountSettings( AccountSettings settings, Account acct ) {
 		if( acct != null ) {

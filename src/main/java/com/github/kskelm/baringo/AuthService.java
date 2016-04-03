@@ -47,8 +47,8 @@ public class AuthService {
 	/**
 	 * Returns true if the current user's OAuth2 access token
 	 * is valid.  If there is no authenticated user, 
-	 * @return
-	 * @throws BaringoAuthException
+	 * @return whether the auth token is valid
+	 * @throws BaringoAuthException - whomp whomp
 	 */
 	public boolean isAccessTokenValid()  throws BaringoAuthException {
 		if( oAuth2 == null ) {

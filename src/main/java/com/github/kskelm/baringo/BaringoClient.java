@@ -100,7 +100,7 @@ public class BaringoClient {
 	 * convenience method that caches, since it seems like something
 	 * that might be requested frequently.
 	 * @return the current Account
-	 * @throws BaringoApiException 
+	 * @throws BaringoApiException - wat
 	 */
 	public Account getAuthenticatedAccount() throws BaringoApiException {
 		return authSvc.getAuthenticatedAccount();
