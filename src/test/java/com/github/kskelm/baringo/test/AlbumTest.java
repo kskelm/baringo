@@ -84,7 +84,6 @@ public class AlbumTest extends TestCase {
 	
 	@Test
 	public void testDeleteAlbum() throws BaringoApiException {
-		System.out.println("testDeleteAlbum");
 		Setup setup = new Setup();
 
 		Map<String,Album> pair = createTestAlbum( setup );
@@ -92,8 +91,7 @@ public class AlbumTest extends TestCase {
 		
 		setup.getClient().albumService().deleteAlbum( album );
 		try {
-			Album album2 = setup.getClient().albumService().getAlbum( album.getId() );
-	System.out.println( album2 );
+			setup.getClient().albumService().getAlbum( album.getId() );
 		} catch( Exception e ) {
 			System.out.println( e.getMessage() );			
 		}
@@ -120,7 +118,6 @@ public class AlbumTest extends TestCase {
 	
 	@Test
 	public void testAddAlbumImageIds() throws BaringoApiException {
-		System.out.println("testAddAlbumImageIds");
 		Setup setup = new Setup();
 
 		List<String> ids = new ArrayList<>();

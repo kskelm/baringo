@@ -14,9 +14,15 @@ public class Setup {
 	
 	public static final String TEST_ALBUM_ID = "tZz2i";
 
+	public static final String TEST_GALLERY_ID = "G3xkE";
+
 	public static final String TEST_IMAGE_ID = "bHEb5Sw";
 	public static final String TEST_IMAGE_ID_2 = "wH8KZXs";
 	
+	public static final long   TEST_COMMENT_ID = 620866057L;
+	public static final long   TEST_COMMENT_ID_2 = 617736106L;
+	
+	// for use with mocking only
 	public static final String TEST_ENDPOINT = "http://localhost:8080";
 	
     public Setup() {

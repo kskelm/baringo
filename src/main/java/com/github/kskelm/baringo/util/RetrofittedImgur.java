@@ -6,6 +6,7 @@ package com.github.kskelm.baringo.util;
 import java.util.List;
 import java.util.Map;
 
+import com.github.kskelm.baringo.CommentService.CommentListWrapper;
 import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.AccountSettings;
 import com.github.kskelm.baringo.model.Album;
@@ -189,7 +190,50 @@ public interface RetrofittedImgur {
 			@Path("albumId") String albumId,
 			@Query("ids") String ids );
 
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// COMMENT CALLS
+	// ============================================================
+
+	@GET("/3/comment/{id}")
+	Call<ImgurResponseWrapper<Comment>> getComment(
+			@Path("id") long commentId );
 	
+	@FormUrlEncoded
+	@POST("/3/comment")
+	Call<BasicResponse<Map<String,Long>>> addComment(
+			@Field("image_id") String imageId,
+			@Field("comment") String text );	
+	
+	@DELETE("/3/comment/{id}")
+	Call<BasicResponse<Boolean>> deleteComment(
+			@Path("id") long id );
+
+	@GET("/3/comment/{id}/replies")
+	Call<ImgurResponseWrapper<CommentListWrapper>> listCommentReplies(
+			@Path("id") long commentId );
+	
+	@FormUrlEncoded
+	@POST("/3/comment/{parent_id}")
+	Call<BasicResponse<Map<String,Long>>> replyComment(
+			@Field("image_id") String imageId,
+			@Field("parent_id") long parentId,
+			@Field("comment") String text );	
+	
+	@POST("/3/comment/{id}/vote/{vote}")
+	Call<BasicResponse<Boolean>> voteComment(
+			@Path("id") long commentId,
+			@Path("vote") Comment.Vote vote );	
+
+	@FormUrlEncoded
+	@POST("/3/comment/{id}/report")
+	Call<BasicResponse<Object>> reportComment(
+			@Path("id") long commentId,
+			@Field("reason") Comment.ReportReason reason );	
+
 	// ============================================================
 	// ============================================================
 	// ============================================================
