@@ -6,6 +6,7 @@ package com.github.kskelm.baringo.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author kskelm
@@ -76,5 +77,18 @@ public class Utils {
 		} // for
 		return map;
 	} // toHashMap
+
+	// sigh modern languages
+	public static String joinCSV(List<String> values) {
+		// form a comma-separated list of id's
+		StringBuffer buf = new StringBuffer();
+		for( String value : values ) {
+			if( buf.length() > 0 ) {
+				buf.append( "," );
+			} // if
+			buf.append( value );
+		} // for
+		return buf.toString();
+	}
 
 } // Utils

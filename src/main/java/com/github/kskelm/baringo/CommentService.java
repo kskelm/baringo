@@ -230,8 +230,8 @@ public class CommentService {
 	// Imgur's Json serializer-- like many-- doesn't know when
 	// it should be generating an array if it only finds one item
 	// in a list so instead of an array with one item, it just
-	// generates just item and parsers the world over break.
-	// This is ridiculous
+	// generates the item as an object, and parsers the whole
+	// world over break.  This is ridiculous
 	// and it's been the source of so many unexpected crashes
 	// in enterprise applications that I cannot count them all.
 	// So here we need to resort to crappy tricks.

@@ -68,9 +68,9 @@ public abstract class GalleryItem {
 	 */
 	public enum Window {
 		/**
-		 * Return items in the last day. Default
+		 * Return items in the last day.
 		 */
-		@SerializedName("day") Day,  // default
+		@SerializedName("day") Day,
 		/**
 		 * Return items in the last week
 		 */
@@ -88,8 +88,6 @@ public abstract class GalleryItem {
 			return this.toString().toLowerCase();
 		}
 	}
-
-// TODO: COMMENT METHODS
 	
 	/**
 	 * Returns the ID of the item

@@ -51,7 +51,7 @@ public class GalleryService {
 		String sortStr = sort.name().toLowerCase();
 		
 		Call<ImgurResponseWrapper<List<GalleryItemProxy>>> call =
-				client.getApi().getGallery( sectionStr, sortStr, page);
+				client.getApi().listGallery( sectionStr, sortStr, page);
 
 		try {
 			Response<ImgurResponseWrapper<List<GalleryItemProxy>>> res = call.execute();
@@ -69,6 +69,8 @@ public class GalleryService {
 		} 
 
 	} // getGallery
+
+	// ================================================
 
 	// this approach feels filthy. Convert lame proxy objects to
 	// type-safe GalleryItem derivatives.  
@@ -88,8 +90,6 @@ public class GalleryService {
 		} // for
 		return items;
 	} // convertToItems
-	
-	// ================================================
 	
 	protected GalleryService( BaringoClient client, GsonBuilder gsonBuilder ) {
 		this.client = client;

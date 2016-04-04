@@ -35,6 +35,13 @@ public class BaringoApiException extends Exception {
 		return this.httpCode;
 	}
 	
+	public String toString() {
+		if( httpCode == 0 ) {
+			return super.toString();
+		} // if
+		return super.toString() + " (http code " + httpCode + ")";
+	}
+	
 	private int httpCode = 0;
 	
 	/**
