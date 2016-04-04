@@ -10,7 +10,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	AuthTest.class,
 	AccountTest.class,
 	AlbumTest.class,
-	CommentTest.class
+	CommentTest.class,
+	CustomGalleryTest.class
 
 })
 public class AllTests {

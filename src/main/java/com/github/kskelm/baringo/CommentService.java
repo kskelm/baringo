@@ -82,7 +82,7 @@ public class CommentService {
 	/**
 	 * Deletes a comment.
 	 * ACCESS: AUTHENTICATED USER
-	 * @param comm the comment object to delete from Imgur
+	 * @param comment the comment object to delete from Imgur
 	 * @return whether it worked
 	 * @throws BaringoApiException - bummer
 	 */
@@ -176,10 +176,10 @@ public class CommentService {
 	 * downvoting turns the result to an actual "down" the nex time you
 	 * load the comment.  Odd.
 	 * ACCESS: AUTHENTICATED USER
-	 * @param commentId
-	 * @param vote
-	 * @return
-	 * @throws BaringoApiException
+	 * @param commentId - id of the comment to vote on
+	 * @param vote - vote up or down
+	 * @return true if it worked
+	 * @throws BaringoApiException - imgur didn't like that
 	 */
 	public boolean setVote(
 			long commentId,
@@ -230,8 +230,8 @@ public class CommentService {
 	// Imgur's Json serializer-- like many-- doesn't know when
 	// it should be generating an array if it only finds one item
 	// in a list so instead of an array with one item, it just
-	// generates just item and parsers the world over break.
-	// This is ridiculous
+	// generates the item as an object, and parsers the whole
+	// world over break.  This is ridiculous
 	// and it's been the source of so many unexpected crashes
 	// in enterprise applications that I cannot count them all.
 	// So here we need to resort to crappy tricks.

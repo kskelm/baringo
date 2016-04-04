@@ -13,7 +13,7 @@ import com.github.kskelm.baringo.model.Album;
 import com.github.kskelm.baringo.model.BasicResponse;
 import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
-import com.github.kskelm.baringo.model.GalleryItem;
+import com.github.kskelm.baringo.model.CustomGallery;
 import com.github.kskelm.baringo.model.GalleryItemProxy;
 import com.github.kskelm.baringo.model.GalleryProfile;
 import com.github.kskelm.baringo.model.Image;
@@ -132,18 +132,17 @@ public interface RetrofittedImgur {
 			@Path("username") String userName,
 			@Path("page") int page
 			);
-	// TODO PICK UP HERE
+
 	@GET("/3/account/{username}/images/ids/{page}")
 	Call<ImgurResponseWrapper<List<String>>> listAccountImageIds(
 			@Path("username") String userName,
 			@Path("page") int page
 			);
-	// TODO PICK UP HERE
+
 	@GET("/3/account/{username}/images/count")
 	Call<ImgurResponseWrapper<Integer>> getAccountImageCount(
 			@Path("username") String userName);
 
-	// TODO PICK UP HERE
 	@GET("/3/account/{username}/notifications/replies")
 	Call<ImgurResponseWrapper<List<Notification>>> listAccountReplyNotifications(
 			@Path("username") String userName,
@@ -239,19 +238,53 @@ public interface RetrofittedImgur {
 	// ============================================================
 	// ============================================================
 	// ============================================================
+	// CUSTOM GALLERY CALLS
+	// ============================================================
+	@GET("/3/g/{type}/{sort}/{window}/{page}")
+	Call<ImgurResponseWrapper<CustomGallery>> getCustomGallery(
+			@Path("type") String type,
+			@Path("sort") String sort,
+			@Path("window") String window,
+			@Path("page") int page );
+
+	@FormUrlEncoded
+	@PUT("/3/g/custom/add_tags" )
+	Call<BasicResponse<Boolean>> addCustomGalleryTags(
+			@Field("tags") String tag );
+			
+	@DELETE("/3/g/custom/remove_tags" )
+	Call<BasicResponse<Boolean>> deleteCustomGalleryTags(
+			@Query("tags") String tag );
+			
+	@FormUrlEncoded
+	@POST("/3/g/block_tag" )
+	Call<BasicResponse<Boolean>> blockGalleryTag(
+			@Field("tag") String tag );
+
+	@FormUrlEncoded
+	@POST("/3/g/unblock_tag" )
+	Call<BasicResponse<Boolean>> unblockGalleryTag(
+			@Field("tag") String tag );
+
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
 	// GALLERY CALLS
 	// ============================================================
-	@GET("/3/gallery/{section}/{sort}/{window}/{page}?showViral={viral}")
-	Call<List<GalleryItemProxy>> getGallery(
-			@Path("page") int page,
-			@Path("section") GalleryItem.Section section,
-			@Path("sort") GalleryItem.Sort sort,
-			@Path("window") GalleryItem.Window window,
-			@Query("viral") boolean viral
-			);	
+//	@GET("/3/gallery/{section}/{sort}/{window}/{page}?showViral={viral}")
+//	Call<List<GalleryItemProxy>> listGallery(
+//			@Path("page") int page,
+//			@Path("section") GalleryItem.Section section,
+//			@Path("sort") GalleryItem.Sort sort,
+//			@Path("window") GalleryItem.Window window,
+//			@Query("viral") boolean viral
+//			);	
 
+			
 	@GET("/3/gallery/{section}/{sort}/{page}")
-	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> getGallery(
+	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listGallery(
 			@Path("section") String section,
 			@Path("sort") String sort,
 			@Path("page") int page );	

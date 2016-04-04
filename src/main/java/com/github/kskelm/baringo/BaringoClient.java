@@ -71,6 +71,14 @@ public class BaringoClient {
 	} // galleryService
 
 	/**
+	 * Returns the CustomGalleryService object used to execute gallery-related operations
+	 * @return the gallery service
+	 */
+	public CustomGalleryService customGalleryService() {
+		return cusGalSvc;
+	} // customGalleryService
+
+	/**
 	 * Returns the GalleryService object used to execute gallery-related operations
 	 * @return the gallery service
 	 */
@@ -197,7 +205,7 @@ public class BaringoClient {
 	protected <T> void throwOnBasicWrapperError( Response<BasicResponse<T>> resp ) throws BaringoApiException {
 		if( resp.code() != 200 ) {
 			throw new BaringoApiException( resp.raw().request().urlString()
-					+ ": " +  resp.message(), resp.code() );
+					+ ": " +  resp.message(), resp.raw().code() );
 		} // if
 		if( resp.body() == null ) {
 			throw new BaringoApiException( "No response body found", 0 );
@@ -211,10 +219,10 @@ public class BaringoClient {
 		OkHttpClient client = new OkHttpClient();
 		client.interceptors().add(new ImgurInterceptor());
 
-//		// super useful
-//		HttpLoggingInterceptor logging = new HttpLoggingInterceptor();  
-//		logging.setLevel(Level.BODY);
-//		client.interceptors().add( logging );
+				// super useful
+				HttpLoggingInterceptor logging = new HttpLoggingInterceptor();  
+				logging.setLevel(Level.BODY);
+				client.interceptors().add( logging );
 		
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateAdapter());
@@ -227,6 +235,7 @@ public class BaringoClient {
 		this.imgSvc = new ImageService( this, gsonBuilder );
 		this.galSvc = new GalleryService( this, gsonBuilder );
 		this.comSvc = new CommentService( this, gsonBuilder );
+		this.cusGalSvc = new CustomGalleryService( this, gsonBuilder );
 
 		this.authSvc = new AuthService( this, clientId, clientSecret );
 
@@ -370,6 +379,7 @@ public class BaringoClient {
 	private ImageService   imgSvc = null;
 	private GalleryService galSvc = null;
 	private CommentService comSvc = null;
+	private CustomGalleryService cusGalSvc = null;
 
 	private AuthService authSvc = null;
 
