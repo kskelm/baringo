@@ -43,7 +43,7 @@ public class Notification {
 	 * Returns metadata about the content the notification is for
 	 * @return the content
 	 */
-	public NotifiableContent getContent() {
+	public Object getContent() {
 		return content;
 	}
 
@@ -53,7 +53,9 @@ public class Notification {
 	@SerializedName("account_id")
 	private int userId;
 	private boolean viewed;
-	private NotifiableContent content; // likely to be a comment, conversation, or message
+// TODO look into why this needs to exist
+int thisTriggersWarningIconSoILookAtThisLater;
+	private Object content; // likely to be a comment, conversation, or message
 	
 	public String toString() {
 		return Utils.toString( this );

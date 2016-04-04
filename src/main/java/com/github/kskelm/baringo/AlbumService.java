@@ -15,6 +15,7 @@ import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.util.BaringoApiException;
 import com.github.kskelm.baringo.util.BaringoAuthException;
+import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.GsonBuilder;
 
 import retrofit.Call;
@@ -328,17 +329,11 @@ public class AlbumService {
 			Album album,
 			List<String> imageIds ) throws BaringoApiException {
 		
-		// form a comma-separated list of id's
-		StringBuffer buf = new StringBuffer();
-		for( String id : imageIds ) {
-			if( buf.length() > 0 ) {
-				buf.append( "," );
-			} // if
-			buf.append( id );
-		} // for
+		
+		String joinedIds = Utils.joinCSV( imageIds );
 		
 		Call<BasicResponse<Boolean>> call =
-				client.getApi().deleteAlbumImageIds( album.getAPIReferenceKey(), buf.toString() );
+				client.getApi().deleteAlbumImageIds( album.getAPIReferenceKey(), joinedIds );
 
 		try {
 			Response<BasicResponse<Boolean>> res = call.execute();

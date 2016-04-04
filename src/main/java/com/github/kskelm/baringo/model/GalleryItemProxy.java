@@ -16,6 +16,7 @@ import com.google.gson.annotations.SerializedName;
 @SuppressWarnings("unused")
 public class GalleryItemProxy {
 
+// TODO: SWITCH THIS OVER TO THE JSONDESERIALIZER APPROACH USED IN COMMENTSERVICE
 	public boolean isAlbum() {
 		return album;
 	}
