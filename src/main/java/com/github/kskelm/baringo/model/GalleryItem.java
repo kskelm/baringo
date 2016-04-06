@@ -40,13 +40,13 @@ public abstract class GalleryItem {
 	}
 	
 	/**
-	 * When requesting a gallery, this is the sort to use
+	 * When requesting content, this is the sort to use
 	 */
 	public enum Sort {
 		/**
 		 * Viral means lots of people are visiting this gallery
 		 */
-		@SerializedName("viral") Viral,  // default
+		@SerializedName("viral") Viral,
 		/**
 		 * Top means lots of people like this gallery
 		 */
@@ -58,7 +58,11 @@ public abstract class GalleryItem {
 		/**
 		 * Within the user section, galleries that are gaining popularity
 		 */
-		@SerializedName("rising") Rising;  // valid only with user section
+		@SerializedName("rising") Rising,
+		/**
+		 * Best first... used only for comments
+		 */
+		@SerializedName("best") Best
 	}
 	
 	/**
@@ -82,7 +86,11 @@ public abstract class GalleryItem {
 		/**
 		 * Return items in the last year
 		 */
-		@SerializedName("year") Year;
+		@SerializedName("year") Year,
+		/**
+		 * Return all of them (not available for all methods)
+		 */
+		@SerializedName("day") All;
 		
 		@Override public String toString() {
 			return this.toString().toLowerCase();
@@ -252,10 +260,12 @@ public abstract class GalleryItem {
 	}
 
 	
-	
 	// =========================================================
 	
-	public GalleryItem() { }
+	public GalleryItem() {
+// TODO: WAT
+System.err.println("wat");
+	}
 
 	protected GalleryItem( GalleryItemProxy p ) {
 		copyFrom( p, GalleryItem.class );

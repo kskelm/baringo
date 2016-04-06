@@ -70,6 +70,15 @@ public class GalleryItemProxy {
 	public List<Image> images;
 	@SerializedName("is_album")
 	public boolean album;
-	
+	// only for meme subclasses
+// UPDATE: apparently Imgur doesn't really support this anymore at least
+// as of 6/24/15.  https://groups.google.com/forum/#!msg/imgur/BEyZryAhGi0/yfOFyixuPy4J
+//	@SerializedName("is_album")
+//	protected MemeMetaData memeMetaData;
 
+	// only for subreddit classes
+// UPDATE: apparently Imgur doesn't really support this anymore
+//	@SerializedName("reddit_comments")
+//	protected String redditCommentsUrl;
+	
 }

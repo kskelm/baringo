@@ -44,7 +44,7 @@ public class BaringoClient {
 	 */
 	public AccountService accountService() {
 		return acctSvc;
-	} // accountService
+	}
 
 	/**
 	 * Returns the AlbumService object used to execute album-related operations
@@ -52,7 +52,7 @@ public class BaringoClient {
 	 */
 	public AlbumService albumService() {
 		return albSvc;
-	} // albumService
+	}
 
 	/**
 	 * Returns the ImageService object used to execute image-related operations
@@ -60,7 +60,7 @@ public class BaringoClient {
 	 */
 	public ImageService imageService() {
 		return imgSvc;
-	} // imageService
+	} 
 
 	/**
 	 * Returns the GalleryService object used to execute gallery-related operations
@@ -68,31 +68,40 @@ public class BaringoClient {
 	 */
 	public GalleryService galleryService() {
 		return galSvc;
-	} // galleryService
+	}
 
 	/**
-	 * Returns the CustomGalleryService object used to execute gallery-related operations
+	 * Returns the CustomGalleryService object used to execute custom gallery-related operations
 	 * @return the gallery service
 	 */
 	public CustomGalleryService customGalleryService() {
 		return cusGalSvc;
-	} // customGalleryService
+	} 
 
 	/**
-	 * Returns the GalleryService object used to execute gallery-related operations
+	 * Returns the GalleryService object used to execute comment-related operations
 	 * @return the gallery service
 	 */
 	public CommentService commentService() {
 		return comSvc;
-	} // commentService
+	}
 
 	/**
-	 * Returns the AuthService object used to execute gallery-related operations
+	 * Returns the TopicService object used to execute topic-related operations
+	 * @return the gallery service
+	 */
+	public TopicService topicService() {
+		return topSvc;
+	} 
+
+
+	/**
+	 * Returns the AuthService object used to execute authentication-related operations
 	 * @return the gallery service
 	 */
 	public AuthService authService() {
 		return authSvc;
-	} // authService
+	} 
 
 	/**
 	 * Returns an object that describes the remaining quotas left over for this client
@@ -100,7 +109,7 @@ public class BaringoClient {
 	 */
 	public Quota getQuota() {
 		return quota;
-	} // getQuota
+	} 
 
 	/**
 	 * As a convenience measure, return the username of the logged-in user
@@ -236,6 +245,7 @@ public class BaringoClient {
 		this.galSvc = new GalleryService( this, gsonBuilder );
 		this.comSvc = new CommentService( this, gsonBuilder );
 		this.cusGalSvc = new CustomGalleryService( this, gsonBuilder );
+		this.topSvc = new TopicService( this, gsonBuilder );
 
 		this.authSvc = new AuthService( this, clientId, clientSecret );
 
@@ -255,8 +265,6 @@ public class BaringoClient {
 
 	/**
 	 * This handles our authentication and logging, mostly.
-	 * @author kskelm
-	 *
 	 */
 	private class ImgurInterceptor implements Interceptor {
 
@@ -326,7 +334,7 @@ public class BaringoClient {
 			int valInt = Integer.parseInt( val );
 			quota.setPostCreditsAvailable(valInt);
 		} // if
-	} // updateQuota
+	} 
 
 	/**
 	 * Apparently standard Gson can't tolerate a unix timestamp
@@ -356,7 +364,7 @@ public class BaringoClient {
 
 			return new Date( in.nextLong() * 1000 );
 		}
-	} // DateAdapter
+	}
 
 	/**
 	 * Used only for mocking during tests
@@ -364,13 +372,12 @@ public class BaringoClient {
 	 */
 	public static void setEndpoint( String url ) {
 		BaringoClient.apiEndpoint = url;
-	} // setEndpoint
+	}
 
 	// =============================================
 	private RetrofittedImgur api = null;
 	private String clientId = null;
 	private String clientSecret = null;
-	//	private Account authenticatedAccount = null;
 	private static final Logger log = Logger.getLogger( BaringoClient.LOG_NAME );
 	private Quota quota = new Quota();
 
@@ -380,6 +387,7 @@ public class BaringoClient {
 	private GalleryService galSvc = null;
 	private CommentService comSvc = null;
 	private CustomGalleryService cusGalSvc = null;
+	private TopicService topSvc = null;
 
 	private AuthService authSvc = null;
 
@@ -389,4 +397,4 @@ public class BaringoClient {
 
 	private static String apiEndpoint = DEFAULT_IMGUR_BASE_URL;
 
-} // class BaringoClient
+}

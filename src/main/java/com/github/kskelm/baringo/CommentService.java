@@ -13,6 +13,8 @@ import java.util.Map;
 import com.github.kskelm.baringo.model.BasicResponse;
 import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
+import com.github.kskelm.baringo.model.ReportReason;
+import com.github.kskelm.baringo.model.Vote;
 import com.github.kskelm.baringo.util.BaringoApiException;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -183,10 +185,12 @@ public class CommentService {
 	 */
 	public boolean setVote(
 			long commentId,
-			Comment.Vote vote) throws BaringoApiException {
+			Vote vote) throws BaringoApiException {
 
+		String voteStr = vote.name().toLowerCase();
+		
 		Call<BasicResponse<Boolean>> call =
-				client.getApi().voteComment( commentId, vote );
+				client.getApi().voteComment( commentId, voteStr );
 
 		try {
 			Response<BasicResponse<Boolean>> res = call.execute();
@@ -207,10 +211,11 @@ public class CommentService {
 	 */
 	public void report(
 			long commentId,
-			Comment.ReportReason reason ) throws BaringoApiException {
+			ReportReason reason ) throws BaringoApiException {
 
+		String reasonStr = reason.name().toLowerCase();
 		Call<BasicResponse<Object>> call =
-				client.getApi().reportComment( commentId, reason );
+				client.getApi().reportComment( commentId, reasonStr );
 
 		try {
 			Response<BasicResponse<Object>> res = call.execute();
@@ -262,4 +267,4 @@ public class CommentService {
 
 	private BaringoClient client = null;
 
-} // class CommentService
+}

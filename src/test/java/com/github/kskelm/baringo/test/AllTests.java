@@ -11,9 +11,11 @@ import org.junit.runners.Suite.SuiteClasses;
 	AccountTest.class,
 	AlbumTest.class,
 	CommentTest.class,
-	CustomGalleryTest.class
-
+	CustomGalleryTest.class,
+	TopicTest.class,
+	GalleryTest.class
 })
+
 public class AllTests {
 
 }

@@ -1,11 +1,6 @@
 /**
- * Model object for albums found in a gallery.
- * This is a subclass of GalleryItemProxy because
- * GalleryImage and GalleryAlbum are both returned
- * by various Imgur APIs and they share a notable
- * number of characteristics.  Check the class
- * type of an instance and cast it to get the
- * appropriate version.
+ * Model object for albums found in a gallery,
+ * extended with getRedditCommentUrl()
  */
 package com.github.kskelm.baringo.model;
 
@@ -15,7 +10,21 @@ import java.util.List;
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
-public class GalleryAlbum extends GalleryItem {
+/**
+ * 
+ * @author kskelm
+// UPDATE: apparently Imgur doesn't really support this anymore
+//  ... MARK THIS CLASS FOR DELETION
+ */
+public class GallerySubredditAlbum extends GalleryItem {
+
+	/**
+	 * Returns the URL to go see the related reddit comments
+	 * @return the redditCommentsUrl
+	 */
+	public String getRedditCommentsUrl() {
+		return redditCommentsUrl;
+	}
 
 	/**
 	 * A GalleryAlbum has a privacy level. See @see <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
@@ -119,23 +128,23 @@ public class GalleryAlbum extends GalleryItem {
 	public List<Image> getImages() {
 		return images;
 	}
-
 	
 	public String toString() {
-		HashMap<String,Object> fields = Utils.toHashMap( this, GalleryAlbum.class );
+		HashMap<String,Object> fields = Utils.toHashMap( this, GallerySubredditAlbum.class );
+		fields.putAll( Utils.toHashMap( this, GalleryAlbum.class ) );
 		fields.putAll( Utils.toHashMap( this, GalleryItem.class ) );
-		return Utils.toString( fields, GalleryAlbum.class.getSimpleName() );
+		return Utils.toString( fields, GallerySubredditAlbum.class.getSimpleName() );
 	} // toString
 	
 	// =========================================================
 
 	// INTERNAL ONLY
-	public GalleryAlbum() { }
+	public GallerySubredditAlbum() { }
 
 	// INTERNAL ONLY
-	public GalleryAlbum( GalleryItemProxy p ) {
+	public GallerySubredditAlbum( GalleryItemProxy p ) {
 		super( p );
-		copyFrom( p, GalleryAlbum.class );
+		copyFrom( p, GallerySubredditAlbum.class );
 	} // lame copy constructor
 	
 	protected String coverId;
@@ -146,5 +155,8 @@ public class GalleryAlbum extends GalleryItem {
 	@SerializedName("images_count")
 	protected int imageCount;
 	protected List<Image> images;
-
-} // GalleryAlbum
+int foo; // TODO CHECK THIS IS WHAT'S COMING BACK
+	@SerializedName("reddit_comments")
+	protected String redditCommentsUrl;
+	
+}

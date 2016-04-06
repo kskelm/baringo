@@ -16,11 +16,21 @@ public class Setup {
 
 	public static final String TEST_GALLERY_ID = "G3xkE";
 
+	public static final String TEST_MEME_IMAGE_ID = "sJKiHrC";
+
+	public static final String TEST_SUBREDDIT_NAME = "funny";
+	public static final String TEST_SUBREDDIT_IMAGE_ID = "xocejLi";
+
 	public static final String TEST_IMAGE_ID = "bHEb5Sw";
 	public static final String TEST_IMAGE_ID_2 = "wH8KZXs";
+	public static final String TEST_IMAGE_ID_3 = "0tkfcSS";
 	
+	public static final String TEST_IMAGE_WITH_TAGS = "obJXifJ";
+		
 	public static final long   TEST_COMMENT_ID = 620866057L;
 	public static final long   TEST_COMMENT_ID_2 = 617736106L;
+	
+	public static final int    TEST_TOPIC_ID = 29;
 	
 	// for use with mocking only
 	public static final String TEST_ENDPOINT = "http://localhost:8080";
@@ -46,10 +56,10 @@ public class Setup {
 
 	private BaringoClient client = null;
 
-	public void switchToUserAuth() throws BaringoAuthException {
+	public Setup switchToUserAuth() throws BaringoAuthException {
         String refreshToken = System.getProperty( "baringoclient.refreshtoken" );
         client.authService().setRefreshToken( refreshToken );
-		
+		return this;
 	}
 
     

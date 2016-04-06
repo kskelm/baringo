@@ -14,12 +14,17 @@ import com.github.kskelm.baringo.model.BasicResponse;
 import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.CustomGallery;
+import com.github.kskelm.baringo.model.GalleryImage;
 import com.github.kskelm.baringo.model.GalleryItemProxy;
 import com.github.kskelm.baringo.model.GalleryProfile;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.Notification;
 import com.github.kskelm.baringo.model.OAuth2;
+import com.github.kskelm.baringo.model.TagGallery;
+import com.github.kskelm.baringo.model.TagVoteList;
+import com.github.kskelm.baringo.model.Topic;
+import com.github.kskelm.baringo.model.Votes;
 
 import retrofit.Call;
 import retrofit.http.Body;
@@ -225,13 +230,13 @@ public interface RetrofittedImgur {
 	@POST("/3/comment/{id}/vote/{vote}")
 	Call<BasicResponse<Boolean>> voteComment(
 			@Path("id") long commentId,
-			@Path("vote") Comment.Vote vote );	
+			@Path("vote") String vote );	
 
 	@FormUrlEncoded
 	@POST("/3/comment/{id}/report")
 	Call<BasicResponse<Object>> reportComment(
 			@Path("id") long commentId,
-			@Field("reason") Comment.ReportReason reason );	
+			@Field("reason") String reason );	
 
 	// ============================================================
 	// ============================================================
@@ -273,22 +278,113 @@ public interface RetrofittedImgur {
 	// ============================================================
 	// GALLERY CALLS
 	// ============================================================
-//	@GET("/3/gallery/{section}/{sort}/{window}/{page}?showViral={viral}")
-//	Call<List<GalleryItemProxy>> listGallery(
-//			@Path("page") int page,
-//			@Path("section") GalleryItem.Section section,
-//			@Path("sort") GalleryItem.Sort sort,
-//			@Path("window") GalleryItem.Window window,
-//			@Query("viral") boolean viral
-//			);	
-
 			
-	@GET("/3/gallery/{section}/{sort}/{page}")
+	@GET("/3/gallery/{section}/{sort}/{window}/{page}")
 	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listGallery(
 			@Path("section") String section,
 			@Path("sort") String sort,
-			@Path("page") int page );	
+			@Path("window") String window,
+			@Path("page") int page,
+			@Query("showViral") boolean viral
+			);	
 
+	@GET("/3/g/memes/{sort}/{window}/{page}")
+	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listMemeGallery(
+			@Path("sort") String sort,
+			@Path("window") String window,
+			@Path("page") int page
+			);	
+
+// apparently no longer supported
+//	@GET("/3/g/memes/{id}")
+//	Call<ImgurResponseWrapper<GalleryMemeImage>> getMemeImageInfo(
+//			@Path("id") String id );
+
+	@GET("/3/gallery/r/{subreddit}/{sort}/{window}/{page}")
+	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listSubredditGallery(
+			@Path("subreddit") String subreddit,
+			@Path("sort") String sort,
+			@Path("window") String window,
+			@Path("page") int page
+			);	
+
+	@GET("/3/gallery/r/{subreddit}/{id}")
+	Call<ImgurResponseWrapper<GalleryImage>> getSubredditImageInfo(
+			@Path("subreddit") String subreddit,
+			@Path("id") String id );
+
+	@GET("/3/gallery/t/{tag}/{sort}/{window}/{page}")
+	Call<ImgurResponseWrapper<TagGallery>> getTagGallery(
+			@Path("tag") String tag,
+			@Path("sort") String sort,
+			@Path("window") String window,
+			@Path("page") int page
+			);
+
+	@GET("/3/gallery/image/{id}/tags")
+	Call<ImgurResponseWrapper<TagVoteList>> getGalleryItemTagVotes(
+			@Path("id") String id );
+	
+	
+	@POST("/3/gallery/{id}/vote/tag/{tag}/{vote}")
+	Call<ImgurResponseWrapper<Boolean>> voteGalleryItemTag(
+			@Path("id") String id,
+			@Path("tag") String tag,
+			@Path("vote") String vote );
+	
+	@GET("/3/gallery/search/{sort}/{window}/{page}")
+	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> searchGallery(
+			@Path("sort") String sort,
+			@Path("window") String window,
+			@Path("page") int page,
+			@Query("q") String compoundQuery,
+			@Query("q_all") String allWords,
+			@Query("q_any") String anyWords,
+			@Query("q_exactly") String thisPhrase,
+			@Query("q_not") String notThisPhrase,
+			@Query("q_type") String queryType,
+			@Query("q_size_px") String imageSize );
+			
+	@GET("/3/gallery/random/random/{page}")
+	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listRandomGallery(
+			@Path("page") int page );
+
+	@FormUrlEncoded
+	@POST("/3/gallery/{id}")
+	Call<BasicResponse<Boolean>> shareGalleryItem(
+			@Path("id") String itemId,
+			@Field("title") String title,
+			@Field("topic") int topicId,
+			@Field("terms") int agreedToTerms,
+			@Field("mature") int nsfw );
+	
+	@DELETE("/3/gallery/{id}" )
+	Call<BasicResponse<Boolean>> unshareGalleryItem(
+			@Path("id") String itemId );
+
+	@POST("/3/gallery/{id}/report" )
+	Call<BasicResponse<Boolean>> reportGalleryItem(
+			@Path("id") String itemId,
+			@Query("reason") int reason );
+
+	@GET("/3/gallery/{id}/votes" )
+	Call<ImgurResponseWrapper<Votes>> getGalleryItemVotes(
+			@Path("id") String itemId );
+
+	@GET("/3/gallery/{id}/comments/{sort}" )
+	Call<ImgurResponseWrapper<List<Comment>>> getGalleryItemComments(
+			@Path("id") String itemId,
+			@Path("sort") String sort );
+
+	@GET("/3/gallery/{id}/comments/ids" )
+	Call<ImgurResponseWrapper<List<Long>>> getGalleryItemCommentIds(
+			@Path("id") String itemId );
+
+	@GET("/3/gallery/{id}/comments/count" )
+	Call<ImgurResponseWrapper<Integer>> getGalleryItemCommentCount(
+			@Path("id") String itemId );
+
+	
 	// ============================================================
 	// ============================================================
 	// ============================================================
@@ -301,7 +397,26 @@ public interface RetrofittedImgur {
 	Call<ImgurResponseWrapper<Image>> getImageInfo(
 			@Path("id") String id );
 
+
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// TOPIC CALLS
+	// ============================================================
+
+	@GET("/3/topics/defaults")
+	Call<ImgurResponseWrapper<List<Topic>>> listDefaultTopics();
 	
+
+	@GET("/3/topics/{topic_id}/{sort}/{window}/{page}")
+	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listTopicItems(
+			@Path("topic_id") int topicId,
+			@Path("sort") String sort,
+			@Path("window") String window,
+			@Path("page") int page
+			);
 	
 	// ============================================================
 	// ============================================================

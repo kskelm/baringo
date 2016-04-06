@@ -100,4 +100,4 @@ public class Trophy {
 		return Utils.toString( this );
 	}
 
-} // class AccountSettings
+}

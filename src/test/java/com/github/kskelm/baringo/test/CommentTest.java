@@ -7,6 +7,8 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 import com.github.kskelm.baringo.model.Comment;
+import com.github.kskelm.baringo.model.ReportReason;
+import com.github.kskelm.baringo.model.Vote;
 import com.github.kskelm.baringo.util.BaringoApiException;
 
 
@@ -78,7 +80,7 @@ System.err.println("TODO: TEST VALUES OF UPS/DOWNS ONCE WE CAN GET COMMENTS FROM
 		setup.switchToUserAuth();
 		// I'm happy with just being able to call without bombing out.
 		Comment comm = setup.getClient().commentService().getComment( Setup.TEST_COMMENT_ID );
-		setup.getClient().commentService().setVote( comm.getId(), Comment.Vote.Up );
+		setup.getClient().commentService().setVote( comm.getId(), Vote.Up );
 	}
 
 	@Test
@@ -88,7 +90,7 @@ System.err.println("TODO: TEST VALUES OF UPS/DOWNS ONCE WE CAN GET COMMENTS FROM
 		
 		Comment comm = setup.getClient().commentService().getComment( Setup.TEST_COMMENT_ID );
 		long id = setup.getClient().commentService().addReply( comm, "blerpaderp" );
-		setup.getClient().commentService().report( id, Comment.ReportReason.ShouldBeMarkedNsfw );
+		setup.getClient().commentService().report( id, ReportReason.ShouldBeMarkedNsfw );
 		setup.getClient().commentService().deleteComment( id );
 
 	}
