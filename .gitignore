@@ -2,6 +2,8 @@
 
 .classpath
 bin
+target
+javadoc
 .settings
 .project
 .target

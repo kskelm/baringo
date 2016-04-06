@@ -1,12 +1,8 @@
 package com.github.kskelm.baringo.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import junit.framework.TestCase;
 
-import com.github.kskelm.baringo.Quota;
 import com.github.kskelm.baringo.model.CustomGallery;
 import com.github.kskelm.baringo.model.GalleryItem;
 import com.github.kskelm.baringo.util.BaringoApiException;

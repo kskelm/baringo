@@ -33,42 +33,6 @@ public class Comment {
 		 */
 		@SerializedName("worst") Worst;
 	}
-
-	/**
-	 * When reporting a comment as inappropriate, this is
-	 * the reason code to pass in.
-	 */
-	public enum ReportReason {
-		/**
-		 * Ambiguously rejected
-		 */
-		@SerializedName("1") DoesntBelongOnImgur,
-		/**
-		 * The image is advertising spam
-		 */
-		@SerializedName("2") Spam,
-		/**
-		 * The image includes abusive or hateful content
-		 */
-		@SerializedName("3") Abusive,
-		/**
-		 * Not safe for work, but not marked that way
-		 */
-		@SerializedName("4") ShouldBeMarkedNsfw,
-		/**
-		 * Ambiguously rejected
-		 */
-		@SerializedName("5") Pornography,
-	}
-
-	/**
-	 * When voting, these are the two values you can use.
-	 * Removing a vote means sending the same value again.
-	 */
-	public enum Vote {
-		@SerializedName("up") Up,
-		@SerializedName("down") Down
-	}
 	
 	/**
 	 * The ID of the comment

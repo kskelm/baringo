@@ -1,5 +1,5 @@
 /**
- * Imgur CustomGallery service
+ * Imgur CustomGallery service {@link https://api.imgur.com/endpoints/custom_gallery}
  */
 package com.github.kskelm.baringo;
 
@@ -20,7 +20,7 @@ import com.github.kskelm.baringo.util.BaringoApiException;
 
 /**
  * @author kskelm
- *
+ * Imgur CustomGallery service {@link https://api.imgur.com/endpoints/custom_gallery}
  */
 public class CustomGalleryService {
 
@@ -40,7 +40,7 @@ public class CustomGalleryService {
 			GalleryImage.Window window,
 			int page ) throws BaringoApiException {
 
-		return getTaggedGallery( "custom", sort, window, page );
+		return getSubGallery( "custom", sort, window, page );
 	} // getCustomGallery
 
 	/**
@@ -61,7 +61,7 @@ public class CustomGalleryService {
 			GalleryImage.Window window,
 			int page ) throws BaringoApiException {
 
-		return getTaggedGallery( "filtered", sort, window, page );
+		return getSubGallery( "filtered", sort, window, page );
 	} // getFilteredGallery
 
 	/**
@@ -181,7 +181,7 @@ public class CustomGalleryService {
 	// ====================================================================
 
 
-	private CustomGallery getTaggedGallery(
+	private CustomGallery getSubGallery(
 			String type,
 			GalleryImage.Sort sort,
 			GalleryImage.Window window,
@@ -203,7 +203,7 @@ public class CustomGalleryService {
 			// TODO This is so filthy that I need a shower. 
 			gal.setConvertedItems(
 					client.galleryService()
-							.convertToItems(  gal.getInternalItems() ) );
+							.convertToGalleryItems(  gal.getInternalItems() ) );
 			return gal;
 		} catch (IOException e) {
 			throw new BaringoApiException( e.getMessage() );
@@ -212,8 +212,8 @@ public class CustomGalleryService {
 
 	protected CustomGalleryService( BaringoClient client, GsonBuilder gsonBuilder ) {
 		this.client = client;
-	} // constructor
+	} 
 	
 	private BaringoClient client = null;
 
-} // class AccountService
+}

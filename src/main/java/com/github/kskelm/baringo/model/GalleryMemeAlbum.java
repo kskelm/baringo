@@ -1,11 +1,6 @@
 /**
- * Model object for albums found in a gallery.
- * This is a subclass of GalleryItemProxy because
- * GalleryImage and GalleryAlbum are both returned
- * by various Imgur APIs and they share a notable
- * number of characteristics.  Check the class
- * type of an instance and cast it to get the
- * appropriate version.
+ * Model object for albums found in the meme gallery,
+ * extended with meme metadata.
  */
 package com.github.kskelm.baringo.model;
 
@@ -16,11 +11,13 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * 
  * @author kskelm
+ * UPDATE: apparently Imgur doesn't really support this anymore at least
+ * as of 6/24/15.  https://groups.google.com/forum/#!msg/imgur/BEyZryAhGi0/yfOFyixuPy4J
+ * ... MARK THIS CLASS FOR DELETION
  *
  */
-public class GalleryAlbum extends GalleryItem {
+public class GalleryMemeAlbum extends GalleryItem {
 
 	/**
 	 * A GalleryAlbum has a privacy level. See @see <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
@@ -125,22 +122,31 @@ public class GalleryAlbum extends GalleryItem {
 		return images;
 	}
 
+	/**
+	 * Returns meme-related metadata
+	 * @return the memeMetaData
+	 */
+	public MemeMetaData getMemeMetaData() {
+		return memeMetaData;
+	}
+	
 	
 	public String toString() {
-		HashMap<String,Object> fields = Utils.toHashMap( this, GalleryAlbum.class );
+		HashMap<String,Object> fields = Utils.toHashMap( this, GalleryMemeAlbum.class );
+		fields.putAll( Utils.toHashMap( this, GalleryAlbum.class ) );
 		fields.putAll( Utils.toHashMap( this, GalleryItem.class ) );
-		return Utils.toString( fields, GalleryAlbum.class.getSimpleName() );
+		return Utils.toString( fields, GalleryMemeAlbum.class.getSimpleName() );
 	} // toString
 	
 	// =========================================================
 
 	// INTERNAL ONLY
-	public GalleryAlbum() { }
+	public GalleryMemeAlbum() { }
 
 	// INTERNAL ONLY
-	public GalleryAlbum( GalleryItemProxy p ) {
+	public GalleryMemeAlbum( GalleryItemProxy p ) {
 		super( p );
-		copyFrom( p, GalleryAlbum.class );
+		copyFrom( p, GalleryMemeAlbum.class );
 	} // lame copy constructor
 	
 	protected String coverId;
@@ -151,5 +157,8 @@ public class GalleryAlbum extends GalleryItem {
 	@SerializedName("images_count")
 	protected int imageCount;
 	protected List<Image> images;
-
+int foo; // TODO CHECK THIS IS WHAT'S COMING BACK
+	@SerializedName("meme_metadata")
+	protected MemeMetaData memeMetaData;
+	
 } // GalleryAlbum

@@ -99,7 +99,7 @@ public class AccountService {
 
 			client.throwOnWrapperError( res );
 
-			return client.galleryService().convertToItems( out.getData() );
+			return client.galleryService().convertToGalleryItems( out.getData() );
 		} catch (IOException e) {
 			throw new BaringoApiException( e.getMessage() );
 		} 
@@ -130,7 +130,7 @@ public class AccountService {
 
 			client.throwOnWrapperError( res );
 
-			return client.galleryService().convertToItems( out.getData() );
+			return client.galleryService().convertToGalleryItems( out.getData() );
 		} catch (IOException e) {
 			throw new BaringoApiException( e.getMessage() );
 		} 
@@ -159,7 +159,7 @@ public class AccountService {
 
 			client.throwOnWrapperError( res );
 
-			return client.galleryService().convertToItems( out.getData() );
+			return client.galleryService().convertToGalleryItems( out.getData() );
 		} catch (IOException e) {
 			throw new BaringoApiException( e.getMessage() );
 		} 
