@@ -13,6 +13,7 @@ import com.github.kskelm.baringo.model.Album;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
+import com.github.kskelm.baringo.model.Conversation;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.Notification;
 import com.github.kskelm.baringo.model.OAuth2;
@@ -398,11 +399,52 @@ public interface RetrofittedImgur {
 	// IMAGE CALLS
 	// ============================================================
 
+// TODO
 	@GET("/3/image/{id}")
 	Call<ImgurResponseWrapper<Image>> getImageInfo(
 			@Path("id") String id );
+// TODO
+// TODO
+// TODO
+	
+	
+	
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// CONVERSATION CALLS
+	// ============================================================
 
+	@GET("/3/conversations")
+	Call<ImgurResponseWrapper<List<Conversation>>> getConversations();
+	
+	@GET("/3/conversations/{id}/{page}/{offset}")
+	Call<ImgurResponseWrapper<Conversation>> getConversationMessages(
+			@Path("id") long conversationId,
+			@Query("title") int page );
 
+	@FormUrlEncoded
+	@POST("/3/conversations/{to_user_name}")
+	Call<ImgurResponseWrapper<Boolean>> sendMessage(
+				@Path("to_user_name") String toUserName,
+				@Field("body") String body );
+	
+	@DELETE("/3/conversations/{id}")
+	Call<ImgurResponseWrapper<Boolean>> deleteConversation(
+			@Path("id") long conversationId );
+
+	@POST("/3/conversations/report/{user_name}")
+	Call<ImgurResponseWrapper<Boolean>> reportMessageSender(
+			@Path("user_name") String userName );
+
+	@POST("/3/conversations/block/{user_name}")
+	Call<ImgurResponseWrapper<Boolean>> blockMessageSender(
+			@Path("user_name") String userName );
+
+	
+	
 	// ============================================================
 	// ============================================================
 	// ============================================================

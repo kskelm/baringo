@@ -86,6 +86,14 @@ public class BaringoClient {
 	}
 
 	/**
+	 * Returns the ConversationService object used to execute message-related operations
+	 * @return the conversation service
+	 */
+	public ConversationService conversationService() {
+		return conSvc;
+	} 
+
+	/**
 	 * Returns the TopicService object used to execute topic-related operations
 	 * @return the gallery service
 	 */
@@ -232,6 +240,7 @@ public class BaringoClient {
 		this.comSvc = new CommentService( this, gsonBuilder );
 		this.cusGalSvc = new CustomGalleryService( this, gsonBuilder );
 		this.topSvc = new TopicService( this, gsonBuilder );
+		this.conSvc = new ConversationService( this, gsonBuilder );
 
 		this.authSvc = new AuthService( this, clientId, clientSecret );
 
@@ -374,6 +383,7 @@ public class BaringoClient {
 	private CommentService comSvc = null;
 	private CustomGalleryService cusGalSvc = null;
 	private TopicService topSvc = null;
+	private ConversationService conSvc = null;
 
 	private AuthService authSvc = null;
 
