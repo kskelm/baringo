@@ -5,17 +5,15 @@ package com.github.kskelm.baringo;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import com.github.kskelm.baringo.model.BasicResponse;
+import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.Comment;
 //import com.github.kskelm.baringo.model.GalleryMemeAlbum;
 //import com.github.kskelm.baringo.model.GalleryMemeImage;
 //import com.github.kskelm.baringo.model.GallerySubredditAlbum;
 //import com.github.kskelm.baringo.model.GallerySubredditImage;
 import com.github.kskelm.baringo.model.Image;
-import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.ReportReason;
 import com.github.kskelm.baringo.model.TagGallery;
 import com.github.kskelm.baringo.model.TagVote;
@@ -29,12 +27,7 @@ import com.github.kskelm.baringo.model.gallery.GalleryItemProxy;
 import com.github.kskelm.baringo.model.search.CompoundSearchQuery;
 import com.github.kskelm.baringo.model.search.SearchQuery;
 import com.github.kskelm.baringo.util.BaringoApiException;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
-import com.google.gson.stream.JsonWriter;
 
 import retrofit.Call;
 import retrofit.Response;
@@ -471,17 +464,17 @@ public class GalleryService {
 			int topicId,
 			boolean agreedToTerms,
 			boolean nsfw ) throws BaringoApiException {
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().shareGalleryItem(
 						itemId, title, topicId,
 						agreedToTerms ? 1 : 0,
 								nsfw ? 1 : 0 );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			BasicResponse<Boolean> out = res.body();
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			ImgurResponseWrapper<Boolean> out = res.body();
 
-			client.throwOnBasicWrapperError( res );
+			client.throwOnWrapperError( res );
 
 			return out.getData();
 		} catch (IOException e) {
@@ -499,14 +492,14 @@ public class GalleryService {
 	 * @throws BaringoApiException - it didn't
 	 */
 	public boolean unshareItem( String itemId ) throws BaringoApiException {
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().unshareGalleryItem( itemId );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			BasicResponse<Boolean> out = res.body();
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			ImgurResponseWrapper<Boolean> out = res.body();
 
-			client.throwOnBasicWrapperError( res );
+			client.throwOnWrapperError( res );
 
 			return out.getData();
 		} catch (IOException e) {
@@ -527,14 +520,14 @@ public class GalleryService {
 			ReportReason reason ) throws BaringoApiException {
 
 		int reasonNum = reason.ordinal() + 1;
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().reportGalleryItem( itemId, reasonNum );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			BasicResponse<Boolean> out = res.body();
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			ImgurResponseWrapper<Boolean> out = res.body();
 
-			client.throwOnBasicWrapperError( res );
+			client.throwOnWrapperError( res );
 
 			return out.getData();
 		} catch (IOException e) {

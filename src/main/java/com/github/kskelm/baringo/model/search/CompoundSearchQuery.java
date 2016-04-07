@@ -5,9 +5,7 @@ package com.github.kskelm.baringo.model.search;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
-import com.github.kskelm.baringo.BaringoClient;
 import com.github.kskelm.baringo.util.BaringoApiException;
 
 /**
@@ -245,14 +243,14 @@ public class CompoundSearchQuery  {
 			return buf.toString();
 		}
 
+
+		// ===================================================
+
+
 		private String name;
 		private boolean anding; // have we already starting anding entries?
 		private boolean oring; // have we already started oring entries?
 		private List<String> entries = new ArrayList<>();
 		private CompoundSearchQuery parent;
 	}
-
-	// ===================================================
-
-	private static final Logger log = Logger.getLogger( BaringoClient.LOG_NAME );
 }

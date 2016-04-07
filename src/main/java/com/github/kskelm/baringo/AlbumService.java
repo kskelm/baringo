@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.kskelm.baringo.model.Album;
-import com.github.kskelm.baringo.model.BasicResponse;
-import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
+import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.util.BaringoApiException;
 import com.github.kskelm.baringo.util.BaringoAuthException;
 import com.github.kskelm.baringo.util.Utils;
@@ -94,13 +93,13 @@ public class AlbumService {
 
 		album.prepareForSave(); // create imageid array for saving
 
-		Call<BasicResponse<Map<String,String>>> call =
+		Call<ImgurResponseWrapper<Map<String,String>>> call =
 				client.getApi().createAlbum( album );
 
 		try {
-			Response<BasicResponse<Map<String,String>>> res = call.execute();
-			BasicResponse<Map<String,String>> out = res.body();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Map<String,String>>> res = call.execute();
+			ImgurResponseWrapper<Map<String,String>> out = res.body();
+			client.throwOnWrapperError( res );
 			
 			Album saved = getAlbum( out.getData().get( "id" ) );
 			album.copyFrom( saved );
@@ -132,13 +131,13 @@ public class AlbumService {
 		album.prepareForSave(); // create imageid array for saving
 
 
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().updateAlbum( album.getAPIReferenceKey(), album );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			BasicResponse<Boolean> out = res.body();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			ImgurResponseWrapper<Boolean> out = res.body();
+			client.throwOnWrapperError( res );
 			return out.getData();
 		} catch (IOException e) {
 			throw new BaringoApiException( e.getMessage() );
@@ -164,13 +163,13 @@ public class AlbumService {
 //		if( id == null ) {
 //			throw new BaringoApiException( "Album is not owned by logged-in user, or delete hash unknown" );
 //		}
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().deleteAlbum( album.getAPIReferenceKey() );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			BasicResponse<Boolean> out = res.body();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			ImgurResponseWrapper<Boolean> out = res.body();
+			client.throwOnWrapperError( res );
 			return out.getData();
 		} catch (IOException e) {
 			throw new BaringoApiException( e.getMessage() );
@@ -199,12 +198,12 @@ public class AlbumService {
 			return; // already done
 		} // if
 
-		Call<BasicResponse<Object>> call =
+		Call<ImgurResponseWrapper<Object>> call =
 				client.getApi().toggleAlbumFavorite( album.getId() );
 
 		try {
-			Response<BasicResponse<Object>> res = call.execute();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Object>> res = call.execute();
+			client.throwOnWrapperError( res );
 			album.setFavorite( true );
 			return;
 		} catch (IOException e) {
@@ -233,12 +232,12 @@ public class AlbumService {
 			return; // already done
 		} // if
 
-		Call<BasicResponse<Object>> call =
+		Call<ImgurResponseWrapper<Object>> call =
 				client.getApi().toggleAlbumFavorite( album.getId() );
 
 		try {
-			Response<BasicResponse<Object>> res = call.execute();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Object>> res = call.execute();
+			client.throwOnWrapperError( res );
 			album.setFavorite( false );
 		} catch (IOException e) {
 			throw new BaringoApiException( e.getMessage() );
@@ -276,13 +275,13 @@ public class AlbumService {
 			Album album,
 			List<String> imageIds ) throws BaringoApiException {
 
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().addAlbumImageIds( album.getAPIReferenceKey(), imageIds );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			BasicResponse<Boolean> out = res.body();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			ImgurResponseWrapper<Boolean> out = res.body();
+			client.throwOnWrapperError( res );
 			if( out.getData() ) { // success!
 				if( imageIds.size() == 1 ) { // faster just to load the one image
 					Image img = client.imageService().getImageInfo( imageIds.get( 0 ) );
@@ -332,13 +331,13 @@ public class AlbumService {
 		
 		String joinedIds = Utils.joinCSV( imageIds );
 		
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().deleteAlbumImageIds( album.getAPIReferenceKey(), joinedIds );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			BasicResponse<Boolean> out = res.body();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			ImgurResponseWrapper<Boolean> out = res.body();
+			client.throwOnWrapperError( res );
 			if( out.getData() ) { // success!
 				List<Image> newList = new ArrayList<>();
 				for( Image image : album.getImages() ) {

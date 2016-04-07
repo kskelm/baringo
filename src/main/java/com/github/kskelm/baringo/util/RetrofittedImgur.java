@@ -10,11 +10,10 @@ import com.github.kskelm.baringo.CommentService.CommentListWrapper;
 import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.AccountSettings;
 import com.github.kskelm.baringo.model.Album;
-import com.github.kskelm.baringo.model.BasicResponse;
+import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.Image;
-import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.Notification;
 import com.github.kskelm.baringo.model.OAuth2;
 import com.github.kskelm.baringo.model.TagGallery;
@@ -23,7 +22,6 @@ import com.github.kskelm.baringo.model.Topic;
 import com.github.kskelm.baringo.model.Votes;
 import com.github.kskelm.baringo.model.gallery.CustomGallery;
 import com.github.kskelm.baringo.model.gallery.GalleryImage;
-import com.github.kskelm.baringo.model.gallery.GalleryItem;
 import com.github.kskelm.baringo.model.gallery.GalleryItemProxy;
 import com.github.kskelm.baringo.model.gallery.GalleryProfile;
 
@@ -171,27 +169,27 @@ public interface RetrofittedImgur {
 	Call<ImgurResponseWrapper<List<Image>>> getAlbumImages( @Path("albumId") String albumId );
 
 	@POST("/3/album/")
-	Call<BasicResponse<Map<String,String>>> createAlbum( @Body() Album album );
+	Call<ImgurResponseWrapper<Map<String,String>>> createAlbum( @Body() Album album );
 	
 	@POST("/3/album/{albumId}")
-	Call<BasicResponse<Boolean>> updateAlbum(
+	Call<ImgurResponseWrapper<Boolean>> updateAlbum(
 			@Path("albumId") String albumId,
 			@Body() Album album );
 
 	@DELETE("/3/album/{albumId}")
-	Call<BasicResponse<Boolean>> deleteAlbum( @Path("albumId") String albumId );
+	Call<ImgurResponseWrapper<Boolean>> deleteAlbum( @Path("albumId") String albumId );
 
 	@GET("/3/album/{albumId}/favorite")
-	Call<BasicResponse<Object>> toggleAlbumFavorite( @Path("albumId") String albumId );
+	Call<ImgurResponseWrapper<Object>> toggleAlbumFavorite( @Path("albumId") String albumId );
 
 	@FormUrlEncoded
 	@PUT("/3/album/{albumId}/add")
-	Call<BasicResponse<Boolean>> addAlbumImageIds(
+	Call<ImgurResponseWrapper<Boolean>> addAlbumImageIds(
 			@Path("albumId") String albumId,
 			@Field("ids") List<String> ids );
 
 	@DELETE("/3/album/{albumId}/remove_images")
-	Call<BasicResponse<Boolean>> deleteAlbumImageIds(
+	Call<ImgurResponseWrapper<Boolean>> deleteAlbumImageIds(
 			@Path("albumId") String albumId,
 			@Query("ids") String ids );
 
@@ -209,12 +207,12 @@ public interface RetrofittedImgur {
 	
 	@FormUrlEncoded
 	@POST("/3/comment")
-	Call<BasicResponse<Map<String,Long>>> addComment(
+	Call<ImgurResponseWrapper<Map<String,Long>>> addComment(
 			@Field("image_id") String imageId,
 			@Field("comment") String text );	
 	
 	@DELETE("/3/comment/{id}")
-	Call<BasicResponse<Boolean>> deleteComment(
+	Call<ImgurResponseWrapper<Boolean>> deleteComment(
 			@Path("id") long id );
 
 	@GET("/3/comment/{id}/replies")
@@ -223,19 +221,19 @@ public interface RetrofittedImgur {
 	
 	@FormUrlEncoded
 	@POST("/3/comment/{parent_id}")
-	Call<BasicResponse<Map<String,Long>>> replyComment(
+	Call<ImgurResponseWrapper<Map<String,Long>>> replyComment(
 			@Field("image_id") String imageId,
 			@Field("parent_id") long parentId,
 			@Field("comment") String text );	
 	
 	@POST("/3/comment/{id}/vote/{vote}")
-	Call<BasicResponse<Boolean>> voteComment(
+	Call<ImgurResponseWrapper<Boolean>> voteComment(
 			@Path("id") long commentId,
 			@Path("vote") String vote );	
 
 	@FormUrlEncoded
 	@POST("/3/comment/{id}/report")
-	Call<BasicResponse<Object>> reportComment(
+	Call<ImgurResponseWrapper<Object>> reportComment(
 			@Path("id") long commentId,
 			@Field("reason") String reason );	
 
@@ -255,21 +253,21 @@ public interface RetrofittedImgur {
 
 	@FormUrlEncoded
 	@PUT("/3/g/custom/add_tags" )
-	Call<BasicResponse<Boolean>> addCustomGalleryTags(
+	Call<ImgurResponseWrapper<Boolean>> addCustomGalleryTags(
 			@Field("tags") String tag );
 			
 	@DELETE("/3/g/custom/remove_tags" )
-	Call<BasicResponse<Boolean>> deleteCustomGalleryTags(
+	Call<ImgurResponseWrapper<Boolean>> deleteCustomGalleryTags(
 			@Query("tags") String tag );
 			
 	@FormUrlEncoded
 	@POST("/3/g/block_tag" )
-	Call<BasicResponse<Boolean>> blockGalleryTag(
+	Call<ImgurResponseWrapper<Boolean>> blockGalleryTag(
 			@Field("tag") String tag );
 
 	@FormUrlEncoded
 	@POST("/3/g/unblock_tag" )
-	Call<BasicResponse<Boolean>> unblockGalleryTag(
+	Call<ImgurResponseWrapper<Boolean>> unblockGalleryTag(
 			@Field("tag") String tag );
 
 	// ============================================================
@@ -358,7 +356,7 @@ public interface RetrofittedImgur {
 
 	@FormUrlEncoded
 	@POST("/3/gallery/{id}")
-	Call<BasicResponse<Boolean>> shareGalleryItem(
+	Call<ImgurResponseWrapper<Boolean>> shareGalleryItem(
 			@Path("id") String itemId,
 			@Field("title") String title,
 			@Field("topic") int topicId,
@@ -366,11 +364,11 @@ public interface RetrofittedImgur {
 			@Field("mature") int nsfw );
 	
 	@DELETE("/3/gallery/{id}" )
-	Call<BasicResponse<Boolean>> unshareGalleryItem(
+	Call<ImgurResponseWrapper<Boolean>> unshareGalleryItem(
 			@Path("id") String itemId );
 
 	@POST("/3/gallery/{id}/report" )
-	Call<BasicResponse<Boolean>> reportGalleryItem(
+	Call<ImgurResponseWrapper<Boolean>> reportGalleryItem(
 			@Path("id") String itemId,
 			@Query("reason") int reason );
 

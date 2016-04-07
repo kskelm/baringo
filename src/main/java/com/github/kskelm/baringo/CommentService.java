@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.github.kskelm.baringo.model.BasicResponse;
-import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
+import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.ReportReason;
 import com.github.kskelm.baringo.model.Vote;
 import com.github.kskelm.baringo.util.BaringoApiException;
@@ -66,13 +65,13 @@ public class CommentService {
 			String imageOrAlbumId,
 			String text ) throws BaringoApiException {
 
-		Call<BasicResponse<Map<String,Long>>> call =
+		Call<ImgurResponseWrapper<Map<String,Long>>> call =
 				client.getApi().addComment( imageOrAlbumId, text );
 
 		try {
-			Response<BasicResponse<Map<String,Long>>> res = call.execute();
-			BasicResponse<Map<String,Long>> out = res.body();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Map<String,Long>>> res = call.execute();
+			ImgurResponseWrapper<Map<String,Long>> out = res.body();
+			client.throwOnWrapperError( res );
 
 			return out.getData().get( "id" );
 		} catch (IOException e) {
@@ -104,13 +103,13 @@ public class CommentService {
 	public boolean deleteComment(
 			long commentId ) throws BaringoApiException {
 
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().deleteComment( commentId );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			BasicResponse<Boolean> out = res.body();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			ImgurResponseWrapper<Boolean> out = res.body();
+			client.throwOnWrapperError( res );
 
 			return out.getData();
 		} catch (IOException e) {
@@ -155,13 +154,13 @@ public class CommentService {
 			Comment parent,
 			String text ) throws BaringoApiException {
 
-		Call<BasicResponse<Map<String,Long>>> call =
+		Call<ImgurResponseWrapper<Map<String,Long>>> call =
 				client.getApi().replyComment( parent.getImageId(), parent.getId(), text );
 
 		try {
-			Response<BasicResponse<Map<String,Long>>> res = call.execute();
-			BasicResponse<Map<String,Long>> out = res.body();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Map<String,Long>>> res = call.execute();
+			ImgurResponseWrapper<Map<String,Long>> out = res.body();
+			client.throwOnWrapperError( res );
 			return out.getData().get( "id" );
 		} catch (IOException e) {
 			throw new BaringoApiException( e.getMessage() );
@@ -189,13 +188,13 @@ public class CommentService {
 
 		String voteStr = vote.name().toLowerCase();
 		
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().voteComment( commentId, voteStr );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			BasicResponse<Boolean> out = res.body();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			ImgurResponseWrapper<Boolean> out = res.body();
+			client.throwOnWrapperError( res );
 
 			return out.getData();
 		} catch (IOException e) {
@@ -214,12 +213,12 @@ public class CommentService {
 			ReportReason reason ) throws BaringoApiException {
 
 		String reasonStr = reason.name().toLowerCase();
-		Call<BasicResponse<Object>> call =
+		Call<ImgurResponseWrapper<Object>> call =
 				client.getApi().reportComment( commentId, reasonStr );
 
 		try {
-			Response<BasicResponse<Object>> res = call.execute();
-			client.throwOnBasicWrapperError( res );
+			Response<ImgurResponseWrapper<Object>> res = call.execute();
+			client.throwOnWrapperError( res );
 		} catch (IOException e) {
 			throw new BaringoApiException( e.getMessage() );
 		} 

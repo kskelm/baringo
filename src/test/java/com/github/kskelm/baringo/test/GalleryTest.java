@@ -178,7 +178,7 @@ public class GalleryTest extends TestCase {
 
 		// test "and"
 		query = new SearchQuery()
-				.allWords( "dog,api" );
+				.allWords( "dog,cat" );
 		list = setup.getClient()
 				.galleryService().searchGallery(
 						query,
@@ -189,7 +189,7 @@ public class GalleryTest extends TestCase {
 
 		// test "or"
 		query = new SearchQuery()
-				.anyWords( "dog,api" );
+				.anyWords( "dog,cat" );
 
 		list = setup.getClient()
 				.galleryService().searchGallery(
