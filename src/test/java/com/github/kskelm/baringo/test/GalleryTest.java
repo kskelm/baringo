@@ -14,8 +14,6 @@ import com.github.kskelm.baringo.model.Vote;
 import com.github.kskelm.baringo.model.Votes;
 import com.github.kskelm.baringo.model.gallery.GalleryImage;
 import com.github.kskelm.baringo.model.gallery.GalleryItem;
-import com.github.kskelm.baringo.model.gallery.GalleryMemeImage;
-import com.github.kskelm.baringo.model.gallery.GallerySubredditImage;
 import com.github.kskelm.baringo.model.search.CompoundSearchQuery;
 import com.github.kskelm.baringo.model.search.SearchQuery;
 import com.github.kskelm.baringo.util.BaringoApiException;

@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import com.github.kskelm.baringo.model.Account;
-import com.github.kskelm.baringo.model.BasicResponse;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.util.BaringoApiException;
 import com.github.kskelm.baringo.util.RetrofittedImgur;
@@ -210,19 +209,6 @@ public class BaringoClient {
 			throw new BaringoApiException( "Unknown error", resp.body().getStatus() );
 		} // if
 	} // throwOnWrapperError
-
-	protected <T> void throwOnBasicWrapperError( Response<BasicResponse<T>> resp ) throws BaringoApiException {
-		if( resp.code() != 200 ) {
-			throw new BaringoApiException( resp.raw().request().urlString()
-					+ ": " +  resp.message(), resp.raw().code() );
-		} // if
-		if( resp.body() == null ) {
-			throw new BaringoApiException( "No response body found", 0 );
-		} // if
-		if( resp.body().getStatus() != 200 || !resp.body().isSuccess() ) {
-			throw new BaringoApiException( "Unknown error", resp.body().getStatus() );
-		} // if
-	} // throwOnBasicWrapperError
 
 	private RetrofittedImgur create() {
 		OkHttpClient client = new OkHttpClient();
