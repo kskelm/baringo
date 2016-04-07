@@ -3,8 +3,8 @@ package com.github.kskelm.baringo.test;
 import org.junit.Test;
 import junit.framework.TestCase;
 
-import com.github.kskelm.baringo.model.CustomGallery;
-import com.github.kskelm.baringo.model.GalleryItem;
+import com.github.kskelm.baringo.model.gallery.CustomGallery;
+import com.github.kskelm.baringo.model.gallery.GalleryItem;
 import com.github.kskelm.baringo.util.BaringoApiException;
 
 
