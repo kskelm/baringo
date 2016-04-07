@@ -12,10 +12,10 @@ import com.google.gson.GsonBuilder;
 import retrofit.Call;
 import retrofit.Response;
 
-import com.github.kskelm.baringo.model.BasicResponse;
-import com.github.kskelm.baringo.model.CustomGallery;
-import com.github.kskelm.baringo.model.GalleryImage;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
+import com.github.kskelm.baringo.model.ImgurResponseWrapper;
+import com.github.kskelm.baringo.model.gallery.CustomGallery;
+import com.github.kskelm.baringo.model.gallery.GalleryImage;
 import com.github.kskelm.baringo.util.BaringoApiException;
 
 /**
@@ -74,20 +74,20 @@ public class CustomGalleryService {
 	 */
 	public boolean addCustomGalleryTag( String tag ) throws BaringoApiException {
 		
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().addCustomGalleryTags( tag );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
 			// for some reason, Imgur throws a 500 if tags already exist (?)
 			if( res.raw().code() == 500 ) {
 				return false;
 			} // if
-			client.throwOnBasicWrapperError( res );
+			client.throwOnWrapperError( res );
 			if( res.body() == null ) { // no data = nothing done (tags already set?)
 				return false;
 			} // if
-			BasicResponse<Boolean> out = res.body();
+			ImgurResponseWrapper<Boolean> out = res.body();
 
 			return out == null ? false : out.getData();
 		} catch (IOException e) {
@@ -106,11 +106,11 @@ public class CustomGalleryService {
 	@SuppressWarnings("rawtypes")
 	public boolean deleteCustomGalleryTag( String tag ) throws BaringoApiException {
 		
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().deleteCustomGalleryTags( tag );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
 			// Imgur throws a 400 if the tag wasn't in the list but we just
 			// want to eat it quietly, so we have to do this...
 			if( res.raw().code() == 400 ) {
@@ -122,9 +122,9 @@ public class CustomGalleryService {
 					return false; // man that was a long way to go
 				} // if
 			} // if
-			client.throwOnBasicWrapperError( res );
+			client.throwOnWrapperError( res );
 
-			BasicResponse<Boolean> out = res.body();
+			ImgurResponseWrapper<Boolean> out = res.body();
 
 			return out == null ? false : out.getData();
 		} catch (IOException e) {
@@ -141,13 +141,13 @@ public class CustomGalleryService {
 	 */
 	public boolean blockGalleryTag( String tag ) throws BaringoApiException {
 		
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().blockGalleryTag( tag );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			client.throwOnBasicWrapperError( res );
-			BasicResponse<Boolean> out = res.body();
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			client.throwOnWrapperError( res );
+			ImgurResponseWrapper<Boolean> out = res.body();
 
 			return out == null ? false : out.getData();
 		} catch (IOException e) {
@@ -164,13 +164,13 @@ public class CustomGalleryService {
 	 */
 	public boolean unblockGalleryTag( String tag ) throws BaringoApiException {
 		
-		Call<BasicResponse<Boolean>> call =
+		Call<ImgurResponseWrapper<Boolean>> call =
 				client.getApi().unblockGalleryTag( tag );
 
 		try {
-			Response<BasicResponse<Boolean>> res = call.execute();
-			client.throwOnBasicWrapperError( res );
-			BasicResponse<Boolean> out = res.body();
+			Response<ImgurResponseWrapper<Boolean>> res = call.execute();
+			client.throwOnWrapperError( res );
+			ImgurResponseWrapper<Boolean> out = res.body();
 
 			return out == null ? false : out.getData();
 		} catch (IOException e) {

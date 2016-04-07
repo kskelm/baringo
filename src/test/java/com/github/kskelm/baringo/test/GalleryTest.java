@@ -6,17 +6,18 @@ import org.junit.Test;
 import junit.framework.TestCase;
 
 import com.github.kskelm.baringo.model.Comment;
-import com.github.kskelm.baringo.model.GalleryImage;
-import com.github.kskelm.baringo.model.GalleryItem;
-import com.github.kskelm.baringo.model.GalleryMemeImage;
-import com.github.kskelm.baringo.model.GallerySubredditImage;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ReportReason;
-import com.github.kskelm.baringo.model.SearchQuery;
 import com.github.kskelm.baringo.model.TagGallery;
 import com.github.kskelm.baringo.model.TagVote;
 import com.github.kskelm.baringo.model.Vote;
 import com.github.kskelm.baringo.model.Votes;
+import com.github.kskelm.baringo.model.gallery.GalleryImage;
+import com.github.kskelm.baringo.model.gallery.GalleryItem;
+import com.github.kskelm.baringo.model.gallery.GalleryMemeImage;
+import com.github.kskelm.baringo.model.gallery.GallerySubredditImage;
+import com.github.kskelm.baringo.model.search.CompoundSearchQuery;
+import com.github.kskelm.baringo.model.search.SearchQuery;
 import com.github.kskelm.baringo.util.BaringoApiException;
 
 
@@ -177,7 +178,7 @@ public class GalleryTest extends TestCase {
 
 		// test "and"
 		query = new SearchQuery()
-				.allWords( "dog,api" );
+				.allWords( "dog,cat" );
 		list = setup.getClient()
 				.galleryService().searchGallery(
 						query,
@@ -188,7 +189,7 @@ public class GalleryTest extends TestCase {
 
 		// test "or"
 		query = new SearchQuery()
-				.anyWords( "dog,api" );
+				.anyWords( "dog,cat" );
 
 		list = setup.getClient()
 				.galleryService().searchGallery(
@@ -225,7 +226,39 @@ public class GalleryTest extends TestCase {
 						0);
 		assertFalse( "item type match came back", list.isEmpty() );
 
+		// let's try a compound query
+		CompoundSearchQuery q2 = new CompoundSearchQuery()
+				.title( "dog" )
+					.or( "cat" );
+		list = setup.getClient()
+				.galleryService().searchGallery(
+						q2,
+						GalleryItem.Sort.Time,
+						GalleryItem.Window.All,
+						0);
+		
+		assertFalse( "item type match came back", list.isEmpty() );
+	}
 
+	@Test
+	public void testCompoundQueryCreation() throws BaringoApiException {
+
+		CompoundSearchQuery query = new CompoundSearchQuery()
+ 			.user( "kevinkelm" )
+ 				.or( "baringoapi" )
+ 			.title( "dog" )
+ 				.and( "cat" )
+ 			.extension( "jpg" )
+ 				.and( "png" )
+ 			.meme( "sad_alligator")
+ 				.or( "adviceowl" )
+ 			.album( "astronomy" )
+ 				.and( "diy" )
+ 				.and( "asspennies" );
+		
+		assertEquals( query.toString(), "user: kevinkelm OR baringoapi"
+				+ " title: dog AND cat ext: jpg AND png album: astronomy"
+				+ " AND diy AND asspennies meme: sad_alligator OR adviceowl" );
 	}
 
 	@Test
@@ -238,8 +271,9 @@ public class GalleryTest extends TestCase {
 		assertFalse( "something came back", list.isEmpty() );
 	}
 
+
 // commenting this out for now because it stirs trouble with
-// imgur to try sharing more than once every 15 mins and they
+// imgur to try sharing more than once every 60 mins and they
 // don't helpfully return a 429, they return their blanket 400
 // and the reason has to be fished out of the error response and
 // string matched for english text.  Which is a bummer.

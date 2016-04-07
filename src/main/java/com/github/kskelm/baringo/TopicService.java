@@ -6,10 +6,10 @@ package com.github.kskelm.baringo;
 import java.io.IOException;
 import java.util.List;
 
-import com.github.kskelm.baringo.model.GalleryItem;
-import com.github.kskelm.baringo.model.GalleryItemProxy;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.Topic;
+import com.github.kskelm.baringo.model.gallery.GalleryItem;
+import com.github.kskelm.baringo.model.gallery.GalleryItemProxy;
 import com.github.kskelm.baringo.util.BaringoApiException;
 import com.google.gson.GsonBuilder;
 
