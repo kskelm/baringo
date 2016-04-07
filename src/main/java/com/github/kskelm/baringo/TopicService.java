@@ -1,5 +1,5 @@
 /**
- * Imgur API service for topics {@link https://api.imgur.com/endpoints/topic}
+ * API service for topics {@link https://api.imgur.com/endpoints/topic}
  */
 package com.github.kskelm.baringo;
 
@@ -19,7 +19,7 @@ import retrofit.Response;
 
 /**
  * @author kskelm
- *Imgur API service for topics {@link https://api.imgur.com/endpoints/topic}
+ * API service for topics {@link https://api.imgur.com/endpoints/topic}
  */
 public class TopicService {
 
@@ -102,4 +102,4 @@ public class TopicService {
 
 	private BaringoClient client = null;
 
-} // class AccountService
+}
