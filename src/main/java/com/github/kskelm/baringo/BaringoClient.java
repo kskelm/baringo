@@ -86,11 +86,11 @@ public class BaringoClient {
 	}
 
 	/**
-	 * Returns the TopicService object used to execute topic-related operations
-	 * @return the gallery service
+	 * Returns the ConversationService object used to execute message-related operations
+	 * @return the conversation service
 	 */
-	public TopicService topicService() {
-		return topSvc;
+	public ConversationService conversationService() {
+		return cnvSvc;
 	} 
 
 	/**
@@ -102,12 +102,14 @@ public class BaringoClient {
 	} 
 
 	/**
-	 * Returns the ConversationService object used to execute topic-related operations
+	 * Returns the TopicService object used to execute topic-related operations
 	 * @return the gallery service
 	 */
-	public ConversationService conversationService() {
-		return cnvSvc;
+	public TopicService topicService() {
+		return topSvc;
 	} 
+
+
 
 
 	/**
@@ -250,7 +252,6 @@ public class BaringoClient {
 		this.topSvc = new TopicService( this, gsonBuilder );
 		this.cnvSvc = new ConversationService( this, gsonBuilder );
 		this.noteSvc = new NotificationService( this, gsonBuilder );
-		
 
 		this.authSvc = new AuthService( this, clientId, clientSecret );
 
@@ -395,7 +396,6 @@ public class BaringoClient {
 	private TopicService topSvc = null;
 	private ConversationService cnvSvc = null;
 	private NotificationService noteSvc = null;
-	
 	private AuthService authSvc = null;
 
 	public static final String DEFAULT_IMGUR_BASE_URL = "https://api.imgur.com/";

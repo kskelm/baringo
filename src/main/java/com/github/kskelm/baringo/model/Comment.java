@@ -7,6 +7,11 @@ import java.util.List;
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * This represents user-generated comments on images and albums
+ * @author kskelm
+ *
+ */
 public class Comment {
 
 	
@@ -17,9 +22,9 @@ public class Comment {
 	 */
 	public enum Sort {
 		/**
-		 * Sort comments with the newest ones first. Default
+		 * Sort comments with the newest ones first.
 		 */
-		@SerializedName("newest") Newest,  // default
+		@SerializedName("newest") Newest,
 		/**
 		 * Sort comments with the oldest first
 		 */
@@ -171,7 +176,11 @@ public class Comment {
 		return children;
 	}
 
-
+	public String toString() {
+		return Utils.toString( this );
+	} // toString
+	
+	
 	// ================================================
 	private long id;
 	@SerializedName("image_id")
@@ -196,8 +205,4 @@ public class Comment {
 	private Vote vote;
 	private List<Comment> children = new ArrayList<>();
 
-
-	public String toString() {
-		return Utils.toString( this );
-	} // toString
 }
