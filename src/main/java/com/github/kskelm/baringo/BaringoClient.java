@@ -102,6 +102,15 @@ public class BaringoClient {
 	} 
 
 	/**
+	 * Returns the MemeService object used to execute meme-related operations
+	 * @return the gallery service
+	 */
+	public MemeService memeService() {
+		return memeSvc;
+	} 
+
+
+	/**
 	 * Returns the TopicService object used to execute topic-related operations
 	 * @return the gallery service
 	 */
@@ -252,6 +261,7 @@ public class BaringoClient {
 		this.topSvc = new TopicService( this, gsonBuilder );
 		this.cnvSvc = new ConversationService( this, gsonBuilder );
 		this.noteSvc = new NotificationService( this, gsonBuilder );
+		this.memeSvc = new MemeService( this, gsonBuilder );
 
 		this.authSvc = new AuthService( this, clientId, clientSecret );
 
@@ -397,7 +407,8 @@ public class BaringoClient {
 	private ConversationService cnvSvc = null;
 	private NotificationService noteSvc = null;
 	private AuthService authSvc = null;
-
+	private MemeService memeSvc = null;
+	
 	public static final String DEFAULT_IMGUR_BASE_URL = "https://api.imgur.com/";
 	public static final String LOG_NAME = "ImgurApi";
 

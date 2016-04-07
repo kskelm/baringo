@@ -6,16 +6,17 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	QuotaTest.class,
-	AuthTest.class,
-	AccountTest.class,
-	AlbumTest.class,
-	CommentTest.class,
-	CustomGalleryTest.class,
-	TopicTest.class,
-	GalleryTest.class,
-	ConversationTest.class,
-	NotificationTest.class
+//	QuotaTest.class,
+//	AuthTest.class,
+//	AccountTest.class,
+//	AlbumTest.class,
+//	CommentTest.class,
+//	CustomGalleryTest.class,
+//	TopicTest.class,
+//	GalleryTest.class,
+//	ConversationTest.class,
+//	NotificationTest.class,
+	MemeTest.class
 })
 
 public class AllTests {

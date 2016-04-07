@@ -457,43 +457,16 @@ public interface RetrofittedImgur {
 // TODO
 // TODO
 	
-	
-	
 	// ============================================================
 	// ============================================================
 	// ============================================================
 	// ============================================================
 	// ============================================================
-	// CONVERSATION CALLS
+	// MEME CALLS
 	// ============================================================
 
-	@GET("/3/conversations")
-	Call<ImgurResponseWrapper<List<Conversation>>> getConversations();
-	
-	@GET("/3/conversations/{id}/{page}/{offset}")
-	Call<ImgurResponseWrapper<Conversation>> getConversationMessages(
-			@Path("id") long conversationId,
-			@Query("title") int page );
-
-	@FormUrlEncoded
-	@POST("/3/conversations/{to_user_name}")
-	Call<ImgurResponseWrapper<Boolean>> sendMessage(
-				@Path("to_user_name") String toUserName,
-				@Field("body") String body );
-	
-	@DELETE("/3/conversations/{id}")
-	Call<ImgurResponseWrapper<Boolean>> deleteConversation(
-			@Path("id") long conversationId );
-
-	@POST("/3/conversations/report/{user_name}")
-	Call<ImgurResponseWrapper<Boolean>> reportMessageSender(
-			@Path("user_name") String userName );
-
-	@POST("/3/conversations/block/{user_name}")
-	Call<ImgurResponseWrapper<Boolean>> blockMessageSender(
-			@Path("user_name") String userName );
-
-	
+	@GET("/3/memegen/defaults")
+	Call<ImgurResponseWrapper<List<Image>>> listDefaultMemes();
 	
 	// ============================================================
 	// ============================================================
