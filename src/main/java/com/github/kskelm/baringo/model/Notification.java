@@ -13,13 +13,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Notification {
 
-	
-
 	/**
 	 * Get the ID of the notification
 	 * @return the id
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -49,16 +47,16 @@ public class Notification {
 
 
 	// ==================================================
-	private int id;
+	private long id;
 	@SerializedName("account_id")
 	private int userId;
 	private boolean viewed;
 // TODO look into why this needs to exist
-int thisTriggersWarningIconSoILookAtThisLater;
+private int thisTriggersWarningIconSoILookAtThisLater;
 	private Object content; // likely to be a comment, conversation, or message
 	
 	public String toString() {
 		return Utils.toString( this );
 	} // toString
 	
-} // class Notification
+} 

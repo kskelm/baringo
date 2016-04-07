@@ -13,7 +13,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	CommentTest.class,
 	CustomGalleryTest.class,
 	TopicTest.class,
-	GalleryTest.class
+	GalleryTest.class,
+	ConversationTest.class,
+	NotificationTest.class
 })
 
 public class AllTests {

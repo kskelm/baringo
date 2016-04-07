@@ -14,7 +14,6 @@ import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
-import com.github.kskelm.baringo.model.Notification;
 import com.github.kskelm.baringo.model.gallery.GalleryItem;
 import com.github.kskelm.baringo.model.gallery.GalleryItemProxy;
 import com.github.kskelm.baringo.model.gallery.GalleryProfile;
@@ -544,31 +543,6 @@ public class AccountService {
 		} 
 	} // getImageCount
 	
-	/**
-	 * Returns a list of notifications to the given account
-	 * ACCESS: AUTHENTICATED USER
-	 * @param onlyNew - true if the request is for only the unviewed notifications
-	 * @return A list of Notification objects
-	 * @throws BaringoApiException - something failed
-	 */
-	public List<Notification> listNotifications( boolean onlyNew ) throws BaringoApiException {
-		String userName = client.getAuthenticatedUserName();
-		if( userName == null ) {
-			throw new BaringoAuthException( "No user logged in", 401 );
-		} // if
-		
-		Call<ImgurResponseWrapper<List<Notification>>> call =
-				client.getApi().listAccountReplyNotifications( userName, onlyNew );
-		try {
-			Response<ImgurResponseWrapper<List<Notification>>> res = call.execute();
-			ImgurResponseWrapper<List<Notification>> out = res.body();
-			client.throwOnWrapperError( res );
-			return out.getData();
-			
-		} catch (IOException e) {
-			throw new BaringoApiException( e.getMessage() );
-		} 
-	} // listNotifications
 
 	// ================================================
 
@@ -578,4 +552,4 @@ public class AccountService {
 
 	private BaringoClient client = null;
 
-} // class AccountService
+}

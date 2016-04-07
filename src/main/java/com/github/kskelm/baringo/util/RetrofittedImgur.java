@@ -13,8 +13,10 @@ import com.github.kskelm.baringo.model.Album;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
+import com.github.kskelm.baringo.model.Conversation;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.Notification;
+import com.github.kskelm.baringo.model.NotificationList;
 import com.github.kskelm.baringo.model.OAuth2;
 import com.github.kskelm.baringo.model.TagGallery;
 import com.github.kskelm.baringo.model.TagVoteList;
@@ -146,12 +148,6 @@ public interface RetrofittedImgur {
 	@GET("/3/account/{username}/images/count")
 	Call<ImgurResponseWrapper<Integer>> getAccountImageCount(
 			@Path("username") String userName);
-
-	@GET("/3/account/{username}/notifications/replies")
-	Call<ImgurResponseWrapper<List<Notification>>> listAccountReplyNotifications(
-			@Path("username") String userName,
-			@Query("new") boolean onlyNew );
-
 	
 	// ============================================================
 	// ============================================================
@@ -389,7 +385,62 @@ public interface RetrofittedImgur {
 	Call<ImgurResponseWrapper<Integer>> getGalleryItemCommentCount(
 			@Path("id") String itemId );
 
+    // ============================================================
+    // ============================================================
+    // ============================================================
+    // ============================================================
+    // ============================================================
+    // CONVERSATION CALLS
+    // ============================================================
+
+    @GET("/3/conversations")
+    Call<ImgurResponseWrapper<List<Conversation>>> getConversations();
+
+    @GET("/3/conversations/{id}/{page}/{offset}")
+    Call<ImgurResponseWrapper<Conversation>> getConversationMessages(
+                    @Path("id") long conversationId,
+                    @Query("title") int page );
+
+    @FormUrlEncoded
+    @POST("/3/conversations/{to_user_name}")
+    Call<ImgurResponseWrapper<Boolean>> sendMessage(
+                            @Path("to_user_name") String toUserName,
+                            @Field("body") String body );
+
+    @DELETE("/3/conversations/{id}")
+    Call<ImgurResponseWrapper<Boolean>> deleteConversation(
+                    @Path("id") long conversationId );
+
+    @POST("/3/conversations/report/{user_name}")
+    Call<ImgurResponseWrapper<Boolean>> reportMessageSender(
+                    @Path("user_name") String userName );
+
+    @POST("/3/conversations/block/{user_name}")
+    Call<ImgurResponseWrapper<Boolean>> blockMessageSender(
+                    @Path("user_name") String userName );
+
+
+
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// ============================================================
+	// NOTIFICATION CALLS
+	// ============================================================
 	
+	@GET("/3/notification")
+	Call<ImgurResponseWrapper<NotificationList>> listNotifications(
+			@Query("new") boolean onlyNew );
+	
+	@GET("/3/notification/{id}")
+	Call<ImgurResponseWrapper<Notification>> getNotification(
+			@Path("id") long id );
+
+	@POST("/3/notification/{id}")
+	Call<ImgurResponseWrapper<Boolean>> markNotificationViewed(
+			@Path("id") long id );
+
 	// ============================================================
 	// ============================================================
 	// ============================================================
