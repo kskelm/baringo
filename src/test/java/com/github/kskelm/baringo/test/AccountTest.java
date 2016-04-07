@@ -10,12 +10,12 @@ import com.github.kskelm.baringo.model.AccountSettings;
 import com.github.kskelm.baringo.model.Album;
 import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
-import com.github.kskelm.baringo.model.GalleryImage;
-import com.github.kskelm.baringo.model.GalleryItem;
-import com.github.kskelm.baringo.model.GalleryProfile;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.Notification;
 import com.github.kskelm.baringo.model.Trophy;
+import com.github.kskelm.baringo.model.gallery.GalleryImage;
+import com.github.kskelm.baringo.model.gallery.GalleryItem;
+import com.github.kskelm.baringo.model.gallery.GalleryProfile;
 import com.github.kskelm.baringo.util.BaringoApiException;
 
 

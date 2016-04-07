@@ -13,9 +13,9 @@ import retrofit.Call;
 import retrofit.Response;
 
 import com.github.kskelm.baringo.model.BasicResponse;
-import com.github.kskelm.baringo.model.CustomGallery;
-import com.github.kskelm.baringo.model.GalleryImage;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
+import com.github.kskelm.baringo.model.gallery.CustomGallery;
+import com.github.kskelm.baringo.model.gallery.GalleryImage;
 import com.github.kskelm.baringo.util.BaringoApiException;
 
 /**

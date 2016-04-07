@@ -13,10 +13,6 @@ import com.github.kskelm.baringo.model.Album;
 import com.github.kskelm.baringo.model.BasicResponse;
 import com.github.kskelm.baringo.model.ChangedAccountSettings;
 import com.github.kskelm.baringo.model.Comment;
-import com.github.kskelm.baringo.model.CustomGallery;
-import com.github.kskelm.baringo.model.GalleryImage;
-import com.github.kskelm.baringo.model.GalleryItemProxy;
-import com.github.kskelm.baringo.model.GalleryProfile;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.Notification;
@@ -25,6 +21,11 @@ import com.github.kskelm.baringo.model.TagGallery;
 import com.github.kskelm.baringo.model.TagVoteList;
 import com.github.kskelm.baringo.model.Topic;
 import com.github.kskelm.baringo.model.Votes;
+import com.github.kskelm.baringo.model.gallery.CustomGallery;
+import com.github.kskelm.baringo.model.gallery.GalleryImage;
+import com.github.kskelm.baringo.model.gallery.GalleryItem;
+import com.github.kskelm.baringo.model.gallery.GalleryItemProxy;
+import com.github.kskelm.baringo.model.gallery.GalleryProfile;
 
 import retrofit.Call;
 import retrofit.http.Body;
@@ -337,14 +338,20 @@ public interface RetrofittedImgur {
 			@Path("sort") String sort,
 			@Path("window") String window,
 			@Path("page") int page,
-			@Query("q") String compoundQuery,
 			@Query("q_all") String allWords,
 			@Query("q_any") String anyWords,
 			@Query("q_exactly") String thisPhrase,
 			@Query("q_not") String notThisPhrase,
 			@Query("q_type") String queryType,
 			@Query("q_size_px") String imageSize );
-			
+
+	@GET("/3/gallery/search/{sort}/{window}/{page}")
+	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> compoundSearchGallery(
+			@Path("sort") String sort,
+			@Path("window") String window,
+			@Path("page") int page,
+			@Query("q") String compoundQuery );
+
 	@GET("/3/gallery/random/random/{page}")
 	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listRandomGallery(
 			@Path("page") int page );

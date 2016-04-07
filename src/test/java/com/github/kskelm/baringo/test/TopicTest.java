@@ -5,8 +5,8 @@ import java.util.List;
 import org.junit.Test;
 import junit.framework.TestCase;
 
-import com.github.kskelm.baringo.model.GalleryItem;
 import com.github.kskelm.baringo.model.Topic;
+import com.github.kskelm.baringo.model.gallery.GalleryItem;
 import com.github.kskelm.baringo.util.BaringoApiException;
 
 /**

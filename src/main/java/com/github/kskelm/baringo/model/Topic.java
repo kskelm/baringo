@@ -3,6 +3,8 @@
  */
 package com.github.kskelm.baringo.model;
 
+import com.github.kskelm.baringo.model.gallery.GalleryItem;
+import com.github.kskelm.baringo.model.gallery.GalleryItemProxy;
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
