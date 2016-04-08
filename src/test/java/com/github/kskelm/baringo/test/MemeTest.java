@@ -25,14 +25,10 @@ public class MemeTest extends TestCase {
 		List<Image> list = setup.getClient()
 				.memeService().listDefaultMemes();
 		
-		assertFalse( "list came back", list.isEmpty() );
-
-// TODO: ADD THIS
-int foo; // declaration to cause eclipse warnings
-//		assertFalse( "meme images returned", list.isEmpty() );
-//		for( Image img : list ) {
-//			ImageTest.testImageObject( img );
-//		} // for
+		assertFalse( "meme images returned", list.isEmpty() );
+		for( Image img : list ) {
+			ImageTest.testImageObject( img );
+		} // for
 	}
 	
 }

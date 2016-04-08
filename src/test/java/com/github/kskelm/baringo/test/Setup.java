@@ -23,7 +23,10 @@ public class Setup {
 
 	public static final String TEST_IMAGE_ID = "bHEb5Sw";
 	public static final String TEST_IMAGE_ID_2 = "wH8KZXs";
-	public static final String TEST_IMAGE_ID_3 = "0tkfcSS";
+	public static final String TEST_IMAGE_ID_3 = "WVaAF7k"; 
+	public static final String TEST_IMAGE_ID_4 = "itYIjWG"; // owned by kevinkelm for faving
+	
+	public static final String TEST_IMAGE_URL = "https://i.imgur.com/h5s04TC.png";
 	
 	public static final String TEST_IMAGE_WITH_TAGS = "obJXifJ";
 		

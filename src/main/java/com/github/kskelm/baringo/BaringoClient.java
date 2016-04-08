@@ -157,6 +157,8 @@ public class BaringoClient {
 		return authSvc.getAuthenticatedAccount();
 	}
 
+	// =========================================================
+	// static
 
 	/**
 	 * This is used to construct a new BaringoClient
@@ -197,8 +199,30 @@ public class BaringoClient {
 		private String _clientSecret = null;
 	}
 
-	// =========================================================
 
+	/**
+	 * Used for switching to the mashape commercial endpoint,
+	 * or for mocking.  NOTE that there can only be one
+	 * API endpoint in the system at a time; even if you
+	 * create a new client, they all still share the same
+	 * URL endpoints.
+	 * @param url - new endpoint
+	 */
+	public static void setApiEndpoint( String url ) {
+		BaringoClient.apiEndpoint = url;
+	}
+
+	/**
+	 * Fetch the current api endpoint base url
+	 * @return the api endpoint base url
+	 */
+	public static String getApiEndpoint() {
+		return BaringoClient.apiEndpoint;
+	}
+	
+	// =========================================================
+	// internal
+	
 	//	/**
 	//	 * Construct a client.  This is necessary before using
 	//	 * any of the API calls.  It is advised to store clientId
@@ -238,7 +262,7 @@ public class BaringoClient {
 	} // throwOnWrapperError
 
 	private RetrofittedImgur create() {
-		OkHttpClient client = new OkHttpClient();
+		client = new OkHttpClient();
 		client.interceptors().add(new ImgurInterceptor());
 
 				// super useful
@@ -249,7 +273,7 @@ public class BaringoClient {
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateAdapter());
 
-		// we pause right here to create the various topic-specific
+		// create the various domain-specific
 		// services, giving them a chance to register any Gson
 		// type adapters they're going to need.
 		this.acctSvc = new AccountService( this, gsonBuilder );
@@ -382,14 +406,6 @@ public class BaringoClient {
 		}
 	}
 
-	/**
-	 * Used only for mocking during tests
-	 * @param url - new endpoint
-	 */
-	public static void setEndpoint( String url ) {
-		BaringoClient.apiEndpoint = url;
-	}
-
 	// =============================================
 	private RetrofittedImgur api = null;
 	private String clientId = null;
@@ -409,10 +425,15 @@ public class BaringoClient {
 	private AuthService authSvc = null;
 	private MemeService memeSvc = null;
 	
-	public static final String DEFAULT_IMGUR_BASE_URL = "https://api.imgur.com/";
+	private OkHttpClient client;
+	
+	public static final String DEFAULT_API_BASE_URL = "https://api.imgur.com/";
+	public static final String DEFAULT_DOWNLOAD_BASE_URL = "https://i.imgur.com/"; // http would be faster but ... ?
+
 	public static final String LOG_NAME = "ImgurApi";
 
 
-	private static String apiEndpoint = DEFAULT_IMGUR_BASE_URL;
+	private static String apiEndpoint = DEFAULT_API_BASE_URL;
+	
 
 }

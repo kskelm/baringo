@@ -26,6 +26,7 @@ import com.github.kskelm.baringo.model.gallery.CustomGallery;
 import com.github.kskelm.baringo.model.gallery.GalleryImage;
 import com.github.kskelm.baringo.model.gallery.GalleryItemProxy;
 import com.github.kskelm.baringo.model.gallery.GalleryProfile;
+import com.squareup.okhttp.RequestBody;
 
 import retrofit.Call;
 import retrofit.http.Body;
@@ -34,8 +35,10 @@ import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.HEAD;
+import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
+import retrofit.http.Part;
 import retrofit.http.Path;
 import retrofit.http.Query;
 
@@ -449,13 +452,47 @@ public interface RetrofittedImgur {
 	// IMAGE CALLS
 	// ============================================================
 
-// TODO
 	@GET("/3/image/{id}")
 	Call<ImgurResponseWrapper<Image>> getImageInfo(
 			@Path("id") String id );
-// TODO
-// TODO
-// TODO
+	
+	@Multipart
+	@POST("/3/upload")
+	Call<ImgurResponseWrapper<Image>> uploadLocalImage(
+			@Part("album") String albumName, // id or delete hash
+			@Part("type") String uploadType,  // use "URL"
+			@Part("title") String title,
+			@Part("description") String description,
+			@Part("filename") String fileName,
+			@Part("image\"; filename=\"foo.png") RequestBody imageFile);
+
+
+	@POST("/3/upload")
+	Call<ImgurResponseWrapper<Image>> uploadUrlImage(
+			@Query("album") String albumName, // id or delete hash
+			@Query("type") String uploadType,  // use "URL"
+			@Query("title") String title,
+			@Query("description") String description,
+			@Body RequestBody imageUrl );
+
+	// looking for download? it doesn't use the https://api.imgur.com/
+	// base path used everywhere else, so we just used OkHttp directly.
+	
+	@FormUrlEncoded
+	@POST("/3/image/{id}")
+	Call<ImgurResponseWrapper<Boolean>> updateImageInfo(
+			@Path("id") String idOrDeleteHash,
+			@Field("title") String title,
+			@Field("description") String description );
+
+	@DELETE("/3/image/{id}")
+	Call<ImgurResponseWrapper<Boolean>> deleteImage(
+			@Path("id") String idOrDeleteHash);
+
+	@GET("/3/image/{imageId}/favorite")
+	Call<ImgurResponseWrapper<Image>> toggleImageFavorite(
+			@Path("imageId") String idOrDeleteHash );
+
 	
 	// ============================================================
 	// ============================================================

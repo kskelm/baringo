@@ -130,8 +130,8 @@ public class Image {
 	 * The number of image views
 	 * @return the views
 	 */
-	public int getViews() {
-		return views;
+	public int getViewCount() {
+		return viewCount;
 	}
 
 	/**
@@ -146,8 +146,8 @@ public class Image {
 	 *  	OPTIONAL, the deletehash, if you're logged in as the image owner
 	 * @return the deletehash
 	 */
-	public String getDeletehash() {
-		return deletehash;
+	public String getDeleteHash() {
+		return deleteHash;
 	}
 
 	/**
@@ -223,6 +223,17 @@ public class Image {
 	}
 
 	/**
+	 * Sets the favorite status on the image. DO NOT USE THIS...
+	 * this is used by the ImageService.  Instead call ImageService's
+	 * favoriteImage() and unfavoriteImage().
+	 * @param favorite - true if favorited
+	 */
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
+	}
+	
+
+	/**
 	 *  	The current user's vote on the album. null if not signed in, if the user hasn't voted on it, or if not submitted to the gallery.
 	 *  @return the vote
 	 */
@@ -243,9 +254,11 @@ public class Image {
 	private int width;
 	private int height;
 	private int size;
-	private int views;
+	@SerializedName("views")
+	private int viewCount;
 	private long bandwidth;
-	private String deletehash;
+	@SerializedName("deletehash")
+	private String deleteHash;
 	private String name;
 	private String section;
 	private String link;
@@ -271,5 +284,4 @@ public class Image {
 	public String toString() {
 		return Utils.toString( this );
 	} // toString
-	
 }
