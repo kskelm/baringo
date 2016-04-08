@@ -83,14 +83,22 @@ public class AuthService {
 	protected Request buildAuthenticatedRequest(Request request) {
 		if( oAuth2 != null && oAuth2.getAccessToken() != null ) {
 			request = request.newBuilder()
-					.header( "Authorization", "Bearer " + oAuth2.getAccessToken() )
+					.header( "Authorization", getAuthenticationHeader() )
 					.build();
 		} else {
 			request = request.newBuilder()
-					.header( "Authorization", "Client-ID " + clientId )
+					.header( "Authorization", getAuthenticationHeader() )
 					.build();	
 		} // if-else
 		return request;
+	}
+
+	protected String getAuthenticationHeader() {
+		if( oAuth2 != null && oAuth2.getAccessToken() != null ) {
+			return "Bearer " + oAuth2.getAccessToken();
+		} else {
+			return "Client-ID " + clientId;
+		} // if-else
 	}
 
 	private boolean tradeAuthCodeForTokens( String authCode ) throws BaringoAuthException {

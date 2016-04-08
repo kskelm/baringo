@@ -8,6 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 //	QuotaTest.class,
 //	AuthTest.class,
+	ImageTest.class,
 //	AccountTest.class,
 //	AlbumTest.class,
 //	CommentTest.class,
@@ -16,7 +17,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //	GalleryTest.class,
 //	ConversationTest.class,
 //	NotificationTest.class,
-	MemeTest.class
+//	MemeTest.class
 })
 
 public class AllTests {
