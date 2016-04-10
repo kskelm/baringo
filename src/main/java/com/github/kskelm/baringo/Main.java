@@ -7,7 +7,7 @@ import com.github.kskelm.baringo.util.BaringoApiException;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception{
         String clientId = System.getProperty( BaringoClient.PROPERTY_CLIENT_ID );
         String clientSecret = System.getProperty( BaringoClient.PROPERTY_CLIENT_SECRET );
 		BaringoClient client = null;
@@ -17,13 +17,14 @@ public class Main {
 			e1.printStackTrace();
 			return;
 		}
-		
-		try {
-			Image img = client.imageService().getImageInfo( "G3xkE" );
-			System.out.println( img );
-		} catch (BaringoApiException e) {
-			e.printStackTrace();
-		}
+	    // Get the info about an image
+
+
+	      Image image = client.imageService().getImageInfo( "bHEb5Sw" );
+	      System.out.println( image );
+
+ 
+
 		
 		System.out.println( client.getQuota() );
 

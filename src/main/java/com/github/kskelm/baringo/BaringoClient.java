@@ -11,6 +11,7 @@ import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.util.BaringoApiException;
 import com.github.kskelm.baringo.util.RetrofittedImgur;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -20,8 +21,6 @@ import com.google.gson.stream.JsonWriter;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-import com.squareup.okhttp.logging.HttpLoggingInterceptor;
-import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
 
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -254,7 +253,7 @@ public class BaringoClient {
 					+ ": " +  resp.message(), resp.code() );
 		} // if
 		if( resp.body() == null ) {
-			throw new BaringoApiException( "No response body found", 0 );
+			throw new BaringoApiException( "No response body found" );
 		} // if
 		if( resp.body().getStatus() != 200 || !resp.body().isSuccess() ) {
 			throw new BaringoApiException( "Unknown error", resp.body().getStatus() );
@@ -265,10 +264,10 @@ public class BaringoClient {
 		client = new OkHttpClient();
 		client.interceptors().add(new ImgurInterceptor());
 
-				// super useful
-				HttpLoggingInterceptor logging = new HttpLoggingInterceptor();  
-				logging.setLevel(Level.BODY);
-				client.interceptors().add( logging );
+//		HttpLoggingInterceptor logging = new HttpLoggingInterceptor(  );  
+//		logging.setLevel(Level.BODY);
+//		client.interceptors().add( logging );
+			
 		
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateAdapter());
@@ -313,14 +312,14 @@ public class BaringoClient {
 
 			log.fine( "API Call: " + request.url().toString() );
 			request = authService().buildAuthenticatedRequest( request );
-			
+
 			com.squareup.okhttp.Response response = chain.proceed(request);
 
 			updateQuota( response );
 			return response;
-		}
+		}		
 	}
-
+	
 	/**
 	 * These define the headers that return relevant quota information
 	 */
@@ -415,15 +414,15 @@ public class BaringoClient {
 
 	private AccountService acctSvc = null;
 	private AlbumService   albSvc = null;
+	private AuthService authSvc = null;
+	private CommentService comSvc = null;
+	private ConversationService cnvSvc = null;
+	private CustomGalleryService cusGalSvc = null;
 	private ImageService   imgSvc = null;
 	private GalleryService galSvc = null;
-	private CommentService comSvc = null;
-	private CustomGalleryService cusGalSvc = null;
-	private TopicService topSvc = null;
-	private ConversationService cnvSvc = null;
-	private NotificationService noteSvc = null;
-	private AuthService authSvc = null;
 	private MemeService memeSvc = null;
+	private NotificationService noteSvc = null;
+	private TopicService topSvc = null;
 	
 	private OkHttpClient client;
 	
