@@ -330,7 +330,7 @@ public class GalleryTest extends TestCase {
 		List<Comment> list = setup.getClient()
 				.galleryService().getItemComments(
 						Setup.TEST_GALLERY_ID,
-						Comment.Sort.Best );
+						GalleryItem.Sort.Best );
 
 		assertFalse( "something came back", list.isEmpty() );
 

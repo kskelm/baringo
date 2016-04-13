@@ -1,3 +1,4 @@
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import java.util.ArrayList;
@@ -8,8 +9,8 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * This is the base model for a conversation
- * @author kskelm
+ * This is the model for a conversation
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 public class Conversation {
@@ -31,7 +32,7 @@ public class Conversation {
 	}
 	/**
 	 * Returns the date/time on which the most recent message was
-	 * posted (might be used to keep track of badging or something)
+	 * posted (could be used to keep track of badging or whatever)
 	 * @return the lastMessageDate
 	 */
 	public Date getLastMessageDate() {
@@ -56,7 +57,7 @@ public class Conversation {
 	 * Returns the list of Message objects associated
 	 * with this conversation.  Messages are returned
 	 * by the API in pages. They are returned in reverse-
-	 * chronologicalorder; the most recent messages will
+	 * chronological order; the most recent messages will
 	 * be at the top.
 	 * @return the messages
 	 */

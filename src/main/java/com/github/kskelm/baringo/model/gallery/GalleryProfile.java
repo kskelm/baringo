@@ -1,6 +1,4 @@
-/**
- * an account's gallery profile 
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model.gallery;
 
 import java.util.ArrayList;
@@ -10,7 +8,9 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * It's possible to access a set of counters about a user's
+ * activity.
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 

@@ -1,7 +1,4 @@
-/**
- * Authentication information.  This should be enthusiastically
- * accessed by the application and saved somewhere.
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 
@@ -11,12 +8,26 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * Authentication information.  If authenticating via
+ * "Authentication Code," the caller should retrieve the
+ * refresh token via {@link #getRefreshToken()} ASAP
+ * and store it someplace <i>encrypted</i>.  You'll
+ * need it if you want to log them in again without 
+ * sending them through the Imgur website.
+ *
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 
 public class OAuth2 {
 
+	/**
+	 * 
+	 * This isn't really used anywhere but the
+	 * BaringoAuthDemo where it's just to show
+	 * what kind of token has come back.
+	 *
+	 */
 	public enum TokenType {
 		/**
 		 * Bearer tokens are the keys to the kingdom if you
@@ -65,22 +76,19 @@ public class OAuth2 {
 
 	/**
 	 * Returns the number of seconds the access token expires in.
-	 * <i>Note that this is only valid if Baringo fetched the tokens
-	 * itself in this same session, rather than them being set
-	 * manually.</i>  Of course you should set them manually, so there's
-	 * that.
+	 * 
 	 * @return the expires_in
 	 */
 	public int getExpiresIn() {
 		long start = createdDate.getTime();
 		long now = System.currentTimeMillis();
-		int secsOld = (int)((now - start) / 1000);
-		return expiresIn - secsOld;
+		int secsOld = (int)((now-start) / 1000);
+		return expiresIn-secsOld;
 	}
 
 	/**
 	 * Returns the date/time when the access token expires, subject
-	 * to the same conditions as {link #getExpiresIn}
+	 * to the same conditions as {@link #getExpiresIn}
 	 * @return the date/time on which the access token expires
 	 */
 	public Date getExpiresOn() {

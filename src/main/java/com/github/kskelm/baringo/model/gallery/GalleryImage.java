@@ -1,12 +1,4 @@
-/**
- * Model object for images found in a gallery.
- * This is a subclass of GalleryItemProxy because
- * GalleryImage and GalleryAlbum are both returned
- * by various Imgur APIs and they share a notable
- * number of characteristics.  Check the class
- * type of an instance and cast it to get the
- * appropriate version.
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model.gallery;
 
 import java.util.HashMap;
@@ -15,7 +7,15 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * Model object for images found in a gallery.
+ * This is a subclass of GalleryItem because
+ * GalleryImage and GalleryAlbum are both returned
+ * by various Imgur APIs and they share a notable
+ * number of characteristics.  In any list of 
+ * GalleryItems coming back from an API call,
+ * isAlbum() will determine whether it can be
+ * cast to GalleryAlbum or GalleryImage.
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 public class GalleryImage extends GalleryItem {
@@ -126,10 +126,15 @@ public class GalleryImage extends GalleryItem {
 	
 	// ======================================================
 	
-	// INTERNAL ONLY
+	/**
+	 * Internal only
+	 */
 	public GalleryImage() { }
 	
-	// INTERNAL ONLY
+	/**
+	 * Internal only
+	 * @param p proxy object
+	 */
 	public GalleryImage( GalleryItemProxy p ) {
 		super( p );
 		copyFrom( p, GalleryImage.class );

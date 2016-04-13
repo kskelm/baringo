@@ -1,6 +1,4 @@
-/**
- * Candy
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.util;
 
 import java.lang.reflect.Field;
@@ -9,7 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * @author kskelm
+ * Just some internal candy.
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 public class Utils {
@@ -18,7 +17,7 @@ public class Utils {
 	 * Returns a string representing the object as a simple field list.
 	 * Doesn't pay attention to string formatting or quote escaping;
 	 * you get what you get.
-	 * @param obj - object to return as simple declaration
+	 * @param obj object to return as simple declaration
 	 * @return output
 	 */
 	public static String toString( Object obj ) {
@@ -31,7 +30,7 @@ public class Utils {
 	 * Returns a string representing an object as a simple field list.
 	 * Doesn't pay attention to string formatting or quote escaping;
 	 * you get what you get.
-	 * @param fields - a map of fields and values to return
+	 * @param fields a map of fields and values to return
 	 * @param clsName = the name of the class to use
 	 * @return output
 	 */
@@ -78,7 +77,11 @@ public class Utils {
 		return map;
 	} // toHashMap
 
-	// sigh modern languages
+	/**
+	 * effectively, List.join(",") like modern languages have.
+	 * @param values - list of values to join
+	 * @return a single string with them all separated by commas.
+	 */
 	public static String joinCSV(List<String> values) {
 		// form a comma-separated list of id's
 		StringBuffer buf = new StringBuffer();

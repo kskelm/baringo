@@ -1,3 +1,4 @@
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * This represents user-generated comments on images and albums
- * @author kskelm
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 public class Comment {
@@ -34,7 +35,7 @@ public class Comment {
 		 */
 		@SerializedName("best") Best,
 		/**
-		 * Sort comments with the worst-rated ones first (why?)
+		 * Sort comments with the worst-rated ones first
 		 */
 		@SerializedName("worst") Worst;
 	}
@@ -121,7 +122,7 @@ public class Comment {
 
 
 	/**
-	 * Number of upvotes - downvotes (math is hard)
+	 * Number of upvotes-downvotes
 	 * @return the points
 	 */
 	public int getPoints() {

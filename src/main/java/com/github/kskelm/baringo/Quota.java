@@ -1,14 +1,20 @@
-/**
- * Provides insight into quota status for a given
- * client account.
- * 
- * @link http://api.imgur.com/#limits
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo;
 
 import java.util.Date;
 
 import com.github.kskelm.baringo.util.Utils;
+
+/**
+ * 
+ *
+ * Provides insight into quota status for a given
+ * client account.
+ * 
+ * See <a href="http://api.imgur.com/#limits">Imgur documentation</a>
+ * 
+ *  @author Kevin Kelm (triggur@gmail.com)
+ */
 public class Quota {
 
 	

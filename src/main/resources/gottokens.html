@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="assets/style.css">
 <body>
 <div id="top-bar">
+<img class="logo" src="assets/baringo500.png"/>
 <h1>Baringo OAuth2 Playground</h1>
 </div>
 <div id="top-spacer"></div>
@@ -20,7 +21,6 @@
       <tr><td>Expires in:</td><td><code>{expires_in} seconds</code></td></tr>
       <tr><td>Expires on:</td><td><code>{expires_on}</code></td></tr>
       <tr><td>Token type:</td><td><code>{token_type}</code></td></tr>
-      <tr><td>Scope:</td><td><code>{scope}</code></td></tr>
       <tr><td>User id:</td><td><code>{user_id}</code></td></tr>
       <tr><td>User name:</td><td><code>{user_name}</code></td></tr>
     </table>
@@ -72,30 +72,29 @@
     Either way, once Baringo has successfully set up user-level authorization, you can ask it for
     the refresh token, <b>which you should keep</b>, stored <i>encrypted</i> in the filesystem or in your
     database.  The security of refresh tokens is vital because if someone gets ahold of them, they
-    do effectively anything.
+    can do effectively anything until the refresh token expires (a long time) or invalidated by Imgur.
 </p>
     <pre>
     String refreshToken = client.authService().getRefreshToken();<br/>
-    &lt;do whatever you need to encrypt this (AES256 is fine) and store it in your database&rt;
+    // now do whatever you need to encrypt this (AES256 is fine) and store it in your database
     </pre>
 
 <p>
-    As an aside, more interesting oAuth stuff is available from:
-</p>
-    <pre>
-    String refreshToken = client.authService().getOAuth2().getRefreshToken();
-    </pre>
-<p>   
-    Anyway, Baringo manages access tokens passively; when you hand it credentials of some sort,
+    Baringo manages access tokens passively; when you hand it credentials of some sort,
     it pre-emptively pings the Imgur servers to get a known-good access token and its expiration.
-    Instead of internally re-authenticating after a failed API call attempt after an access token
-    expires, it checks to see if the token is going to expire <i>soon</i> and pro-actively fetches
+    Instead of internally re-authenticating after a failed API call attempt (probably the access token
+    expired), it checks to see if the token is going to expire <i>soon</i> and pro-actively fetches
     a new one so the API calls themselves can stay simple.  If this turns into a problem for some
     reason, we'll change it up and do active token management.
 </p>
 <p> 
+    As an aside, some organizations expire refresh tokens also.  In this scenario, you'll need to go
+    back to the user and re-ask them for access to their account by bouncing them through the link
+    we saw on the first page.
+</p>
+<p>
     So that's it!  You should have enough now to understand the basics of how OAuth2 works in general,
-    and how it work with Imgur in specific.
+    or at least enough to get going with Baringo.
 </p>
 <p> 
     You can use this tool to regenerate refresh tokens for different users for your debugging and

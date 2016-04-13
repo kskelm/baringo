@@ -3,6 +3,11 @@ p {
     font-family: Arial, Helvetica, sans-serif;
 } 
 
+#top-bar h1 {
+    position: relative;
+    padding: 10px;
+    padding-left: 120px;
+}
 h1, h2, h3, h4, h5, h6 {
     text-shadow: 1px 1px 1px #000;
     font-family: 'Corben', Georgia, Times, serif;
@@ -18,21 +23,26 @@ div {
     padding: 21px;
 }
 body {
-  text-align: center;
   background-color: #b25f19;
   font-size: 18px;
   line-height: 150%;
  }
 
+.logo {
+    height: 100px;
+    float: left;
+}
 .error {
       font-size: 18px;
       color: #f00;
 }
 #top-bar {
   border-radius: 5px;
-  width:100%;
+  padding: 5px;
+  width:auto;
   background-color: #63340E;
   position: relative;
+  height: 100px;
 }
 
 #page-wrap {
@@ -41,10 +51,6 @@ body {
   text-align: left;
   width: 800px;
   margin: 0 auto;
-}
-
-#top-spacer {
-  margin-bottom: 50px;
 }
 
 input {

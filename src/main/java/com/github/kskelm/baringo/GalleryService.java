@@ -1,6 +1,4 @@
-/**
- * Imgur Gallery service {@link https://api.imgur.com/endpoints/gallery}
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo;
 
 import java.io.IOException;
@@ -9,10 +7,6 @@ import java.util.List;
 
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.Comment;
-//import com.github.kskelm.baringo.model.GalleryMemeAlbum;
-//import com.github.kskelm.baringo.model.GalleryMemeImage;
-//import com.github.kskelm.baringo.model.GallerySubredditAlbum;
-//import com.github.kskelm.baringo.model.GallerySubredditImage;
 import com.github.kskelm.baringo.model.Image;
 import com.github.kskelm.baringo.model.ReportReason;
 import com.github.kskelm.baringo.model.TagGallery;
@@ -34,8 +28,12 @@ import retrofit.Response;
 
 
 /**
- * @author kskelm
- * Imgur Gallery service {@link https://api.imgur.com/endpoints/gallery}
+ *
+ * Provides access to the viral/top/best galleries.
+ * <p>
+ * See <a href="https://api.imgur.com/endpoints/gallery">Imgur documentation</a>.
+ *
+ * @author Kevin Kelm (triggur@gmail.com)
  */
 public class GalleryService {
 
@@ -46,15 +44,17 @@ public class GalleryService {
 	 * each of which may actually be a GalleryAlbum or a
 	 * GalleryImage.  Imgur API 3 is a little unfriendly to
 	 * statically typed languages.
-	 * ACCESS: ANONYMOUS
-	 * @param string - the section of the gallery.  May
-	 * be one of {@link Image.Section}
-	 * @param sort - the sort for the results.  May be
-	 * one {@link Image.Sort}
-	 * @param window - the window of time when the section 
-	 * @param page - the page number to return, starting at 0
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param section the section of the gallery.  May
+	 * be one of - Hot | Top | User
+	 * @param sort the sort for the results.  May be
+	 * one - Viral | Time | Top
+	 * @param window the window of time when the section is Top 
+	 * @param viral whether or not viral images are to be returned
+	 * @param page the page number to return, starting at 0
 	 * @return A list of GalleryItem objects
-	 * @throws BaringoApiException - something went sideways
+	 * @throws BaringoApiException something went sideways
 	 */
 	public List<GalleryItem> listGallery(
 			GalleryItem.Section section,
@@ -84,17 +84,19 @@ public class GalleryService {
 	}
 
 	/**
-	 * Exactly like {@see #getGallery} except this returns
-	 * items from the meme gallery.  <strike>Items will include the
-	 * text on them via their getMemeMetaData() methods,
-	 * and they will be the extended classes GalleryMemeImage
-	 * and GalleryMemeAlbum.</strike>
-	 * ACCESS: ANONYMOUS
-	 * @param sort - the GalleryItem.Sort direction
-	 * @param window - the GalleryItem.Window time range
-	 * @param page - the page number to return, starting at 0
+	 * Exactly like getGallery() except this returns
+	 * items from the meme gallery.
+	 * <p>
+	 * Though the Imgur 3 API seems to support including
+	 * text info in the meme metadata, it does not actually
+	 * come back from the server for some reason.
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param sort the sort direction - Viral | Time | Top
+	 * @param window thetime range when the sort is Top
+	 * @param page the page number to return, starting at 0
 	 * @return a list of gallery items
-	 * @throws BaringoApiException - something bad
+	 * @throws BaringoApiException something bad
 	 */
 	public List<GalleryItem> listMemeGallery(
 			GalleryItem.Sort sort,
@@ -123,18 +125,21 @@ public class GalleryService {
 	} // listMemeGallery
 
 	/**
-	 * Exactly like {@see #getGallery} except this returns
-	 * items from the meme gallery.  <strike>Items will include the
-	 * a link to the reddit url as a reference
-	 * and they will be the extended classes GalleryMemeImage
-	 * and GalleryMemeAlbum.</strike>
-	 * ACCESS: ANONYMOUS
-	 * @param subreddit - the name of the subreddit in question
-	 * @param sort - the GalleryItem.Sort direction
-	 * @param window - the GalleryItem.Window time range
-	 * @param page - the page number to return, starting at 0
+	 * Exactly like getGallery() except this returns
+	 * items from the subreddit galleries.
+	 * <p>
+	 * Though the Imgur 3 API seems to support including
+	 * text info in the meme metadata, it does not actually
+	 * come back from the server for some reason.
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * 
+	 * @param subreddit the name of the subreddit in question
+	 * @param sort the sort direction - Time | Top
+	 * @param window the time range when the sort is Top
+	 * @param page the page number to return, starting at 0
 	 * @return a list of gallery items
-	 * @throws BaringoApiException - something bad
+	 * @throws BaringoApiException something bad
 	 */
 	public List<GalleryItem> listSubredditGallery(
 			String subreddit,
@@ -162,38 +167,14 @@ public class GalleryService {
 		} 
 	}
 
-	// apparently this isn't supported anymore
-	//	/**
-	//	 * Returns info about an image in a meme gallery
-	//	 * ACCESS: ANONYMOUS
-	//	 * @param id - id of the image to return
-	//	 * @return the GalleryMemeImage
-	//	 * @throws BaringoApiException - something bad
-	//	 */
-	//	public GalleryMemeImage getMemeImageInfo( String id ) throws BaringoApiException {
-	//		
-	//		Call<ImgurResponseWrapper<GalleryMemeImage>> call =
-	//				client.getApi().getMemeImageInfo( id );
-	//
-	//		try {
-	//			Response<ImgurResponseWrapper<GalleryMemeImage>> res = call.execute();
-	//			ImgurResponseWrapper<GalleryMemeImage> out = res.body();
-	//
-	//			client.throwOnWrapperError( res );
-	//
-	//			return out.getData();
-	//		} catch (IOException e) {
-	//			throw new BaringoApiException( e.getMessage() );
-	//		} // try-catch
-	//	}
-
 	/**
 	 * Returns info about an image in a subreddit gallery
-	 * ACCESS: ANONYMOUS
-	 * @param subreddit - the subreddit the image is in
-	 * @param id - id of the image to return
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param subreddit the subreddit the image is in
+	 * @param id id of the image to return
 	 * @return the GalleryImage
-	 * @throws BaringoApiException - something bad
+	 * @throws BaringoApiException something bad
 	 */
 	public GalleryImage getSubredditImageInfo(
 			String subreddit,
@@ -217,8 +198,14 @@ public class GalleryService {
 	/**
 	 * Returns a TagGallery object representing gallery
 	 * information for the results of a specific tag.
-	 * ACCESS: ANONYMOUS
-	 * @throws BaringoApiException - something bad
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param tag the tag for which we want to list a gallery
+	 * @param sort the mechanism for sorting - Viral | Time | Top
+	 * @param window the time window to fetch when the sort is Top
+	 * @param page the page number, starting at 0
+	 * @return A TagGallery object with info about the galler, including a list of results, if any
+	 * @throws BaringoApiException something bad
 	 */
 	public TagGallery getTagGallery(
 			String tag,
@@ -251,13 +238,14 @@ public class GalleryService {
 	/**
 	 * Given an image id, return info about the Image object for it.
 	 * This just points to ImageService.getImageInfo()
-	 * ACCESS: ANONYMOUS
-	 * @param id - the id of the image, for example "PgZtz0j".
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param id the id of the image, for example "PgZtz0j".
 	 * If a user is logged in and this image is theirs, the
 	 * deleteHash property will be filled in.  It will otherwise
 	 * be null
 	 * @return Image object
-	 * @throws BaringoApiException - something went pear-shaped
+	 * @throws BaringoApiException something went pear-shaped
 	 */
 	public Image getImageInfo( String id ) throws BaringoApiException {
 		return client.imageService().getImageInfo( id );
@@ -265,10 +253,11 @@ public class GalleryService {
 
 	/**
 	 * Given a gallery item id, return the tag votes associated with it
-	 * ACCESS: ANONYMOUS
-	 * @param id - the image/album id to return tag votes for
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param id the image/album id to return tag votes for
 	 * @return a list of TagVotes
-	 * @throws BaringoApiException - well bummer
+	 * @throws BaringoApiException well bummer
 	 */
 	public List<TagVote> getGalleryItemTagVotes( String id ) throws BaringoApiException {
 		Call<ImgurResponseWrapper<TagVoteList>> call =
@@ -291,13 +280,15 @@ public class GalleryService {
 
 	/**
 	 * Given an item id and a tag name,
-	 * vote it either up or down.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param id - the id of the item to vote on
-	 * @param tag - the tag to vote up or down
-	 * @param vote - the vote, Up or Down
+	 * vote it either up or down.  The tag is implicitly created
+	 * if it doesn't already exist.
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param id the id of the item to vote on
+	 * @param tag the tag to vote up or down
+	 * @param vote the vote, Up or Down
 	 * @return true if it worked
-	 * @throws BaringoApiException - nope
+	 * @throws BaringoApiException nope
 	 */
 	public Boolean voteGalleryItemTag(
 			String id,
@@ -324,13 +315,14 @@ public class GalleryService {
 	/**
 	 * Performs a gallery search, returning GalleryItems
 	 * that fits the SearchQuery criteria.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param query - the search query to perform
-	 * @param sort - the method of sorting
-	 * @param window - the time range to return
-	 * @param page - the page number to return, starting at 0
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param query the search query to perform
+	 * @param sort the method of sorting - Viral | Time | Top
+	 * @param window the time range to return when the sort is Top
+	 * @param page the page number to return, starting at 0
 	 * @return a list of GalleryItem objects
-	 * @throws BaringoApiException - badness
+	 * @throws BaringoApiException badness
 	 */
 	public List<GalleryItem> searchGallery(
 			SearchQuery query,
@@ -378,14 +370,15 @@ public class GalleryService {
 	
 	/**
 	 * Performs a compound gallery search, returning GalleryItems
-	 * that fits the {@see CompoundSearchQuery} criteria.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param query - the search query to perform
-	 * @param sort - the method of sorting
-	 * @param window - the time range to return
-	 * @param page - the page number to return, starting at 0
+	 * that fits the @see CompoundSearchQuery criteria.
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param query the search query to perform
+	 * @param sort the method of sorting- Viral | Time | Top
+	 * @param window the time range to return when the sort is Top
+	 * @param page the page number to return, starting at 0
 	 * @return a list of GalleryItem objects
-	 * @throws BaringoApiException - badness
+	 * @throws BaringoApiException badness
 	 */
 	public List<GalleryItem> searchGallery(
 			CompoundSearchQuery query,
@@ -419,10 +412,11 @@ public class GalleryService {
 	/**
 	 * This returns a list of random gallery items.  Imgur
 	 * refreshes this random list once per hour.
-	 * ACCESS: ANONYMOUS
-	 * @param page - the page number to return, starting at 0
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param page the page number to return, starting at 0
 	 * @return A list of GalleryItem objects
-	 * @throws BaringoApiException - something went sideways
+	 * @throws BaringoApiException something went sideways
 	 */
 	public List<GalleryItem> getRandomGallery( int page ) throws BaringoApiException {
 
@@ -446,17 +440,21 @@ public class GalleryService {
 	/**
 	 * Shares the given item (image or album) with the gallery
 	 * community.
-	 * <strong>NOTE: YOU CAN SHARE AN ITEM AT MOST ONCE EVERY 15
-	 * MINUTES FROM THE SAME USER!</strong>
-	 * ACCESS: AUTHENTICATED USER
-	 * @param itemId - id of the item to share
-	 * @param title - title of the post
-	 * @param topic - topic to post in, e.g. "funny" or "wtf"
-	 * @param agreedToTerms - whether or not the user agreed
+	 * <p>
+	 * <strong>IMPORTANT: YOU CAN SHARE AN ITEM AT MOST ONCE EVERY 60
+	 * MINUTES FROM THE SAME USER!</strong>  The throttling is strong
+	 * with this one.
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param itemId id of the item to share
+	 * @param title title of the post
+	 * @param topicId numeric id of the topic to post to, or 0 if
+	 * none.  see TopicService.listDefaultTopics() for how to get those
+	 * @param agreedToTerms whether or not the user agreed
 	 * to the terms.  Apparently Imgur doesn't mind if you lie.
-	 * @param nsfw - True if this item should be marked as "mature"
+	 * @param nsfw True if this item should be marked as "mature"
 	 * @return true if it worked
-	 * @throws BaringoApiException - it didn't
+	 * @throws BaringoApiException it didn't
 	 */
 	public boolean shareItem(
 			String itemId,
@@ -486,10 +484,11 @@ public class GalleryService {
 	 * Removes the given item (image or album) from the public
 	 * gallery.  The currently-logged-in user must be the owner
 	 * of the item.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param itemId - the id of the item to remove
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param itemId the id of the item to remove
 	 * @return true if it worked
-	 * @throws BaringoApiException - it didn't
+	 * @throws BaringoApiException it didn't
 	 */
 	public boolean unshareItem( String itemId ) throws BaringoApiException {
 		Call<ImgurResponseWrapper<Boolean>> call =
@@ -509,11 +508,12 @@ public class GalleryService {
 
 	/**
 	 * Report a gallery image or album as bad content.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param itemId - the item id to report
-	 * @param reason - why
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param itemId the item id to report
+	 * @param reason why
 	 * @return true if it worked
-	 * @throws BaringoApiException - it didn't work
+	 * @throws BaringoApiException it didn't work
 	 */
 	public boolean reportItem(
 			String itemId,
@@ -537,10 +537,11 @@ public class GalleryService {
 
 	/**
 	 * Returns the upvote/downvote counts for an image or album
-	 * ACCESS: ANONYMOUS
-	 * @param itemId - the item to get votes for
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param itemId the item to get votes for
 	 * @return its vote counts
-	 * @throws BaringoApiException - Imgur voted us off the island I guess
+	 * @throws BaringoApiException Imgur voted us off the island I guess
 	 */
 	public Votes getItemVotes( String itemId ) throws BaringoApiException {
 
@@ -561,15 +562,16 @@ public class GalleryService {
 
 	/**
 	 * Returns the list of comments on a gallery image or album
-	 * ACCESS: ANONYMOUS
-	 * @param itemId - the id of the item to get comments for
-	 * @param sort - @{See GalleryImage#Sort}
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param itemId the id of the item to get comments for
+	 * @param sort the sort direction - Best | Top | New
 	 * @return a list of comments
-	 * @throws BaringoApiException - something went south
+	 * @throws BaringoApiException something went south
 	 */
 	public List<Comment> getItemComments(
 			String itemId,
-			GalleryItem.Sort sort ) throws BaringoApiException {
+			Comment.Sort sort ) throws BaringoApiException {
 
 		String sortStr = sort.name().toLowerCase();
 		Call<ImgurResponseWrapper<List<Comment>>> call =
@@ -589,10 +591,11 @@ public class GalleryService {
 
 	/**
 	 * Returns the list of comment Ids on a gallery image or album
-	 * ACCESS: ANONYMOUS
-	 * @param itemId - the id of the item to get comment ids for
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param itemId the id of the item to get comment ids for
 	 * @return a list of longs of the comment Ids
-	 * @throws BaringoApiException - something went south
+	 * @throws BaringoApiException something went south
 	 */
 	public List<Long> getItemCommentIds(
 			String itemId) throws BaringoApiException {
@@ -614,10 +617,11 @@ public class GalleryService {
 
 	/**
 	 * Returns the total number of comments for a gallery image or album.
-	 * ACCESS: ANONYMOUS
-	 * @param itemId - the id of the item to get comment ids for
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param itemId the id of the item to get comment ids for
 	 * @return the total number of comments
-	 * @throws BaringoApiException - something went south
+	 * @throws BaringoApiException something went south
 	 */
 	public int getItemCommentCount(
 			String itemId) throws BaringoApiException {

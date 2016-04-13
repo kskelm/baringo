@@ -1,6 +1,4 @@
-/**
- * API service for handling images
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo;
 
 import java.io.BufferedInputStream;
@@ -30,19 +28,22 @@ import retrofit.Response;
 
 
 /**
- * @author kskelm
- *
+ * 
+ * Services related to manipulating images in Imgur (why we're here, assumedly)
+ * @author Kevin Kelm (triggur@gmail.com)
  */
 public class ImageService {
 
 	/**
 	 * Given an image id, return info about the Image object for it.
-	 * @param id - the id of the image, for example "PgZtz0j".
+	 * <p>
+	 * <b>ACCESS: ANONYMOUS</b>
+	 * @param id the id of the image, for example "PgZtz0j".
 	 * If a user is logged in and this image is theirs, the
 	 * deleteHash property will be filled in.  It will otherwise
 	 * be null
 	 * @return Image object
-	 * @throws BaringoApiException - something went pear-shaped
+	 * @throws BaringoApiException something went pear-shaped
 	 */
 	public Image getImageInfo( String id ) throws BaringoApiException {
 
@@ -64,13 +65,15 @@ public class ImageService {
 	/**
 	 * Upload an image to Imgur by pointing at a Url on the internet.
 	 * Must be available openly without authentication.
-	 * ACCESS: ANONYMOUS
-	 * @param Url - the full URL of the image.
-	 * @param fileName - original of the file being uploaded (pick something)
-	 * @param albumId - the name of the album, the album's deleteHash if it's anonymous, or null if none
-	 * @param title - title of image or null if none
-	 * @param description - description of image or null if none
-	 * @return The new Image object.  If this is anonymous, <i>hang on to the delete hash</i> or you won't be able to manipulate it in the future!</i>
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b> or <b>AUTHENTICATED USER</b>
+	 * @param Url the full URL of the image.
+	 * @param fileName original of the file being uploaded (pick something)
+	 * @param albumId the name of the album, the album's deleteHash if it's anonymous, or null if none
+	 * @param title title of image or null if none
+	 * @param description description of image or null if none
+	 * @return The new Image object.  If this is anonymous, <i>hang on to the delete hash</i> or you won't be able to manipulate it in the future!
+	 * @throws BaringoApiException something terrible happened to Stuart!
 	 */
 	public Image uploadUrlImage(
 			String Url,
@@ -104,15 +107,16 @@ public class ImageService {
 	/**
 	 * Upload an image to Imgur as a stream from the local filesystem.
 	 * Use a buffered stream wherever possible!
-	 * ACCESS: ANONYMOUS
-	 * @param mimeType - mime type like image/png.  If null, Baringo will try to infer this from the fileName.
-	 * @param fileName - name of the file being uploaded
-	 * @param albumId - the name of the album, the album's deleteHash if it's anonymous, or null if none
-	 * @param title - title of image or null if none
-	 * @param description - description of image or null if none
-	 * @return The new Image object.  If this is anonymous, <i>hang on to the delete hash</i> or you won't be able to manipulate it in the future!</i>
-	 * @throws IOException - Something was wrong with the file or streaming didn't work
-	 * @throws BaringoApiException - que sera sera
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b> or <b>AUTHENTICATED USER</b>
+	 * @param mimeType mime type like image/png.  If null, Baringo will try to infer this from the fileName.
+	 * @param fileName name of the file being uploaded
+	 * @param albumId the name of the album, the album's deleteHash if it's anonymous, or null if none
+	 * @param title title of image or null if none
+	 * @param description description of image or null if none
+	 * @return The new Image object.  If this is anonymous, <i>hang on to the delete hash</i> or you won't be able to manipulate it in the future!
+	 * @throws IOException Something was wrong with the file or streaming didn't work
+	 * @throws BaringoApiException que sera sera
 	 */
 	public Image uploadLocalImage(
 			String mimeType,
@@ -173,12 +177,15 @@ public class ImageService {
 	 * Given an image id and an output stream, download the image
 	 * and write it to the stream. It is the caller's responsibility
 	 * to close everything.
+	 * <p>
 	 * NOTE: This is synchronous.
-	 * @param imageLink - the image link to download (could be a thumb too)
-	 * @param outStream - an output stream to write the data to
+	 * <p>
+	 * <b>ACCESS: ANONYMOUS</b>
+	 * @param imageLink the image link to download (could be a thumb too)
+	 * @param outStream an output stream to write the data to
 	 * @return the number of bytes written
-	 * @throws IOException - could be anything really
-	 * @throws BaringoApiException - Imgur didn't like something
+	 * @throws IOException could be anything really
+	 * @throws BaringoApiException Imgur didn't like something
 	 */
 	public long downloadImage(
 			String imageLink,
@@ -220,12 +227,15 @@ public class ImageService {
 	/**
 	 * Given an image id and a file path to store it to, download
 	 * the image.  File must be writeable and the path must exist.
+	 * <p>
 	 * NOTE: This is synchronous.
-	 * @param imageLink - the image link to download (could be a thumb too)
-	 * @param fileName - name of the file to write to
+	 * <p>
+	 * <b>ACCESS: ANONYMOUS</b>
+	 * @param imageLink the image link to download (could be a thumb too)
+	 * @param fileName name of the file to write to
 	 * @return the number of bytes written
-	 * @throws IOException - myriad
-	 * @throws BaringoApiException - Imgur didn't like something
+	 * @throws IOException myriad
+	 * @throws BaringoApiException Imgur didn't like something
 	 */
 	public long downloadImage(
 			String imageLink,
@@ -244,12 +254,13 @@ public class ImageService {
 
 	/**
 	 * Updates an image with a new title and description
-	 * ACCESS: ANONYMOUS or AUTHENTICATED USER
-	 * @param idOrDeleteHash - If the image is anonymous, this is the delete hash. If not then it's an imageId and the currently-authenticated account must own it.
-	 * @param title - title of the image or null if none
-	 * @param description - description of the image or null if none
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b> or AUTHENTICATED USER
+	 * @param idOrDeleteHash If the image is anonymous, this is the delete hash. If not then it's an imageId and the currently-authenticated account must own it.
+	 * @param title title of the image or null if none
+	 * @param description description of the image or null if none
 	 * @return true if it worked
-	 * @throws BaringoApiException - C'est la vie
+	 * @throws BaringoApiException C'est la vie
 	 */
 	public boolean updateImage(
 			String idOrDeleteHash,
@@ -273,10 +284,11 @@ public class ImageService {
 
 	/**
 	 * Deletes an image
-	 * ACCESS: ANONYMOUS or AUTHENTICATED USER
-	 * @param idOrDeleteHash - If the image is anonymous, this is the delete hash. If not then it's an imageId and the currently-authenticated account must own it.
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b> or <b>AUTHENTICATED USER</b>
+	 * @param idOrDeleteHash If the image is anonymous, this is the delete hash. If not then it's an imageId and the currently-authenticated account must own it.
 	 * @return true if it worked
-	 * @throws BaringoApiException - C'est la vie
+	 * @throws BaringoApiException C'est la vie
 	 */
 	public boolean deleteImage(
 			String idOrDeleteHash ) throws BaringoApiException {
@@ -302,11 +314,13 @@ public class ImageService {
 	 * the site's API only acknowledges a toggle of the value.  The image
 	 * object is updated with the new status.  If the image is already
 	 * marked as a favorite, no action is taken.
+	 * <p>
 	 * NOTE: An account can't favorite its own images.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param image - the image to favorite.
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param image the image to favorite.
 	 * @return the updated image object
-	 * @throws BaringoApiException - argh
+	 * @throws BaringoApiException argh
 	 */
 	public Image favoriteImage( Image image ) throws BaringoApiException {
 		if( !client.authService().isUserAuthenticated() ) {
@@ -337,11 +351,13 @@ public class ImageService {
 	 * the site's API only acknowledges a toggle of the value.  The image
 	 * object is updated with the new status.  If the image is already
 	 * not favorited, no action is taken.
-	 * NOTE: An account can't favorite its own images.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param image - the image to favorite.
+	 * <p>
+	 * NOTE: An account can't unfavorite its own images.
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param image the image to favorite.
 	 * @return the updated image object
-	 * @throws BaringoApiException - argh
+	 * @throws BaringoApiException argh
 	 */
 	public Image unfavoriteImage( Image image ) throws BaringoApiException {
 		if( !client.authService().isUserAuthenticated() ) {

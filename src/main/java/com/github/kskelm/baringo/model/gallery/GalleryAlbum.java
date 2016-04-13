@@ -1,12 +1,4 @@
-/**
- * Model object for albums found in a gallery.
- * This is a subclass of GalleryItemProxy because
- * GalleryImage and GalleryAlbum are both returned
- * by various Imgur APIs and they share a notable
- * number of characteristics.  Check the class
- * type of an instance and cast it to get the
- * appropriate version.
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model.gallery;
 
 import java.util.HashMap;
@@ -17,14 +9,22 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * Model object for albums found in a gallery.
+ * This is a subclass of GalleryItem because
+ * GalleryImage and GalleryAlbum are both returned
+ * by various Imgur APIs and they share a notable
+ * number of characteristics.  In any list of 
+ * GalleryItems coming back from an API call,
+ * isAlbum() will determine whether it can be
+ * cast to GalleryAlbum or GalleryImage.
  * 
- * @author kskelm
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 public class GalleryAlbum extends GalleryItem {
 
 	/**
-	 * A GalleryAlbum has a privacy level. See @see <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
+	 * A GalleryAlbum has a privacy level. See <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
 	 */
 	public enum Privacy {
 		/**
@@ -42,7 +42,7 @@ public class GalleryAlbum extends GalleryItem {
 	}
 
 	/**
-	 * A GalleryAlbum has a layout. @see <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
+	 * A GalleryAlbum has a layout. <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
 	 */
 	public enum Layout {
 		/**
@@ -117,9 +117,10 @@ public class GalleryAlbum extends GalleryItem {
 	/**
 	 * Returns the list of Image objects
 	 * in the GalleryAlbum.
+	 * <p>
 	 * NOTE: This will only exist if the
 	 * gallery album was requested
-	 * directly.
+	 * directly and not via a listing.
 	 * @return the images
 	 */
 	public List<Image> getImages() {
@@ -135,10 +136,15 @@ public class GalleryAlbum extends GalleryItem {
 	
 	// =========================================================
 
-	// INTERNAL ONLY
+	/**
+	 * Internal only
+	 */
 	public GalleryAlbum() { }
 
-	// INTERNAL ONLY
+	/**
+	 * Internal only
+	 * @param p proxy object
+	 */
 	public GalleryAlbum( GalleryItemProxy p ) {
 		super( p );
 		copyFrom( p, GalleryAlbum.class );

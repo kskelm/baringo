@@ -1,6 +1,4 @@
-/**
- * a trophy that can be earned by users
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import java.util.Date;
@@ -9,7 +7,10 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * Represents a trophy that can be earned by users, such as the number
+ * of years they've been a member, awards if their post reaches Top,
+ * etc.
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 
@@ -81,6 +82,9 @@ public class Trophy {
 	}
 
 	// ===================================================
+	
+	protected Trophy() {}
+	
 	private int id;
 	private String name;
 	@SerializedName("name_clean")

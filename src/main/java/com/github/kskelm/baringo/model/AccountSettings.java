@@ -1,6 +1,4 @@
-/**
- * imgur account settings
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import java.util.ArrayList;
@@ -10,8 +8,17 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * Settings on Imgur user accounts.
+ * This is a different
+ * class from @see ChangeAccountSettings because the Imgur
+ * API 3 getter/setter endpoints are asymmetrical:
+ * <ul>
+ *   <li>bio is set here but returned in account, not account settings</li>
  *
+ *   <li>username here is url in account and account_url in account settings.
+ *   Baringo normalizes all of them to userName.</li>
+ * </ul>
+ *  @author Kevin Kelm (triggur@gmail.com)
  */
 
 public class AccountSettings {
@@ -137,7 +144,7 @@ public class AccountSettings {
 	@SerializedName("show_mature")
 	private boolean showMature;
 
-	public AccountSettings() {}
+	private AccountSettings() {}
 
 	@Override
 	public String toString() {

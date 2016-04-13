@@ -1,6 +1,4 @@
-/**
- * Retrofit implementation of the Imgur 3 API
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.util;
 
 import java.util.List;
@@ -43,17 +41,20 @@ import retrofit.http.Path;
 import retrofit.http.Query;
 
 /**
- * @author kskelm
  * 
- * This class is not meant to be seen by human eyes.
+ * This class is not meant to be seen by human eyes. It's
+ * the Retrofit2-compatible annotated interface calls used
+ * to connect with Imgur's API 3.
  *
+ * @author Kevin Kelm (triggur@gmail.com)
+ * 
  */
 public interface RetrofittedImgur {
 
 	// apparently Retrofit 2 doesn't want to support multiple
-	// interfaces in the same API.  It's onerous and a pain to
-	// create multiple clients for the same API, so we're just
-	// going to jam them all in here.
+	// interfaces in the same API.  There's logic to this, but
+	// It's onerous and a pain to create multiple clients for
+	// the same API, so we're just going to jam them all in here.
 	
 	// ============================================================
 	// ============================================================

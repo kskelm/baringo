@@ -1,6 +1,4 @@
-/**
- * 
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import java.util.Date;
@@ -9,6 +7,13 @@ import java.util.HashMap;
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model object for (non-gallery) images.  @see GalleryImage objects are
+ * different in the sense that they contain a subset of information
+ * pertinent to listings of items in galleries.
+ * @author Kevin Kelm (triggur@gmail.com)
+ *
+ */
 public class Image {
 	
 	
@@ -45,7 +50,7 @@ public class Image {
 	/**
 	 * Given a thumbnail size, returns the link for the
 	 * corresponding thumbnail file.
-	 * @param tt - the thumbnail time
+	 * @param tt the thumbnail time
 	 * @return thumbnail link
 	 */
 	public String getThumbnailLink( ThumbnailType tt ) {
@@ -143,7 +148,14 @@ public class Image {
 	}
 
 	/**
-	 *  	OPTIONAL, the deletehash, if you're logged in as the image owner
+	 *  	The deletehash for an image is a means of modifying/deleting
+	 *  it without necessarily owning it. if you're logged in as the
+	 *  image owner then you can delete it by the delete hash or via
+	 *  the image id.  If it's an anonymous image not owned by anyone,
+	 *  it is deletable only with this value.
+	 *  <p>
+	 *  If the image is "anonymous," you'll never see this value again
+	 *  unless you keep a copy of it yourself after image creation.
 	 * @return the deletehash
 	 */
 	public String getDeleteHash() {
@@ -151,10 +163,11 @@ public class Image {
 	}
 
 	/**
-	 *  OPTIONAL, the original filename, if you're logged in as the image owner
+	 *  The original filename.  This will only be filled in if you're
+	 *  logged in as the owner (assuming it was set at upload)
 	 *  @return the name
 	 */
-	public String getName() {
+	public String getFileName() {
 		return name;
 	}
 
@@ -167,7 +180,9 @@ public class Image {
 	}
 
 	/**
-	 * The direct link to the the image. (Note: if fetching an animated GIF that was over 20MB in original size, a .gif thumbnail will be returned)
+	 * The direct link to the the image.
+	 * <p>
+	 * NOTE: if fetching an animated GIF that was over 20MB in original size, a .gif thumbnail will be returned.
 	 * @return the link
 	 */
 	public String getLink() {
@@ -175,7 +190,7 @@ public class Image {
 	}
 
 	/**
-	 * OPTIONAL, The .gifv link. Only available if the image is animated and type is 'image/gif'.
+	 * The .gifv link. Only available if the image is animated and type is 'image/gif'.
 	 * @return the gifv
 	 */
 	public String getGifv() {
@@ -183,7 +198,7 @@ public class Image {
 	}
 
 	/**
-	 * OPTIONAL, The direct link to the .mp4. Only available if the image is animated and type is 'image/gif'.
+	 * The direct link to the .mp4. Only available if the image is animated and type is 'image/gif'.
 	 * @return the mp4
 	 */
 	public String getMp4() {
@@ -191,7 +206,7 @@ public class Image {
 	}
 
 	/**
-	 *  	OPTIONAL, The direct link to the .webm. Only available if the image is animated and type is 'image/gif'.
+	 *  The direct link to the .webm. Only available if the image is animated and type is 'image/gif'.
 	 *  @return the webm
 	 */
 	public String getWebm() {
@@ -199,7 +214,7 @@ public class Image {
 	}
 
 	/**
-	 * OPTIONAL, Whether the image has a looping animation. Only available if the image is animated and type is 'image/gif'.
+	 * Whether the image has a looping animation. Only available if the image is animated and type is 'image/gif'.
 	 * @return the looping
 	 */
 	public boolean isLooping() {
@@ -215,7 +230,7 @@ public class Image {
 	}
 
 	/**
-	 * Indicates if the current user favorited the image. Defaults to false if not signed in.
+	 * Indicates if the current user favorited the image. False if not signed in.
 	 * @return the favorite
 	 */
 	public boolean isFavorite() {
@@ -223,10 +238,13 @@ public class Image {
 	}
 
 	/**
-	 * Sets the favorite status on the image. DO NOT USE THIS...
+	 * Sets the favorite status on the image.
+	 * <p>
+	 * <b>DO NOT USE THIS...</b>
 	 * this is used by the ImageService.  Instead call ImageService's
-	 * favoriteImage() and unfavoriteImage().
-	 * @param favorite - true if favorited
+	 * favoriteImage() and unfavoriteImage() and the image object
+	 * will be updated accordingly.
+	 * @param favorite true if favorited
 	 */
 	public void setFavorite(boolean favorite) {
 		this.favorite = favorite;

@@ -1,13 +1,4 @@
-/**
- * Model object for items found in a gallery.
- * This is an abstract superclass for GalleryImage
- * and GalleryAlbum, which are both returned
- * by various Imgur APIs and they share a notable
- * number of characteristics.  Check the class
- * type of an instance and cast it to get the
- * appropriate version.
- * NOTE: Counter values tend to lag behind realtime.
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model.gallery;
 
 import java.lang.reflect.Field;
@@ -18,6 +9,20 @@ import com.github.kskelm.baringo.model.Comment;
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model object for items found in a gallery.
+ * This is an abstract superclass for GalleryImage
+ * and GalleryAlbum, which are both returned
+ * by various Imgur APIs and they share a notable
+ * number of characteristics.  Check the class
+ * type of an instance and cast it to get the
+ * appropriate version.
+ * <p>
+ * NOTE: Counter values such as upvotes, views,
+ * bandwidth, etc all tend to lag behind realtime.
+ * 
+ * @author Kevin Kelm (triggur@gmail.com)
+ */
 public abstract class GalleryItem {
 
 	/**
@@ -308,8 +313,8 @@ System.err.println("wat");
 //	 * (INTERNAL) Shallow copy the fields from one object to another, given
 //	 * named fields in a specific level of the inheritance.
 //	 * This makes me sad.
-//	 * @param from - destination object
-//	 * @param cls - the class to enumerate fields on
+//	 * @param from destination object
+//	 * @param cls the class to enumerate fields on
 //	 */
 	public void copyFrom( GalleryItemProxy from, @SuppressWarnings("rawtypes") Class cls ) {
 		for( Field toField : cls.getDeclaredFields() ) {

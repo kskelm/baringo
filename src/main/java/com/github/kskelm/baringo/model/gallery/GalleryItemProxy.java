@@ -1,6 +1,4 @@
-/**
- * INTERNAL ONLY - don't use this for anything
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model.gallery;
 
 import java.lang.reflect.Field;
@@ -14,7 +12,25 @@ import com.github.kskelm.baringo.model.gallery.GalleryAlbum.Privacy;
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
-// sometimes you do something that makes you feel dirty inside
+/**
+ * <b>INTERNAL ONLY - don't use this for anything.</b>
+ * <p>
+ * Sometimes you do something that makes you feel dirty
+ * inside, like taking dynamically typed objects out
+ * of an API response, and then having to sort through
+ * keys to figure out what kind of strictly typed object
+ * it ought to be.  This class is just a temporary landing
+ * zone for data coming in on methods that return lists of
+ * GalleryItems so it can be determined if it's an album or
+ * an image, then creating the real objects.
+ * <p>
+ * Retrofit probably supports a better way to do this in
+ * the future that doesn't require a bunch of proxy objects
+ * to be created before making the real ones.
+ * 
+ * @author Alan Smithee
+ *
+ */
 @SuppressWarnings("unused")
 public class GalleryItemProxy {
 

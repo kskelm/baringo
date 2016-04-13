@@ -1,13 +1,16 @@
-/**
- * Imgur API 3 Notification POJO
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * Represents a notification sent to a user about new activity.
+ * <p>
+ * <b>NOTE:</b> In 1.0.0 the content is currently just a Map of key values,
+ * pending figuring out how to turn it into the appropriate
+ * kind of object that the notification is about.
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 

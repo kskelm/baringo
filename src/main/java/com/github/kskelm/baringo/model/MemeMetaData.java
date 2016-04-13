@@ -1,13 +1,12 @@
-/**
- * Info about a meme image
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * Information about a meme
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 

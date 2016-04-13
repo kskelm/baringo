@@ -1,30 +1,34 @@
-/**
- * Represents changes to the account settings.  This is a different
- * class from AccountSettings because the Imgur API 3 getter/setter
- * endpoints are assymetrical:
- *   - bio is set here but returned in account, not account settings
- *   - username here is url in account and account_url in account settings
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * Represents changes to the account settings.  This is a different
+ * class from AccountSettings because the Imgur API 3 getter/setter
+ * endpoints are asymmetrical:
+ * <ul>
+ *   <li>bio is set here but returned in account, not account settings</li>
+ *
+ *   <li>username here is url in account and account_url in account settings.
+ *   Baringo normalizes all of them to userName.</li>
+ * </ul>
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 
 public class ChangedAccountSettings {
 
 	/**
-	 * To help alleviate the assymmetry of the account settings/bio
+	 * To help alleviate the asymmetry of the account settings/bio
 	 * objects, this copies AccountSettings to ChangedAccountSettings
-	 * so it's easier to make changes
-	 * NOTE: no API call from Imgur returns newsletter_subscribed so
-	 * that will get lost unless you magically know somehow.
-	 * @param settings - the original AccountSettings to copy in
-	 * @param acct - the Account object to get bio from
+	 * so it's easier to make changes.
+	 * <p>
+	 * <b>NOTE: no API call from Imgur returns newsletter_subscribed so
+	 * that will get lost unless you magically know somehow.</b>
+	 * @param settings the original AccountSettings to copy in
+	 * @param acct the Account object to get bio from
 	 */
 	public ChangedAccountSettings( AccountSettings settings, Account acct ) {
 		if( acct != null ) {
@@ -40,7 +44,7 @@ public class ChangedAccountSettings {
 	}
 	
 	/**
-	 * Get the biography of the user that's displayed in the gallery profile page
+	 * Get the biography of the user that's displayed in the gallery profile page.
 	 * @return the bio
 	 */
 	public String getBio() {
@@ -48,7 +52,7 @@ public class ChangedAccountSettings {
 	}
 
 	/**
-	 * Set the biography of the user to be displayed in the gallery profile page
+	 * Set the biography of the user to be displayed in the gallery profile page.
 	 * @param bio the bio to set
 	 */
 	public void setBio(String bio) {
@@ -56,7 +60,7 @@ public class ChangedAccountSettings {
 	}
 
 	/**
-	 * Get whether or not the user's new images default to public instead of private
+	 * Get whether or not the user's new images default to public instead of private.
 	 * @return the publicImages
 	 */
 	public boolean isPublicImages() {
@@ -64,7 +68,7 @@ public class ChangedAccountSettings {
 	}
 
 	/**
-	 * Set whether or not the user's new images default to public instead of private
+	 * Set whether or not the user's new images default to public instead of private.
 	 * @param publicImages the publicImages to set
 	 */
 	public void setPublicImages(boolean publicImages) {
@@ -72,7 +76,7 @@ public class ChangedAccountSettings {
 	}
 
 	/**
-	 * Get whether or not the user has opted to receive private messages
+	 * Get whether or not the user has opted to receive private messages.
 	 * @return the messagingEnabled
 	 */
 	public boolean isMessagingEnabled() {
@@ -80,32 +84,15 @@ public class ChangedAccountSettings {
 	}
 
 	/**
-	 * Set whether or not the user has opted to receive private messages
+	 * Set whether or not the user has opted to receive private messages.
 	 * @param messagingEnabled the messagingEnabled to set
 	 */
 	public void setMessagingEnabled(boolean messagingEnabled) {
 		this.messagingEnabled = messagingEnabled;
 	}
 
-// TODO: Put in Album, Public/Hidden/Secret
-//	/**
-//	 * Get the default privacy level of new albums the user creates
-//	 * @return the albumPrivacy
-//	 */
-//	public AlbumPrivacy getAlbumPrivacy() {
-//		return albumPrivacy;
-//	}
-//
-//	/**
-//	 * Set the default privacy level of new albums the user creates
-//	 * @param albumPrivacy the albumPrivacy to set
-//	 */
-//	public void setAlbumPrivacy(AlbumPrivacy albumPrivacy) {
-//		this.albumPrivacy = albumPrivacy;
-//	}
-
 	/**
-	 * Get whether or not the user has accepted the Imgur Gallery terms
+	 * Get whether or not the user has accepted the Imgur Gallery terms.
 	 * @return the acceptedGalleryTerms
 	 */
 	public boolean isAcceptedGalleryTerms() {
@@ -113,7 +100,7 @@ public class ChangedAccountSettings {
 	}
 
 	/**
-	 * Set whether or not the user has accepted the Imgur Gallery terms
+	 * Set whether or not the user has accepted the Imgur Gallery terms.
 	 * @param acceptedGalleryTerms the acceptedGalleryTerms to set
 	 */
 	public void setAcceptedGalleryTerms(boolean acceptedGalleryTerms) {
@@ -137,7 +124,7 @@ public class ChangedAccountSettings {
 	}
 
 	/**
-	 * Get whether or not the user has opted to see mature content in the galleries
+	 * Get whether or not the user has opted to see mature content in the galleries.
 	 * @return the showMature
 	 */
 	public boolean getShowMature() {
@@ -145,7 +132,7 @@ public class ChangedAccountSettings {
 	}
 
 	/**
-	 * Set whether or not the user has opted to see mature content in the galleries
+	 * Set whether or not the user has opted to see mature content in the galleries.
 	 * @param showMature the showMature to set
 	 */
 	public void setShowMature(boolean showMature) {
@@ -161,7 +148,7 @@ public class ChangedAccountSettings {
 	}
 
 	/**
-	 * Set whether or not the user is subscribed to receive the email newsletters
+	 * Set whether or not the user is subscribed to receive the email newsletters.
 	 * @param newsletterSubscribed the newsletterSubscribed to set
 	 */
 	public void setNewsletterSubscribed(boolean newsletterSubscribed) {
@@ -187,7 +174,7 @@ public class ChangedAccountSettings {
 	private boolean newsletterSubscribed;
 
 	public ChangedAccountSettings() {
-		System.err.println("TODO: Add Album.Privacy as albumPrivacy ");
+// TODO: Add Album.Privacy as albumPrivacy
 	}
 
 	@Override

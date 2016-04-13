@@ -1,7 +1,4 @@
-/**
- * just a list of tag items to accommodate a weird return in the standard
- * wrapper that has an object with a single key we need to extract. ignore this.
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import java.util.List;
@@ -10,9 +7,12 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
- * just a list of tag items to accommodate a weird return in the standard
- * wrapper that has an object with a single key we need to extract. ignore this.
+ * 
+ * Just a list of tag items to accommodate a weird return in the standard
+ * wrapper that has an object with a single key we need to extract. Ignore
+ * this class.
+ * @author Kevin Kelm (triggur@gmail.com)
+ * 
  */
 
 public class TagVoteList {

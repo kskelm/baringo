@@ -1,6 +1,4 @@
-/**
- * Imgur API service
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo;
 
 import java.io.IOException;
@@ -11,6 +9,7 @@ import com.github.kskelm.baringo.model.Account;
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.util.BaringoApiException;
 import com.github.kskelm.baringo.util.RetrofittedImgur;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
@@ -20,8 +19,6 @@ import com.google.gson.stream.JsonWriter;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-import com.squareup.okhttp.logging.HttpLoggingInterceptor;
-import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
 
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -29,8 +26,9 @@ import retrofit.Response;
 
 
 /**
- * @author kskelm
- *
+ * The Baringo client that is the foundation for all API calls to Imgur
+ * @author Kevin Kelm (triggur@gmail.com)
+ * 
  */
 public class BaringoClient {
 
@@ -151,7 +149,7 @@ public class BaringoClient {
 	 * convenience method that caches, since it seems like something
 	 * that might be requested frequently.
 	 * @return the current Account
-	 * @throws BaringoApiException - wat
+	 * @throws BaringoApiException wat
 	 */
 	public Account getAuthenticatedAccount() throws BaringoApiException {
 		return authSvc.getAuthenticatedAccount();
@@ -162,7 +160,7 @@ public class BaringoClient {
 
 	/**
 	 * This is used to construct a new BaringoClient
-	 * @author kskelm
+	 * @author Kevin Kelm (triggur@gmail.com)
 	 *
 	 */
 	public static class Builder {
@@ -172,8 +170,8 @@ public class BaringoClient {
 		 * of Imgur authentication.  They give you access to only the
 		 * publicly-accessible features of the site, not private details
 		 * in a specific user's account. {Link http://api.imgur.com/}
-		 * @param clientId - the client_id assigned by Imgur
-		 * @param clientSecret - the client_secret assigned by Imgur
+		 * @param clientId the client_id assigned by Imgur
+		 * @param clientSecret the client_secret assigned by Imgur
 		 * @return This builder object
 		 */
 		public Builder clientAuth( String clientId, String clientSecret ) {
@@ -206,7 +204,7 @@ public class BaringoClient {
 	 * API endpoint in the system at a time; even if you
 	 * create a new client, they all still share the same
 	 * URL endpoints.
-	 * @param url - new endpoint
+	 * @param url new endpoint
 	 */
 	public static void setApiEndpoint( String url ) {
 		BaringoClient.apiEndpoint = url;
@@ -223,16 +221,16 @@ public class BaringoClient {
 	// =========================================================
 	// internal
 	
-	//	/**
-	//	 * Construct a client.  This is necessary before using
-	//	 * any of the API calls.  It is advised to store clientId
-	//	 * and clientSecret somewhere other than in your code.
-	//	 * Note that logging in a user is a separate step that comes
-	//	 * later.
-	//	 * @param clientId - the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.
-	//	 * @param clientSecret- the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.  THIS IS A SECRET- DO NOT SHARE IT. STORE THIS IN A SECURE PLACE.
-	//	 * @throws BaringoApiException 
-	//	 */
+	/**
+	 * Construct a client.  This is necessary before using
+	 * any of the API calls.  It is advised to store clientId
+	 * and clientSecret somewhere other than in your code.
+	 * Note that logging in a user is a separate step that comes
+	 * later.
+	 * @param clientId the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.
+	 * @param clientSecret the clientID string for your client. If you haven't got one yet, <a href="https://api.imgur.com/oauth2/addclient">register</a>. You'll need to register as OAuth 2 without a callback URL.  THIS IS A SECRET- DO NOT SHARE IT. STORE THIS IN A SECURE PLACE.
+	 * @throws BaringoApiException the clientId or clientSecret were not supplied
+	 */
 	protected BaringoClient( String clientId, String clientSecret ) throws BaringoApiException {
 		if( clientId == null || clientSecret == null ) {
 			throw new BaringoApiException( "Must have clientId and clientSecret to run Baringo.  See http://api.imgur.com/");
@@ -254,7 +252,7 @@ public class BaringoClient {
 					+ ": " +  resp.message(), resp.code() );
 		} // if
 		if( resp.body() == null ) {
-			throw new BaringoApiException( "No response body found", 0 );
+			throw new BaringoApiException( "No response body found" );
 		} // if
 		if( resp.body().getStatus() != 200 || !resp.body().isSuccess() ) {
 			throw new BaringoApiException( "Unknown error", resp.body().getStatus() );
@@ -265,10 +263,10 @@ public class BaringoClient {
 		client = new OkHttpClient();
 		client.interceptors().add(new ImgurInterceptor());
 
-				// super useful
-				HttpLoggingInterceptor logging = new HttpLoggingInterceptor();  
-				logging.setLevel(Level.BODY);
-				client.interceptors().add( logging );
+//		HttpLoggingInterceptor logging = new HttpLoggingInterceptor(  );  
+//		logging.setLevel(Level.BODY);
+//		client.interceptors().add( logging );
+			
 		
 		final GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(Date.class, new DateAdapter());
@@ -313,14 +311,14 @@ public class BaringoClient {
 
 			log.fine( "API Call: " + request.url().toString() );
 			request = authService().buildAuthenticatedRequest( request );
-			
+
 			com.squareup.okhttp.Response response = chain.proceed(request);
 
 			updateQuota( response );
 			return response;
-		}
+		}		
 	}
-
+	
 	/**
 	 * These define the headers that return relevant quota information
 	 */
@@ -415,15 +413,15 @@ public class BaringoClient {
 
 	private AccountService acctSvc = null;
 	private AlbumService   albSvc = null;
+	private AuthService authSvc = null;
+	private CommentService comSvc = null;
+	private ConversationService cnvSvc = null;
+	private CustomGalleryService cusGalSvc = null;
 	private ImageService   imgSvc = null;
 	private GalleryService galSvc = null;
-	private CommentService comSvc = null;
-	private CustomGalleryService cusGalSvc = null;
-	private TopicService topSvc = null;
-	private ConversationService cnvSvc = null;
-	private NotificationService noteSvc = null;
-	private AuthService authSvc = null;
 	private MemeService memeSvc = null;
+	private NotificationService noteSvc = null;
+	private TopicService topSvc = null;
 	
 	private OkHttpClient client;
 	
