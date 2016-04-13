@@ -1,7 +1,4 @@
-/**
- * Imgur Account API services
- * See <a href="http://api.imgur.com/endpoints/account">Imgur Accounts</a> for API details
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo;
 
 import java.io.IOException;
@@ -26,17 +23,22 @@ import retrofit.Response;
 
 
 /**
- * @author kskelm
+ * 
+ * Manages the user's account, settings, favorites, etc
+ * <p>
+ * See <a href="http://api.imgur.com/endpoints/account">Imgur Accounts</a> for API details
  *
+ * @author Kevin Kelm (triggur@gmail.com)
  */
 public class AccountService {
 
 	/**
 	 * Given an account name, return the Account object for it.
-	 * ACCESS: ANONYMOUS
-	 * @param userName - the name of the account
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName the name of the account
 	 * @return Account object
-	 * @throws BaringoApiException - something went pear-shaped
+	 * @throws BaringoApiException something went pear-shaped
 	 */
 	public Account getAccount( String userName ) throws BaringoApiException {
 		Call<ImgurResponseWrapper<Account>> call =
@@ -60,11 +62,12 @@ public class AccountService {
 	 * GalleryItem is the superclass for GalleryImage and
 	 * GallerAlbum, so cast the results as appropriate for access
 	 * to more specific fields.  Defaults to sorting by newest.
-	 * ACCESS: ANONYMOUS
-	 * @param userName - the userName to return gallery items for
-	 * @param page - page number of results to return, starting at 0
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName the userName to return gallery items for
+	 * @param page page number of results to return, starting at 0
 	 * @return a list of gallery items
-	 * @throws BaringoApiException - something went wrong
+	 * @throws BaringoApiException something went wrong
 	 */
 	public List<GalleryItem> listGalleryFavorites( String userName,
 			int page ) throws BaringoApiException {
@@ -78,12 +81,13 @@ public class AccountService {
 	 * GalleryItem is the superclass for GalleryImage and
 	 * GallerAlbum, so cast the results as appropriate for access
 	 * to more specific fields.
-	 * ACCESS: ANONYMOUS
-	 * @param userName - name of the user to get favorites for
-	 * @param sort - the sort direction for results
-	 * @param page - the page number to return starting at 0
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName name of the user to get favorites for
+	 * @param sort the sort direction for results
+	 * @param page the page number to return starting at 0
 	 * @return a list of gallery items
-	 * @throws BaringoApiException - something went wrong
+	 * @throws BaringoApiException something went wrong
 	 */
 	public List<GalleryItem> listGalleryFavorites( String userName,
 			int page,
@@ -110,9 +114,10 @@ public class AccountService {
 	 * GalleryItem is the superclass for GalleryImage and
 	 * GallerAlbum, so cast the results as appropriate for access
 	 * to more specific fields.
-	 * ACCESS: AUTHENTICATED USER
+	 * <p>
+     * <b>ACCESS: AUTHENTICATED USER</b>
 	 * @return a list of gallery items
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public List<GalleryItem> listFavorites() throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
@@ -141,11 +146,12 @@ public class AccountService {
 	 * GalleryItem is the superclass for GalleryImage and
 	 * GallerAlbum, so cast the results as appropriate for access
 	 * to more specific fields.
-	 * ACCESS: ANONYMOUS
-	 * @param userName - name of the user to get favorites for
-	 * @param page - the page number to return starting at 0
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName name of the user to get favorites for
+	 * @param page the page number to return starting at 0
 	 * @return a list of gallery items
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public List<GalleryItem> listSubmissions( String userName,
 			int page ) throws BaringoApiException {
@@ -166,9 +172,10 @@ public class AccountService {
 
 	/**
 	 * Return the settings on the currently authenticated account.
-	 * ACCESS: AUTHENTICATED USER
+	 * <p>
+     * <b>ACCESS: AUTHENTICATED USER</b>
 	 * @return The account's settings
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public AccountSettings getAccountSettings() throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
@@ -193,9 +200,10 @@ public class AccountService {
 
 	/**
 	 * Saves the settings on the currently authenticated account.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param settings - the settings to save
-	 * @throws BaringoApiException - something failed
+	 * <p>
+     * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param settings the settings to save
+	 * @throws BaringoApiException something failed
 	 */
 	public void setAccountSettings( ChangedAccountSettings settings ) throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
@@ -217,10 +225,11 @@ public class AccountService {
 
 	/**
 	 * Return the gallery profile for a user
-	 * ACCESS: ANONYMOUS
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
 	 * @param userName the userName for the account to return the profile of
 	 * @return The account's GalleryProfile
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public GalleryProfile getGalleryProfile( String userName) throws BaringoApiException {
 		Call<ImgurResponseWrapper<GalleryProfile>> call =
@@ -241,9 +250,10 @@ public class AccountService {
 	/**
 	 * Returns whether or not the currently-authenticated account's
 	 * email address has been verified.
-	 * ACCESS: AUTHENTICATED USER
+	 * <p>
+     * <b>ACCESS: AUTHENTICATED USER</b>
 	 * @return The account's GalleryProfile
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public boolean isVerified() throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
@@ -267,9 +277,10 @@ public class AccountService {
 
 	/**
 	 * Initiates re-sending of the verification email.
-	 * ACCESS: AUTHENTICATED USER
+	 * <p>
+     * <b>ACCESS: AUTHENTICATED USER</b>
 	 * @return whether or not a verification email was sent
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public boolean sendVerificationEmail() throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
@@ -295,11 +306,12 @@ public class AccountService {
 	/**
 	 * Returns a paged list of albums associated with the given
 	 * userName, paged 50 at a time.
-	 * ACCESS: ANONYMOUS
-	 * @param userName - the name of the user to fetch albums for
-	 * @param page - the page number, starting at 0
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName the name of the user to fetch albums for
+	 * @param page the page number, starting at 0
 	 * @return A list of Album objects
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public List<Album> listAlbums(
 			String userName,
@@ -322,11 +334,12 @@ public class AccountService {
 	/**
 	 * Returns a list of album IDs associated with the given
 	 * userName, paged 50 at a time
-	 * ACCESS: ANONYMOUS
-	 * @param userName - the name of the user to fetch album ids for
-	 * @param page - The page number to fetch, starting at 0
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName the name of the user to fetch album ids for
+	 * @param page The page number to fetch, starting at 0
 	 * @return A list of album IDs (integers)
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public List<String> listAlbumIds(
 			String userName,
@@ -347,10 +360,11 @@ public class AccountService {
 	/**
 	 * Returns the total number of Albums the given user
 	 * owns.
-	 * ACCESS: ANONYMOUS
-	 * @param userName - The name of the user to fetch an album count for
-	 * @return Integer - the number of albums the user owns
-	 * @throws BaringoApiException - something failed
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName The name of the user to fetch an album count for
+	 * @return Integer the number of albums the user owns
+	 * @throws BaringoApiException something failed
 	 */
 	public int getAlbumCount(
 				String userName ) throws BaringoApiException {
@@ -372,11 +386,12 @@ public class AccountService {
 	/**
 	 * Returns a paged list of comments associated with the given
 	 * userName, paged 50 at a time, sorted by newest-first
-	 * ACCESS: ANONYMOUS
-	 * @param userName - the name of the user to fetch comments for
-	 * @param page - the page number, starting at 0
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName the name of the user to fetch comments for
+	 * @param page the page number, starting at 0
 	 * @return A list of Comment objects
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public List<Comment> listComments(
 			String userName,
@@ -387,12 +402,13 @@ public class AccountService {
 	/**
 	 * Returns a paged list of comments associated with the given
 	 * userName, paged 50 at a time.
-	 * ACCESS: ANONYMOUS
-	 * @param userName - the name of the user to fetch comments for
-	 * @param sort - a sort direction
-	 * @param page - the page number, starting at 0
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName the name of the user to fetch comments for
+	 * @param sort a sort direction
+	 * @param page the page number, starting at 0
 	 * @return A list of Comment objects
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public List<Comment> listComments(
 			String userName,
@@ -416,12 +432,13 @@ public class AccountService {
 	/**
 	 * Returns a list of comment IDs associated with the given
 	 * userName, paged 50 at a time
-	 * ACCESS: ANONYMOUS
-	 * @param userName - the name of the user to fetch comment ids for
-	 * @param sort - a sort direction
-	 * @param page - The page number to fetch, starting at 0
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName the name of the user to fetch comment ids for
+	 * @param sort a sort direction
+	 * @param page The page number to fetch, starting at 0
 	 * @return A list of comment IDs (integers)
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public List<Integer> listCommentIds(
 			String userName,
@@ -443,9 +460,11 @@ public class AccountService {
 	/**
 	 * Returns the total number of Comments the given user
 	 * owns.
-	 * @param userName - The name of the user to fetch a comment count for
-	 * @return int - the number of comments the user owns
-	 * @throws BaringoApiException - something failed
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
+	 * @param userName The name of the user to fetch a comment count for
+	 * @return int the number of comments the user owns
+	 * @throws BaringoApiException something failed
 	 */
 	public int getCommentCount(
 				String userName ) throws BaringoApiException {
@@ -466,10 +485,11 @@ public class AccountService {
 	/**
 	 * Returns a paged list of images associated with the current
 	 * user, paged 50 at a time.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param page - the page number, starting at 0
+	 * <p>
+     * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param page the page number, starting at 0
 	 * @return A list of Image objects
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public List<Image> listImages( int page ) throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
@@ -494,10 +514,11 @@ public class AccountService {
 	/**
 	 * Returns a list of image IDs associated with the current
 	 * user, paged 50 at a time
-	 * ACCESS: AUTHENTICATED USER
-	 * @param page - The page number to fetch, starting at 0
+	 * <p>
+     * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param page The page number to fetch, starting at 0
 	 * @return A list of Image IDs (strings)
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public List<String> listImageIds( int page ) throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
@@ -519,9 +540,10 @@ public class AccountService {
 	
 	/**
 	 * Returns the total number of Images the current user owns.
-	 * ACCESS: AUTHENTICATED USER
-	 * @return int - the number of images the user owns
-	 * @throws BaringoApiException - something failed
+	 * <p>
+     * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @return int the number of images the user owns
+	 * @throws BaringoApiException something failed
 	 */
 	public int getImageCount() throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();

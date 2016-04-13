@@ -1,6 +1,5 @@
-/**
- * Imgur API 3 Account POJO
- */
+
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import java.util.Date;
@@ -9,8 +8,11 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
- *
+ * 
+ * Control over an Imgur user's account ( usually
+ * authenticated as that user only)
+ * 
+ * @author Kevin Kelm (triggur@gmail.com)
  */
 
 public class Account {
@@ -20,9 +22,9 @@ public class Account {
 	 */
 	public enum GallerySort {
 		/**
-		 * Order results newest first (this is the default)
+		 * Order results newest first
 		 */
-		newest,  // default
+		newest,
 		/**
 		 * Order results oldest first
 		 */
@@ -30,7 +32,8 @@ public class Account {
 	}
 
 	/**
-	 * @return  Account ID for the username requested
+	 * Account ID for the username requested
+	 * @return  user account id
 	 */
 	public int getId() {
 		return id;
@@ -38,7 +41,7 @@ public class Account {
 
 	/**
 	 * Returns the userName associated with this account
-	 * @return Account userName
+	 * @return Account's userName
 	 */
 	public String getUserName() {
 		return userName;
@@ -70,6 +73,9 @@ public class Account {
 	}
 
 	// ================================================
+	
+	protected Account() {}
+	
 	private int id;
 	@SerializedName("url")
 	private String userName;

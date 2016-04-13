@@ -1,13 +1,12 @@
-/**
- * The count of votes on an item
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * The counters for upvotes and downvotes for an item
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 
@@ -30,6 +29,9 @@ public class Votes {
 	}
 
 	// ===================================================
+	
+	protected Votes() {}
+	
 	@SerializedName("ups")
 	private int upVotes;
 	@SerializedName("downs")

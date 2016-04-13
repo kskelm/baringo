@@ -1,6 +1,4 @@
-/**
- * Model object for (non-gallery) albums.
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import java.lang.reflect.Field;
@@ -10,13 +8,18 @@ import java.util.List;
 import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Model object for (non-gallery) albums. GalleryAlbum objects are
+ * different in the sense that they contain a subset of information
+ * pertinent to listings of items in galleries.
+ * @author Kevin Kelm (triggur@gmail.com)
+ *
+ */
 public class Album {
 
 
-	public Album() { }
-
 	/**
-	 * An Album has a privacy level. See @see <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
+	 * An Album has a privacy level. See <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
 	 */
 	public enum Privacy {
 		/**
@@ -34,7 +37,7 @@ public class Album {
 	}
 
 	/**
-	 * An Album has a layout. See @see <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
+	 * An Album has a layout. See <a href="https://help.imgur.com/hc/en-us/articles/201746817-Image-and-album-privacy-explained-">Imgur's documentation</a>.
 	 */
 	public enum Layout {
 		/**
@@ -102,7 +105,7 @@ public class Album {
 
 
 	/**
-	 * The width in pixels of the cover
+	 * The width in pixels of the cover image
 	 * @return the coverWidth
 	 */
 	public int getCoverWidth() {
@@ -111,7 +114,7 @@ public class Album {
 
 
 	/**
-	 * The height in pixels of the cover
+	 * The height in pixels of the cover image
 	 * @return the coverHeight
 	 */
 	public int getCoverHeight() {
@@ -303,7 +306,6 @@ public class Album {
 
 	// =========================================================
 
-
 	// Internal only -- copy Image array to id array for save
 	public void prepareForSave() {
 		ids = null;
@@ -345,11 +347,18 @@ public class Album {
 	private String[] ids;
 	private List<Image> images;
 	
+	/**
+	 * internal only
+	 * @param hash set the delete hash (result of saving to imgur)
+	 */
 	public void setDeleteHash( String hash ) {
 		this.deleteHash = hash;
 	}
 
-	// sigh
+	/**
+	 * internal only
+	 * @param src Album object to copy from
+	 */
 	public void copyFrom( Album src ) {
         Field[] fields = Album.class.getDeclaredFields();
         for (Field field : fields) {

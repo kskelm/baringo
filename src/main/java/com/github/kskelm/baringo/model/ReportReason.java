@@ -1,4 +1,4 @@
-
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import com.google.gson.annotations.SerializedName;
@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * When reporting something as inappropriate, this is
  * the reason code to pass in.
  * 
- * @author kskelm
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 public enum ReportReason {

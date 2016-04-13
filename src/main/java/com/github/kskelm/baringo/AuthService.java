@@ -1,6 +1,4 @@
-/**
- * Imgur Authentication services
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo;
 
 import java.io.IOException;
@@ -16,8 +14,8 @@ import com.github.kskelm.baringo.util.BaringoAuthException;
 
 
 /**
- * @author kskelm
- *
+ * Manages the API's authentication for a specific user.
+ * @author Kevin Kelm (triggur@gmail.com)
  */
 public class AuthService {
 
@@ -26,11 +24,12 @@ public class AuthService {
 	 * for an active access token and refresh token.  If successful,
 	 * the refresh token is returned <i>and you must save it somewhere
 	 * if you don't want the user to have to re-auth your app each time.</i>
+	 * <p>
 	 * Authorization codes are only good for a few minutes after
 	 * retrieving them, so this should be called soon thereafter.
-	 * Refer to the documentation for a handy web server tool that will
-	 * walk you through the process if Oauth isn't your thing yet.
-	 * @param authCode - an authorization code returned by Imgur
+	 * Refer to the documentation for a handy web server toy that will
+	 * walk you through the process if OAuth2 isn't your thing yet.
+	 * @param authCode an authorization code returned by Imgur
 	 * @return a refresh token to be saved and passed to Baringo
 	 *     in the future.
 	 * @throws BaringoAuthException unable to refresh tokens
@@ -48,7 +47,7 @@ public class AuthService {
 	 * Returns true if the current user's OAuth2 access token
 	 * is valid.  If there is no authenticated user, 
 	 * @return whether the auth token is valid
-	 * @throws BaringoAuthException - whomp whomp
+	 * @throws BaringoAuthException whomp whomp
 	 */
 	public boolean isAccessTokenValid()  throws BaringoAuthException {
 		if( oAuth2 == null ) {
@@ -65,6 +64,11 @@ public class AuthService {
 		} // try-catch
 	} // isAccessTokenValid
 	
+	/**
+	 * Returns the account that is currently authenticated, or null if none.
+	 * @return the current Account
+	 * @throws BaringoApiException the account couldn't be loaded
+	 */
 	public Account getAuthenticatedAccount() throws BaringoApiException {
 		if( oAuth2 == null ) {
 			return null;
@@ -147,6 +151,7 @@ public class AuthService {
 	} // updateAccessToken
 
 	/**
+	 * Returns the BaringoClient (mostly internal use)
 	 * @return the client
 	 */
 	public BaringoClient getClient() {
@@ -154,6 +159,7 @@ public class AuthService {
 	}
 
 	/**
+	 * Returns the clientId key used to set things rolling
 	 * @return the clientId
 	 */
 	public String getClientId() {
@@ -161,6 +167,7 @@ public class AuthService {
 	}
 
 	/**
+	 * Returns the clientSecret key used to set things rolling
 	 * @return the clientSecret
 	 */
 	public String getClientSecret() {
@@ -212,7 +219,7 @@ public class AuthService {
 	 * This sets the OAuth2 refresh token for user-level authentication.
 	 * Baringo synchronously contacts Imgur to get an access token.
 	 * Each client instance can have only one authenticated user at a time.
-	 * @param refreshToken - The user's refresh token.
+	 * @param refreshToken The user's refresh token.
 	 * @throws BaringoAuthException couldn't fetch an access token
 	 */
 	public void setRefreshToken( String refreshToken ) throws BaringoAuthException {

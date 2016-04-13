@@ -1,6 +1,4 @@
-/**
- * Imgur API notification service
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo;
 
 import java.io.IOException;
@@ -18,25 +16,20 @@ import retrofit.Response;
 
 
 /**
- * @author kskelm
- *
+ * 
+ * Access user-specific notifications
+ * @author Kevin Kelm (triggur@gmail.com)
  */
 public class NotificationService {
 
 	/**
 	 * Specifically, returns only the notifications that someone
 	 * has replied to the user in comments or somewhere.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param onlyNew - true if the request is for only the unviewed notifications
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param onlyNew true if the request is for only the unviewed notifications
 	 * @return A list of Notification objects
-	 * @throws BaringoApiException - something failed
-	 */
-	/**
-	 * Returns the currently-logged-in user's list of message notifications
-	 * ACCESS: AUTHENTICATED USER
-	 * @param newOnly - whether to get non-viewed notifications
-	 * @return the list of notifications
-	 * @throws BaringoApiException - it couldn't be done
+	 * @throws BaringoApiException something failed
 	 */
 	public List<Notification> listReplyNotifications(
 			boolean onlyNew ) throws BaringoApiException {
@@ -61,10 +54,11 @@ public class NotificationService {
 
 	/**
 	 * Returns the currently-logged-in user's list of message notifications
-	 * ACCESS: AUTHENTICATED USER
-	 * @param newOnly - whether to get non-viewed notifications
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param onlyNew whether to get non-viewed notifications
 	 * @return the list of notifications
-	 * @throws BaringoApiException - it couldn't be done
+	 * @throws BaringoApiException it couldn't be done
 	 */
 	public List<Notification> listMessageNotifications(
 			boolean onlyNew ) throws BaringoApiException {
@@ -88,10 +82,11 @@ public class NotificationService {
 
 	/**
 	 * Returns information about a specific notification
-	 * ACCESS: AUTHENTICATED USER
-	 * @param id - the id of the notification to return
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param id the id of the notification to return
 	 * @return a Notification object
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public Notification getNotification( long id ) throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();
@@ -114,10 +109,11 @@ public class NotificationService {
 	
 	/**
 	 * Marks a notification as having been viewed
-	 * ACCESS: AUTHENTICATED USER
-	 * @param id - the id of the notification to mark viewed
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param id the id of the notification to mark viewed
 	 * @return true if successful... false probably means it was already marked viewed
-	 * @throws BaringoApiException - something failed
+	 * @throws BaringoApiException something failed
 	 */
 	public boolean markNotificiationViewed( long id ) throws BaringoApiException {
 		String userName = client.getAuthenticatedUserName();

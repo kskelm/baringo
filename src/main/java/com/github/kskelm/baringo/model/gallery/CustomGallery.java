@@ -1,7 +1,4 @@
-/**
- * Each user can have a custom gallery with specifically-included
- * tags and specifically-excluded tags
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model.gallery;
 
 import java.util.List;
@@ -10,7 +7,10 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * A user's custom gallery is specific tags they want to search on.
+ * It also represents a list of blocked tags that the user never,
+ * ever wants to see.
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 public class CustomGallery {
@@ -52,7 +52,7 @@ public class CustomGallery {
 	 * Return the list of items in the custom gallery.
 	 * Each item can be cast to its more specific
 	 * GalleryImage or GalleryAlbum, as necessary.
-	 * @return the items - list of GalleryItems
+	 * @return the items list of GalleryItems
 	 */
 	public List<GalleryItem> getItems() {
 		return _convertedItems;
@@ -74,6 +74,10 @@ public class CustomGallery {
 		this._convertedItems = items;
 	}
 	
+	/**
+	 * Internal only, don't use this
+	 * @return list of proxy objects
+	 */
 	public List<GalleryItemProxy> getInternalItems() {
 		return _internalItems;
 	}

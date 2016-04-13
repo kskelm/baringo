@@ -1,6 +1,4 @@
-/**
- * a topic
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import com.github.kskelm.baringo.model.gallery.GalleryItem;
@@ -9,7 +7,8 @@ import com.github.kskelm.baringo.util.Utils;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * @author kskelm
+ * Represents a topic such as "funny" or "aww"
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 
@@ -45,7 +44,7 @@ public class Topic {
 		return cssClass;
 	}
 	/** 
-	 * Whether or not the topic is ephemeral (e.g. current events )
+	 * Whether or not the topic is ephemeral, e.g. current events
 	 * @return the ephemeral
 	 */
 	public boolean isEphemeral() {
@@ -80,12 +79,18 @@ public class Topic {
 	private GalleryItemProxy _internalTopItem;
 	private GalleryItem _convertedTopItem;
 
-	// internal filth, don't use this
+	/**
+	 * internal filth, don't use this.
+	 * @return a proxy object
+	 */
 	public GalleryItemProxy getItemProxy() {
 		return _internalTopItem;
 	}
 	
-	// internal filth, don't use this
+	/**
+	 * internal filth, don't use this
+	 * @param item - an item 
+	 */
 	public void setConvertedItem( GalleryItem item ) {
 		_convertedTopItem = item;
 	}

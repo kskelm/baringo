@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="assets/style.css">
 <body>
 <div id="top-bar">
+<img class="logo" src="assets/baringo500.png"/>
 <h1>Baringo OAuth2 Playground</h1>
 </div>
 <div id="top-spacer"></div>
@@ -71,11 +72,11 @@
     Either way, once Baringo has successfully set up user-level authorization, you can ask it for
     the refresh token, <b>which you should keep</b>, stored <i>encrypted</i> in the filesystem or in your
     database.  The security of refresh tokens is vital because if someone gets ahold of them, they
-    do effectively anything.
+    can do effectively anything until the refresh token expires (a long time) or invalidated by Imgur.
 </p>
     <pre>
     String refreshToken = client.authService().getRefreshToken();<br/>
-    &lt;do whatever you need to encrypt this (AES256 is fine) and store it in your database&rt;
+    // now do whatever you need to encrypt this (AES256 is fine) and store it in your database
     </pre>
 
 <p>
@@ -88,7 +89,8 @@
 </p>
 <p> 
     As an aside, some organizations expire refresh tokens also.  In this scenario, you'll need to go
-    back to the user and re-ask them for access to their account.
+    back to the user and re-ask them for access to their account by bouncing them through the link
+    we saw on the first page.
 </p>
 <p>
     So that's it!  You should have enough now to understand the basics of how OAuth2 works in general,

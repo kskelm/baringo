@@ -1,15 +1,14 @@
-/**
- * hidden wrapper for all imgur responses
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 
 /**
- * @author kskelm
  * 
- * This class isn't meant to be seen by human eyes.
- * It just exists internally to represent the status wrapper that
- * comes back in all Imgur API 3 responses.
+ * This class is not meant to be seen by human eyes. It's
+ * the outer wrapper returned by all Imgur API calls.  It
+ * conveys status and wraps the actual result.  It's
+ * used by the Retrofit2 code internally only.
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 

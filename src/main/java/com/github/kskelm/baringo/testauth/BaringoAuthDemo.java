@@ -1,4 +1,4 @@
-
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.testauth;
 
 import java.io.BufferedReader;
@@ -25,24 +25,13 @@ import com.sun.net.httpserver.HttpServer;
  * This is a totally kit-bashed test HTTP server meant for
  * experimentation with receiving OAuth2 authorization codes
  * and tokens.
+ * <p>
+ * Run this on your local machine and access
+ * <a href="http://localhost:54321/">http://localhost:54321/</a>
+ * and it will give you instructions on how to retrieve
+ * test tokens to authenticate to a specific Imgur user's account.
  * 
- * Once you've got an Imgur account and you've gone through
- * the process of registering your application, log into your
- * Imgur account and go to the settings menu item from the
- * upper right.  Select "applications" from the sections on the
- * left and click "edit" on the app client you've set up.
- * 
- * This will give you a dialog that lets you set the redirect
- * URL users go to once they've authorized your application to
- * use their account.  Ultimately this should be a page in your
- * application probably.
- * 
- * For now, this is just a test running on localhost so that you
- * can capture a test authorization to play with.
- * 
- * Run this on your computer.  http://localhost:54321/test should
- * be the URL you enter in the dialog box on Imgur.  Click the
- * "update" button.
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 @SuppressWarnings("restriction")
@@ -151,6 +140,9 @@ public class BaringoAuthDemo {
 		@Override
 		public void handle(HttpExchange t) throws IOException {
 			String path = t.getRequestURI().getPath();
+			if( path.startsWith( "/" ) ) {
+				path = path.substring( 1 );
+			} // if
 			int dotAt = path.lastIndexOf( '.' );
 			if( dotAt == -1 ) { // no extension
 				respondError( t, 404, "File not found" );
@@ -241,7 +233,6 @@ public class BaringoAuthDemo {
 			os.write( out.getBytes());
 			os.close();		
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	} // respondText
@@ -253,7 +244,6 @@ public class BaringoAuthDemo {
 			os.write( text.getBytes());
 			os.close();		
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	} // respondError
@@ -263,8 +253,7 @@ public class BaringoAuthDemo {
 		mimeTypes.put( "css", "text/css" );
 		mimeTypes.put( "gif", "image/gif");
 		mimeTypes.put( "jpg", "image/jpeg");
-		mimeTypes.put( "js", "application/javascript");
 		mimeTypes.put( "png", "image/png" );
-
 	} // static init
+
 }

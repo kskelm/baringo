@@ -1,3 +1,4 @@
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.test;
 
 import java.util.List;
@@ -329,7 +330,7 @@ public class GalleryTest extends TestCase {
 		List<Comment> list = setup.getClient()
 				.galleryService().getItemComments(
 						Setup.TEST_GALLERY_ID,
-						GalleryItem.Sort.Best );
+						Comment.Sort.Best );
 
 		assertFalse( "something came back", list.isEmpty() );
 

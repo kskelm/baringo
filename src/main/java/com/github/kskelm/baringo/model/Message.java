@@ -1,3 +1,4 @@
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.model;
 
 import java.util.Date;
@@ -7,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * This represents a message sent from one user to another
- * @author kskelm
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 public class Message {
@@ -46,7 +47,7 @@ public class Message {
 	}
 	
 	/**
-	 * This is the body of the message. TBD: Can it include markdown?
+	 * This is the body of the message. Does not support markdown.
 	 * @return the body
 	 */
 	public String getBody() {

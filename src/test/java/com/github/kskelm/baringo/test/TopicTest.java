@@ -1,3 +1,4 @@
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo.test;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import com.github.kskelm.baringo.util.BaringoApiException;
 
 /**
  * 
- * @author kskelm
+ * @author Kevin Kelm (triggur@gmail.com)
  *
  */
 public class TopicTest extends TestCase {

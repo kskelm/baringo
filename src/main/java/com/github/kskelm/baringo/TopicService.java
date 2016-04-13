@@ -1,6 +1,4 @@
-/**
- * API service for topics {@link https://api.imgur.com/endpoints/topic}
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo;
 
 import java.io.IOException;
@@ -18,15 +16,22 @@ import retrofit.Response;
 
 
 /**
- * @author kskelm
- * API service for topics {@link https://api.imgur.com/endpoints/topic}
+ * 
+ * API service for topics, which provide access to categorized content
+ * like "funny" and "aww."
+ * <p>
+ * See <a href="https://api.imgur.com/endpoints/topic">Imgur documentation</a>.
+ *
+ * @author Kevin Kelm (triggur@gmail.com)
  */
 public class TopicService {
 
 	/**
 	 * Return a list of the default topics available on Imgur.
+	 * <p>
+     * <b>ACCESS: ANONYMOUS</b>
 	 * @return list of Topic objects
-	 * @throws BaringoApiException - d'oh
+	 * @throws BaringoApiException d'oh
 	 */
 	public List<Topic> listDefaultTopics() throws BaringoApiException {
 		
@@ -58,12 +63,14 @@ public class TopicService {
 
 	/**
 	 * Return a list of GalleryItems pertinent to this topic
-	 * @param topicId - the id or URL-formatted name of the topic
-	 * @param sort - the sort -- viral | time | top
-	 * @param window - the windowing mechanism if top: day | week | month | year | all
-	 * @param page - the page number, starting at 0
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param topicId the id or URL-formatted name of the topic
+	 * @param sort the sort direction - Viral | Time | Top
+	 * @param window the windowing mechanism if Top
+	 * @param page the page number, starting at 0
 	 * @return a list of GalleryItem objects
-	 * @throws BaringoApiException - I think I need to lie down
+	 * @throws BaringoApiException I think I need to lie down
 	 */
 	public List<GalleryItem> listTopic(
 			int topicId,

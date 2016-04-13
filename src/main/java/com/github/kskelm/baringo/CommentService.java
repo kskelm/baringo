@@ -1,7 +1,4 @@
-/**
- * Imgur Comment API services
- * See <a href="http://api.imgur.com/endpoints/comment">Imgur Comments</a> for API details
- */
+/** This file is released under the Apache License 2.0. See the LICENSE file for details. **/
 package com.github.kskelm.baringo;
 
 import java.io.IOException;
@@ -26,17 +23,18 @@ import retrofit.Response;
 
 
 /**
- * @author kskelm
- *
+ * Manages comments, which can be attached to images and albums.
+ * @author Kevin Kelm (triggur@gmail.com)
  */
 public class CommentService {
 	
 	/**
 	 * Given a comment id, return the Comment object for it.
-	 * ACCESS: ANONYMOUS
-	 * @param commentId - the id of the comment to fetch
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param commentId the id of the comment to fetch
 	 * @return a Comment object
-	 * @throws BaringoApiException - daaang
+	 * @throws BaringoApiException daaang
 	 */
 	public Comment getComment( long commentId ) throws BaringoApiException {
 		Call<ImgurResponseWrapper<Comment>> call =
@@ -55,11 +53,12 @@ public class CommentService {
 
 	/**
 	 * Add a comment to the given image or album.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param imageOrAlbumId - id of the thing to attach the comment to
-	 * @param text - text body of the comment
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param imageOrAlbumId id of the thing to attach the comment to
+	 * @param text text body of the comment
 	 * @return the id of the new comment
-	 * @throws BaringoApiException - danger
+	 * @throws BaringoApiException danger
 	 */
 	public long addComment(
 			String imageOrAlbumId,
@@ -82,10 +81,11 @@ public class CommentService {
 	
 	/**
 	 * Deletes a comment.
-	 * ACCESS: AUTHENTICATED USER
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
 	 * @param comment the comment object to delete from Imgur
 	 * @return whether it worked
-	 * @throws BaringoApiException - bummer
+	 * @throws BaringoApiException bummer
 	 */
 	public boolean deleteComment(
 			Comment comment ) throws BaringoApiException {
@@ -95,10 +95,11 @@ public class CommentService {
 
 	/**
 	 * Deletes a comment.
-	 * ACCESS: AUTHENTICATED USER
+	 * <p>
+        * <b>ACCESS: AUTHENTICATED USER</b>
 	 * @param commentId the comment object to delete from Imgur
 	 * @return whether it worked
-	 * @throws BaringoApiException - bummer
+	 * @throws BaringoApiException bummer
 	 */
 	public boolean deleteComment(
 			long commentId ) throws BaringoApiException {
@@ -120,10 +121,11 @@ public class CommentService {
 
 	/**
 	 * Return the list of reply comments for a given comment
-	 * ACCESS: ANONYMOUS
-	 * @param commentId - the id of the parent comment
+	 * <p>
+        * <b>ACCESS: ANONYMOUS</b>
+	 * @param commentId the id of the parent comment
 	 * @return a list of comment objects, non-paged
-	 * @throws BaringoApiException - oh no
+	 * @throws BaringoApiException oh no
 	 */
 	public List<Comment> listReplies(
 			long commentId ) throws BaringoApiException {
@@ -145,10 +147,12 @@ public class CommentService {
 
 	/**
 	 * Add a reply to the given parent comment
-	 * @param parent - the parent comment
-	 * @param text - the text body of the comment to add
+	 * <p>
+	 * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param parent the parent comment
+	 * @param text the text body of the comment to add
 	 * @return the id of the new comment
-	 * @throws BaringoApiException - i can't keep making up dummy explanations here
+	 * @throws BaringoApiException i can't keep making up dummy explanations here
 	 */
 	public long addReply(
 			Comment parent,
@@ -171,16 +175,18 @@ public class CommentService {
 	/**
 	 * Sets the vote on the comment for the currently-authenticated
 	 * user.  For some reason this doesn't behave like the user interface;
-	 * the best you can do is nullify your previous vote, not undo it;
-	 * if your previous vote was "up" then downvoting it turns it to null.
+	 * the best you can do is nullify your previous vote, not undo it.
+	 * <p>
+	 * If your previous vote was "up" then downvoting it turns it to null.
 	 * If you downvote again, nothing happens, whereas in the web UI,
-	 * downvoting turns the result to an actual "down" the nex time you
+	 * downvoting turns the result to an actual "down" the next time you
 	 * load the comment.  Odd.
-	 * ACCESS: AUTHENTICATED USER
-	 * @param commentId - id of the comment to vote on
-	 * @param vote - vote up or down
+	 * <p>
+     * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param commentId id of the comment to vote on
+	 * @param vote vote up or down
 	 * @return true if it worked
-	 * @throws BaringoApiException - imgur didn't like that
+	 * @throws BaringoApiException Imgur didn't like that
 	 */
 	public boolean setVote(
 			long commentId,
@@ -204,9 +210,11 @@ public class CommentService {
 
 	/**
 	 * Report the given comment as abusive or whatever
-	 * @param commentId - the id of the comment to report
-	 * @param reason - supply a reason
-	 * @throws BaringoApiException - ouch
+	 * <p>
+	 * <b>ACCESS: AUTHENTICATED USER</b>
+	 * @param commentId the id of the comment to report
+	 * @param reason supply a reason
+	 * @throws BaringoApiException ouch
 	 */
 	public void report(
 			long commentId,
@@ -231,15 +239,18 @@ public class CommentService {
 		gsonBuilder.registerTypeAdapter( CommentListWrapper.class, new CommentListWrapper() );
 	}
 
-	// Imgur's Json serializer-- like many-- doesn't know when
-	// it should be generating an array if it only finds one item
-	// in a list so instead of an array with one item, it just
-	// generates the item as an object, and parsers the whole
-	// world over break.  This is ridiculous
-	// and it's been the source of so many unexpected crashes
-	// in enterprise applications that I cannot count them all.
-	// So here we need to resort to crappy tricks.
-
+	
+   /**
+ 	* Imgur's Json serializer-- like many-- doesn't know when
+	* it should be generating an array if it only finds one item
+	* in a list so instead of an array with one item, it just
+	* generates the item as an object, and parsers the whole
+	* world over break.  This is ridiculous
+	* and it's been the source of so many unexpected crashes
+	* in enterprise applications that I cannot count them all.
+	* So here we need to resort to crappy tricks.
+	*
+	*/
 	public class CommentListWrapper implements JsonDeserializer<CommentListWrapper> {
 		List<Comment> comms = null;
 
