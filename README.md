@@ -25,7 +25,14 @@ class ShowBaringo {
 
     // Set up an authenticated APIClient with your clientKey and 
     // clientSecret as issued by Imgur.
-    BaringoClient client = new BaringoClient( clientId, clientSecret );
+    try {
+        client = new BaringoClient.Builder()
+                .clientAuth( clientId, clientSecret )
+                .build();
+    } catch (BaringoApiException e) {
+        e.printStackTrace();
+    }       
+
 
     // Get the info about an image
     try {
@@ -103,11 +110,11 @@ This means that if-- for example-- you update an album's title and immediately r
 
 
 
-**Occasional Failures**
+***Occasional Test Issues***
 ===
-A persistent issue with Imgur has been calls sporadically failing during tests.  One run will be all green, and the next will see one or two of the calls go red.  The next run might bring them green again.
+A persistent issue with our Imgur access has been calls sporadically failing during tests.  One run will be all green, and the next will see one or two of the calls go red.  The next run might bring them green again.
 
-This may be due to throttling/rate limiting, but the jury is still out.  It's probably going to be fine if you use it in normal application circumstances.
+This may be due to throttling/rate limiting, but the jury is still out.  It's probably going to be fine if you use it in normal application circumstances. I've added a 1 second delay between tests to attempt to solve this.
 
 
 **Running Tests**
@@ -126,6 +133,8 @@ Currently the JUnit tests are all end-to-end in the sense tht they require a fun
 
 * After any successful service call, client.getQuota() will return a Quota object with updated limit info on the current authenticated client.  See http://api.imgur.com/#limits for more information.
 * As of version 1.0.0 all calls are synchronous.  This may change in the future to allow async versions.
+* Baringo relies on Retrofit2 and OkHttp3. I tried using Baringo with another projec that required Retrofit 1.x and it didn't go well.
+
 
 
 

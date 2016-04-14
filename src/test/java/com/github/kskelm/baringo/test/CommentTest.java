@@ -22,7 +22,6 @@ public class CommentTest extends TestCase {
 	public void testGetComment() throws BaringoApiException {
 		Setup setup = new Setup();
 
-System.err.println("TODO: TEST VALUES OF UPS/DOWNS ONCE WE CAN GET COMMENTS FROM SOMEONE ELSE");
 		Comment comm = setup.getClient().commentService().getComment( Setup.TEST_COMMENT_ID );
 
 		assertEquals( "image id", comm.getImageId(), "G3xkE" );

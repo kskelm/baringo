@@ -398,7 +398,7 @@ public interface RetrofittedImgur {
     // ============================================================
 
     @GET("/3/conversations")
-    Call<ImgurResponseWrapper<List<Conversation>>> getConversations();
+    Call<ImgurResponseWrapper<String>> getConversations();
 
     @GET("/3/conversations/{id}/{page}/{offset}")
     Call<ImgurResponseWrapper<Conversation>> getConversationMessages(

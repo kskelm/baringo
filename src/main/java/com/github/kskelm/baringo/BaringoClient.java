@@ -19,6 +19,8 @@ import com.google.gson.stream.JsonWriter;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor;
+import com.squareup.okhttp.logging.HttpLoggingInterceptor.Level;
 
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -263,9 +265,9 @@ public class BaringoClient {
 		client = new OkHttpClient();
 		client.interceptors().add(new ImgurInterceptor());
 
-//		HttpLoggingInterceptor logging = new HttpLoggingInterceptor(  );  
-//		logging.setLevel(Level.BODY);
-//		client.interceptors().add( logging );
+		HttpLoggingInterceptor logging = new HttpLoggingInterceptor(  );  
+		logging.setLevel(Level.BODY);
+		client.interceptors().add( logging );
 			
 		
 		final GsonBuilder gsonBuilder = new GsonBuilder();

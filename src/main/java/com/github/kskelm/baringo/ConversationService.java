@@ -2,12 +2,16 @@
 package com.github.kskelm.baringo;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.github.kskelm.baringo.model.ImgurResponseWrapper;
 import com.github.kskelm.baringo.model.Conversation;
 import com.github.kskelm.baringo.util.BaringoApiException;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 
 import retrofit.Call;
 import retrofit.Response;
@@ -22,24 +26,35 @@ public class ConversationService {
 
 	/**
 	 * Returns the list of conversations in which the currently-authenticated
-	 * user took part (all of them). NOTE: the getMessages() method will not
+	 * user took part (all of them).
+	 * <p>NOTE: the getMessages() method will not
 	 * return the messages for the conversation in this call; If you want
 	 * all of that content, see @see #getConversationMessage .
+	 * <p>
+	 * Here we have another situation where, instead of returning an empty
+	 * list when there are no conversations to list, the Imgur API is
+	 * returning false.  Which of course breaks everything.
 	 * <p>
         * <b>ACCESS: AUTHENTICATED USER</b>
 	 * @return list of Conversation objects.
 	 * @throws BaringoApiException Imgur crashed
 	 */
 	public List<Conversation> getConversations() throws BaringoApiException {
-		Call<ImgurResponseWrapper<List<Conversation>>> call =
+		Call<ImgurResponseWrapper<String>> call =
 				client.getApi().getConversations();
 
 		try {
-			Response<ImgurResponseWrapper<List<Conversation>>> res = call.execute();
-			ImgurResponseWrapper<List<Conversation>> out = res.body();
+			Response<ImgurResponseWrapper<String>> res = call.execute();
+			ImgurResponseWrapper<String> test = res.body();
+			if( test.getData().equals( "false" )) { // laaaaaaame
+				return new ArrayList<Conversation>();
+			} // if
+			// laaaaaaame
+			List<Conversation> out = new Gson().fromJson(
+					test.getData(), ConversationList.class);
+			
 			client.throwOnWrapperError( res );
-
-			return out.getData();
+			return out;
 		} catch (IOException e) {
 			throw new BaringoApiException( e.getMessage() );
 		} // try-catch
@@ -182,6 +197,10 @@ public class ConversationService {
 
 	// ===================================================
 
+	// laaaaaaame
+	@SuppressWarnings("serial")
+	public class ConversationList extends ArrayList<Conversation> {};
+	
 	protected ConversationService(BaringoClient imgurClient, GsonBuilder gsonBuilder) {
 		this.client = imgurClient;
 	}

@@ -24,7 +24,7 @@ public class ConversationTest extends TestCase {
 		List<Conversation> list = setup.getClient()
 				.conversationService().getConversations();
 
-		assertFalse( "conversations came back", list.isEmpty() );
+		assertNotNull( "conversation list", list );
 
 		for( Conversation conv : list ) {
 			testConversationObject( conv );
@@ -39,12 +39,14 @@ public class ConversationTest extends TestCase {
 		List<Conversation> list = setup.getClient()
 				.conversationService().getConversations();
 
-		assertFalse( "conversations came back", list.isEmpty() );
-		Conversation conv = list.get( 0 );
-		conv = setup.getClient().conversationService()
-				.getConversationWithMessages( conv.getId(), 0 );
-
-		testConversationObject( conv );
+		assertNotNull( "conversations came back", list );
+		if( list.size() > 0 ) {
+			Conversation conv = list.get( 0 );
+			conv = setup.getClient().conversationService()
+					.getConversationWithMessages( conv.getId(), 0 );
+	
+			testConversationObject( conv );
+		} // if
 	}
 
 	@Test
@@ -61,15 +63,17 @@ public class ConversationTest extends TestCase {
 		
 		List<Conversation> list = setup.getClient()
 				.conversationService().getConversations();
-		assertFalse( "conversations came back", list.isEmpty() );
-		Conversation conv = list.get( 0 );
 		
-		success = setup.getClient()
-				.conversationService()
-				.deleteConversation( conv.getId() );
-		
-		assertTrue( "successful delete", success );
-
+		assertNotNull( "conversation list came back", list );
+		if( list.size() > 0 ) {
+			Conversation conv = list.get( 0 );
+			
+			success = setup.getClient()
+					.conversationService()
+					.deleteConversation( conv.getId() );
+			
+			assertTrue( "successful delete", success );
+		} // if
 	}
 
 // NOT going to call this routinely.  Who knows what it would stir up at Imgur

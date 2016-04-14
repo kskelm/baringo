@@ -18,6 +18,7 @@
                <include>**/*.html</include>
                <include>**/*.css</include>
                <include>**/*.jpg</include>
+               <include>**/*.jpeg</include>
                <include>**/*.gif</include>
                <include>**/*.png</include>
             </includes>

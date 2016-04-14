@@ -52,7 +52,6 @@ public class AlbumTest extends TestCase {
 	
 	@Test
 	public void testAddAlbum() throws BaringoApiException {
-		System.out.println("testAddAlbum");
 		Setup setup = new Setup();
 		setup.switchToUserAuth();
 		

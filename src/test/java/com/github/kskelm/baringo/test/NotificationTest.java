@@ -57,11 +57,13 @@ public class NotificationTest extends TestCase {
 				.notificationService().listMessageNotifications( false );
 		
 		assertNotNull( "Notification list came back", list );
-		Notification note = list.get( 0 );
-		
-		Notification note2 = setup.getClient()
-				.notificationService().getNotification( note.getId() );
-		testNotificationObject( note2 );
+		if( list.size() > 0 ) {
+			Notification note = list.get( 0 );
+			
+			Notification note2 = setup.getClient()
+					.notificationService().getNotification( note.getId() );
+			testNotificationObject( note2 );
+		} // if
 	}
 	
 	@Test
@@ -72,11 +74,13 @@ public class NotificationTest extends TestCase {
 		List<Notification> list = setup.getClient()
 				.notificationService().listMessageNotifications( false );
 		
-		assertNotNull( "Notification list came back", list );
-		Notification note = list.get( 0 );
+		assertNotNull( "Notification list not null", list );
+		if( list.size() > 0 ) { 
+			Notification note = list.get( 0 );
 
-		setup.getClient()
-				.notificationService().markNotificiationViewed( note.getId() );
+			setup.getClient()
+			.notificationService().markNotificiationViewed( note.getId() );
+		} // if
 		
 		// nothing to test on that one other than it didn't crash.
 	}
