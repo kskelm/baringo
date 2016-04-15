@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Baringo by kskelm</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/kskelm/baringo">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/kskelm/baringo/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/kskelm/baringo/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Baringo</h1>
+          <p>A Java client library to access Imgur API V3</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/kskelm">kskelm</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h2>
+<a id="baringo-an-imgur-client-library" class="anchor" href="#baringo-an-imgur-client-library" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong><em>Baringo, an Imgur Client Library</em></strong>
+</h2>
+
+<p><em>Baringo is an implementation of Imgur API 3 as a Java client library.</em></p>
+
+<p><img src="https://github.com/kskelm/baringo/blob/master/src/main/resources/assets/baringo200.png" alt="Baringo himself!"></p>
+
+<h2>
+<a id="why-use-baringo" class="anchor" href="#why-use-baringo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><em>Why Use Baringo?</em>
+</h2>
+
+<p>Too much API documentation dives straight into usage instead of stopping to explain why you're here.  Presumably, you're here because you have a Java project and you need it to be able to interface with Imgur.com's API.  Maybe you're writing an Android client, maybe you're making a desktop application, or maybe you're writing a server that uses Imgur as a resource.</p>
+
+<p>Using Baringo is easy:
+1. Register your application there (<em>Mandatory; Imgur requires this</em>).  You will receive a clientId key and a clientSecret key.  As noted, keep these secret. <strong>Read the documentation below before doing this!</strong>
+2. Set up your Java project to include this library.
+3. In your code, create a client and start calling services.</p>
+
+<div class="highlight highlight-source-java"><pre><span class="pl-k">import</span> <span class="pl-smi">com.github.kskelm.baringo.BaringoClient</span>;
+<span class="pl-k">import</span> <span class="pl-smi">com.github.kskelm.baringo.model.Image</span>;
+<span class="pl-k">import</span> <span class="pl-smi">com.github.kskelm.baringo.util.BaringoApiException</span>;
+
+<span class="pl-k">class</span> <span class="pl-en">ShowBaringo</span> {
+
+  <span class="pl-k">public</span> <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">main</span>( <span class="pl-k">String</span>[] <span class="pl-v">args</span> ) { 
+    <span class="pl-smi">String</span> clientId <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>PUT YOUR CLIENT ID HERE!<span class="pl-pds">"</span></span>; <span class="pl-c">// from registration</span>
+    <span class="pl-smi">String</span> clientSecret <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>PUT YOUR CLIENT SECRET HERE!<span class="pl-pds">"</span></span>; <span class="pl-c">// from registration</span>
+
+    <span class="pl-c">// Set up an authenticated APIClient with your clientKey and </span>
+    <span class="pl-c">// clientSecret as issued by Imgur.</span>
+    <span class="pl-k">try</span> {
+        client <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-smi">BaringoClient</span>.<span class="pl-smi">Builder</span>()
+                .clientAuth( clientId, clientSecret )
+                .build();
+    } <span class="pl-k">catch</span> (<span class="pl-smi">BaringoApiException</span> e) {
+        e<span class="pl-k">.</span>printStackTrace();
+    }       
+
+
+    <span class="pl-c">// Get the info about an image</span>
+    <span class="pl-k">try</span> {
+      <span class="pl-smi">Image</span> image <span class="pl-k">=</span> client<span class="pl-k">.</span>imageService()<span class="pl-k">.</span>getImageInfo( <span class="pl-s"><span class="pl-pds">"</span>v24g7o7<span class="pl-pds">"</span></span> );
+      <span class="pl-smi">System</span><span class="pl-k">.</span>out<span class="pl-k">.</span>println( image );
+    } <span class="pl-k">catch</span> (<span class="pl-smi">BaringoApiException</span> e) {
+      e<span class="pl-k">.</span>printStackTrace();
+    }   
+  } 
+}</pre></div>
+
+<p>There are two modes in which services can be called.</p>
+
+<ul>
+<li>
+<em>"Anonymous" mode</em> -- no specific user is logged in.  As a result, only "public" services can be called, like listing galleries, downloading images, and uploading anonymous images.  Many methods are unavailable, and others that are return only a subset of the fields available to a logged-in user.  The above example demonstrates the amount of effort necessary to access the Imgur API using this level of authentication. It's easy. Methods in the javadoc will say <strong>ACCESS: ANONYMOUS</strong>
+</li>
+<li>
+<em>"Authenticated" mode</em> -- This means you've authenticated to a specific account via OAuth2.  More about this later.  More methods are available, and more data is sometimes available in the results. Methods in the javadoc will say <strong>ACCESS: ANONYMOUS</strong>
+</li>
+</ul>
+
+<p>Some services behave differently depending on whether a user is logged in.  For instance <code>deleteAlbum()</code> will work if the user owns the album in question, but if there is no logged in user, it will only work if the <code>deleteHash</code> is set.</p>
+
+<h1>
+<a id="services" class="anchor" href="#services" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Services</strong>
+</h1>
+
+<p>Services on the client are broken up into domain-specific categories to keep things simple:</p>
+
+<ul>
+<li>
+<strong>AccountService</strong> -- Accessing resources for an account</li>
+<li>
+<strong>AlbumService</strong> -- Working with albums of images</li>
+<li>
+<strong>AuthService</strong> -- Manages access to the API, either in anonymous mode or authenticated mode</li>
+<li>
+<strong>CommentService</strong> -- Add/delete comments on albums and images</li>
+<li>
+<strong>ConversationService</strong> -- Used for communications directly between users</li>
+<li>
+<strong>CustomGalleryService</strong> -- Each user can have a custom version of the Imgur gallery that uses tags.  They can also globally block specific tags.</li>
+<li>
+<strong>GalleryService</strong> -- Galleries are selections of topics sorted by virality (viralness?), age, vote score, etc.</li>
+<li>
+<strong>ImageService</strong> -- Why we're here, right?  Upload/download images and query info about them</li>
+<li>
+<strong>MemeService</strong> -- Get a list of the current default memes</li>
+<li>
+<strong>NotificationService</strong> -- Fetch notifications for the user and mark them as viewed</li>
+<li>
+<strong>TopicService</strong> -- Work with topic-specific content that's been marked funny, aww, reaction, etc</li>
+</ul>
+
+<p>Imgur actually has a number of different endpoints in multiple services that acheive the same thing. For instance adding a comment on an image or album has an image service endpoint, an album service endpoint, and a comment service endpoint.  I've simplified it to just one for clarity.  In this case, you'll find <code>client.commentService().addComment()</code> is what you're looking for.</p>
+
+<h1>
+<a id="authorization" class="anchor" href="#authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Authorization</strong>
+</h1>
+
+<p>In order to access the authenticated operations, your client (registered with Imgur at <a href="https://api.imgur.com/oauth2/addclient">https://api.imgur.com/oauth2/addclient</a> ) needs to gain the user's permission to access the site on their behalf.</p>
+
+<p>If you already know how to deal with OAuth2, you can skip this introductory "Getting Started With OAuth2" section below.</p>
+
+<p>Authorizing as a user is simple with Baringo.  After setting up the BaringoClient, just call <code>client.authService().setRefreshToken()</code>.</p>
+
+<p>For an example, see the source at <code>com.github.kskelm.baringo.test.Setup#switchToUserAuth()</code>.</p>
+
+<p>Alternatively, if you've received an Authorization Code from Imgur, client.authService().tradeAuthCodeForTokens() will fetch the access token and refresh token for you, and simultaneously ensure that it has a current access token with a known expiration. <em>You should immediately call <code>client.authService().getRefreshToken()</code> and store the token somewhere-- encrypted-- so you can henceforth call <code>setRefreshToken()</code> instead during startup.</em>  Auth codes only live a few minutes.</p>
+
+<p>Baringo uses passive access code maintenance; when you pass it a refresh token, it immediately asks for a new access token so it knows the expiration date.  This allows it to request a new one as necessary, rather than use OkHttp interceptors to automatically update tokens and retry calls.  We can do this in the future if the current approach turns out to be problematic.</p>
+
+<h2>
+<a id="getting-started-with-oauth2" class="anchor" href="#getting-started-with-oauth2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><em>Getting Started With OAuth2</em>
+</h2>
+
+<p>Basically, OAuth2 is a mechanism for allowing applications to operate on various websites without having to manage accounts everywhere. <a href="https://en.wikipedia.org/wiki/OAuth">https://en.wikipedia.org/wiki/OAuth</a> does a good job explaining in more depth.  You'll need this in order to access Imgur resources associated with specific user accounts.</p>
+
+<p>Once you've got an Imgur account and you've gone through registering your application, log into your Imgur account and go to the settings menu item from the upper right.  Select "applications" from the sections on the left and click "edit" on the app client you've set up.</p>
+
+<p>This will give you a dialog that lets you set the redirect URL users go to once they've authorized your application to use their account.  For now this is just a test, so enter <code>http://localhost:54321/test</code> . Ultimately you'll change this to point to some page on your internet-accessible application site.  Enter this URL and click the 'update' button.</p>
+
+<p>Baringo includes a totally simple, bare-bones test HTTP server meant for experimentation with receiving OAuth2 authorization codes and tokens. This should help get you started.</p>
+
+<p>To use it, run the application on your localhost machine.  Find the Baringo jar file and execute it as follows (the name and version may be different from below):</p>
+
+<pre><code>java -classpath baringo-1.0.0-jar-with-dependencies.jar com.github.kskelm.baringo.testauth.BaringoAuthDemo
+</code></pre>
+
+<p>This starts a simple HTTP server on your computer running on http://localhost:54321/</p>
+
+<p>Visit it in your browser to get started with understanding how to use OAuth2 with Imgur via Baringo.</p>
+
+<h1>
+<a id="data-consistency" class="anchor" href="#data-consistency" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Data Consistency</strong>
+</h1>
+
+<p>Imgur's systems seem to be eventually-consistent in a number of scenarios.</p>
+
+<p>This means that if-- for example-- you update an album's title and immediately re-fetch that album from Imgur, the new object may or may not include the changes you made.  I've seen it take several minutes in some circumstances.</p>
+
+<h1>
+<a id="occasional-test-issues" class="anchor" href="#occasional-test-issues" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong><em>Occasional Test Issues</em></strong>
+</h1>
+
+<p>A persistent issue with our Imgur access has been calls sporadically failing during tests.  One run will be all green, and the next will see one or two of the calls go red.  The next run might bring them green again.</p>
+
+<p>This may be due to throttling/rate limiting, but the jury is still out.  It's probably going to be fine if you use it in normal application circumstances. I've added a 1 second delay between tests to attempt to solve this.</p>
+
+<h1>
+<a id="running-tests" class="anchor" href="#running-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Running Tests</strong>
+</h1>
+
+<p>Currently the JUnit tests are all end-to-end in the sense tht they require a functioning client id and client secret, and (account-specific) refresh token in order to run.  Pass these on the command line as -D parameters like so:</p>
+
+<pre><code>    "-Dbaringoclient.clientid=YOUR_CLIENT_ID_HERE" \
+    "-Dbaringoclient.clientsecret=YOUR_CLIENT_SECRET_HERE" \
+    "-Dbaringoclient.refreshtoken=A_USER_SPECIFIC_OAUTH2_REFRESH_TOKEN_HERE"
+</code></pre>
+
+<h1>
+<a id="notes" class="anchor" href="#notes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><strong>Notes</strong>
+</h1>
+
+<ul>
+<li>After any successful service call, client.getQuota() will return a Quota object with updated limit info on the current authenticated client.  See <a href="http://api.imgur.com/#limits">http://api.imgur.com/#limits</a> for more information.</li>
+<li>As of version 1.0.0 all calls are synchronous.  This may change in the future to allow async versions.</li>
+<li>Baringo relies on Retrofit2 and OkHttp3. I tried using Baringo with another project that required Retrofit 1.x and it didn't go well.</li>
+<li>Why "Baringo?"  Baringo is an endangered sub-species of giraffe, found around the Lake Baringo area of Kenya.  Therefore Baringo seemed like an appropriate name for an Imgur API client.  <a href="https://en.wikipedia.org/wiki/Rothschild's_giraffe">https://en.wikipedia.org/wiki/Rothschild's_giraffe</a> </li>
+</ul>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
