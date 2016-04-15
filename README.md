@@ -8,9 +8,11 @@ Too much API documentation dives straight into usage instead of stopping to expl
 
 
 Using Baringo is easy:
-1. Register your application there (*Mandatory; Imgur requires this*).  You will receive a clientId key and a clientSecret key.  As noted, keep these secret. **Read the documentation below before doing this!**
-2. Set up your Java project to include this library.
-3. In your code, create a client and start calling services.
+* Register your application there (*Mandatory; Imgur requires this*).  You will receive a clientId key and a clientSecret key.  As noted, keep these secret. **Read the documentation below before doing this!**
+* Set up your Java project to include this library.
+* In your code, create a client and start calling services.
+
+Here's an example:
 
 ```java
 import com.github.kskelm.baringo.BaringoClient;
@@ -36,7 +38,7 @@ class ShowBaringo {
 
     // Get the info about an image
     try {
-      Image image = client.imageService().getImageInfo( "bHEb5Sw" );
+      Image image = client.imageService().getImageInfo( "v24g7o7" );
       System.out.println( image );
     } catch (BaringoApiException e) {
       e.printStackTrace();
@@ -47,14 +49,14 @@ class ShowBaringo {
 
 There are two modes in which services can be called.
 * _"Anonymous" mode_ -- no specific user is logged in.  As a result, only "public" services can be called, like listing galleries, downloading images, and uploading anonymous images.  Many methods are unavailable, and others that are return only a subset of the fields available to a logged-in user.  The above example demonstrates the amount of effort necessary to access the Imgur API using this level of authentication. It's easy. Methods in the javadoc will say **ACCESS: ANONYMOUS**
-* _"Authenticated" mode_ -- This means you've authenticated to a specific account via OAuth2.  More about this later.  More methods are available, and more data is sometimes available in the results. Methods in the javadoc will say **ACCESS: ANONYMOUS**
+* _"Authenticated" mode_ -- This means you've authenticated to a specific account via OAuth2.  More about this later.  More methods are available, and more data is sometimes available in the results. Methods in the javadoc will say **ACCESS: AUTHENTICATED USER**
 
 Some services behave differently depending on whether a user is logged in.  For instance ```deleteAlbum()``` will work if the user owns the album in question, but if there is no logged in user, it will only work if the ```deleteHash``` is set.
 
 **Services**
 ===
 Services on the client are broken up into domain-specific categories to keep things simple:
-* **AccountService** -- Working accessing resources for an account
+* **AccountService** -- Accessing resources for an account
 * **AlbumService** -- Working with albums of images
 * **AuthService** -- Manages access to the API, either in anonymous mode or authenticated mode
 * **CommentService** -- Add/delete comments on albums and images
@@ -66,7 +68,7 @@ Services on the client are broken up into domain-specific categories to keep thi
 * **NotificationService** -- Fetch notifications for the user and mark them as viewed
 * **TopicService** -- Work with topic-specific content that's been marked funny, aww, reaction, etc
 
-Imgur actually has a number of different endpoints in multiple services that acheive the same thing. For instance adding a comment on an image or album has an image service endpoint, an album service endpoint, and a comment service endpoint.  I've simplified it to just one for clarity.  In this case, you'll find ```client.commentService().addComment()``` is what you're looking for.
+Imgur actually has a number of different endpoints in multiple services that achieve the same thing. For instance adding a comment on an image or album has an image service endpoint, an album service endpoint, and a comment service endpoint.  I've simplified it to just one for clarity.  In this case, you'll find ```client.commentService().addComment()``` is what you're looking for.
 
 **Authorization**
 ===
@@ -133,7 +135,8 @@ Currently the JUnit tests are all end-to-end in the sense tht they require a fun
 
 * After any successful service call, client.getQuota() will return a Quota object with updated limit info on the current authenticated client.  See http://api.imgur.com/#limits for more information.
 * As of version 1.0.0 all calls are synchronous.  This may change in the future to allow async versions.
-* Baringo relies on Retrofit2 and OkHttp3. I tried using Baringo with another projec that required Retrofit 1.x and it didn't go well.
+* Baringo relies on Retrofit2 and OkHttp3. I tried using Baringo with another project that required Retrofit 1.x and it didn't go well.
+* Why "Baringo?"  Baringo is an endangered sub-species of giraffe, found around the Lake Baringo area of Kenya.  Therefore Baringo seemed like an appropriate name for an Imgur API client.  https://en.wikipedia.org/wiki/Rothschild's_giraffe 
 
 
 
