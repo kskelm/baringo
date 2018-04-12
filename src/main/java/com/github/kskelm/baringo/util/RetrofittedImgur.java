@@ -68,6 +68,10 @@ public interface RetrofittedImgur {
 	Call<ImgurResponseWrapper<Account>> getAccount(
 			@Path("username") String userName );
 
+	@GET("/3/account")
+	Call<ImgurResponseWrapper<Account>> getAccount(
+			@Query("account_id") long accountId );
+
 	@GET("/3/account/{username}/gallery_favorites/{page}/{sort}")
 	Call<ImgurResponseWrapper<List<GalleryItemProxy>>> listAccountGalleryFavorites(
 			@Path("username") String userName,
