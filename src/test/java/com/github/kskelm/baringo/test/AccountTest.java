@@ -32,7 +32,22 @@ public class AccountTest extends TestCase {
 
 		assertEquals( "Bio is set", acct.getBio(), "Test profile" );
 		assertEquals( "Account id is set", acct.getId(), 33527752 );
-		assertEquals( "Created is set", acct.getCreated().getTime(), 1459093737000L );	
+		assertEquals( "Created is set", acct.getCreated().getTime(), 1459093737000L );
+
+
+
+	}
+
+	@Test
+	public void testGetAccountWithId() throws BaringoApiException
+	{
+		Setup setup = new Setup();
+
+		Account acct = setup.getClient().accountService().getAccount( 33527752 );
+
+		assertEquals( "Bio is set", acct.getBio(), "Test profile" );
+		assertEquals( "Account id is set", acct.getUserName(), Setup.TEST_USER_NAME );
+		assertEquals( "Created is set", acct.getCreated().getTime(), 1459093737000L );
 	}
 
 	@Test

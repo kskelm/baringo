@@ -57,6 +57,29 @@ public class AccountService {
 
 
 	/**
+	 * Given an account id, return the Account object for it.
+	 * @param userId The user-id of the account.
+	 * @return Account object
+	 */
+	public Account getAccount( long userId ) throws BaringoApiException
+	{
+		Call<ImgurResponseWrapper<Account>> call =
+				client.getApi().getAccount( userId );
+
+		try {
+			Response<ImgurResponseWrapper<Account>> res = call.execute();
+			ImgurResponseWrapper<Account> out = res.body();
+			client.throwOnWrapperError( res );
+
+			return out.getData();
+		} catch (IOException e) {
+			throw new BaringoApiException( e.getMessage() );
+		}
+	} // getAccount
+
+
+
+	/**
 	 * Given an account name and a page number (starting at 0),
 	 * return a list of GalleryItems that user has favorited.
 	 * GalleryItem is the superclass for GalleryImage and
